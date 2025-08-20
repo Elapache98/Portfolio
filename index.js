@@ -177,3 +177,76 @@ document.getElementById('mailBtn').addEventListener('click', function() {
     }
   }
 
+// AI Answer Machine functionality
+const aiAnswers = {
+  "1": "\"The best time to plant a tree was 20 years ago. The second best time is now.\" - This taught me that starting is more important than perfect timing.",
+  "2": "\"If you never set the stage, how do you expect to perform?\" - Adé's drama teacher, through some rather clever word-play, always pushed him to be proactive in life.",
+  "3": "\"That's Not Me\" isn't just a song title, it's a philosophy. Stay true to yourself no matter what.\" - Skepta's authenticity inspired my design approach.",
+  "4": "\"Make something people want.\" - Simple but revolutionary. This changed how I approach every product decision."
+};
+
+function typeWriter(text, element, speed = 50) {
+  let i = 0;
+  element.innerHTML = '';
+  
+  function type() {
+    if (i < text.length) {
+      element.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(type, speed);
+    }
+  }
+  type();
+}
+
+// AI Answer Machine event listeners
+const generateBtn = document.getElementById('actionButton');
+const clearBtn = document.getElementById('secondaryButton');
+const radioPills = document.querySelectorAll('.radio-pill');
+const typedTextElement = document.getElementById('typedText');
+let selectedValue = null;
+
+// Handle radio pill selection
+radioPills.forEach(pill => {
+  pill.addEventListener('click', function() {
+    // Remove selected class from all pills
+    radioPills.forEach(p => p.classList.remove('selected'));
+    
+    // Add selected class to clicked pill
+    this.classList.add('selected');
+    
+    // Store the selected value
+    selectedValue = this.getAttribute('data-value');
+    
+    // Automatically generate answer when pill is clicked
+    if (selectedValue && aiAnswers[selectedValue] && typedTextElement) {
+      typedTextElement.innerHTML = '';
+      setTimeout(() => {
+        typeWriter(aiAnswers[selectedValue], typedTextElement, 30);
+      }, 300);
+    }
+  });
+});
+
+if (generateBtn && typedTextElement) {
+  generateBtn.addEventListener('click', function() {
+    if (selectedValue && aiAnswers[selectedValue]) {
+      typedTextElement.innerHTML = '';
+      setTimeout(() => {
+        typeWriter(aiAnswers[selectedValue], typedTextElement, 30);
+      }, 300);
+    } else {
+      typedTextElement.innerHTML = 'Hmm...looks like you did not select a person. Perhaps you should give it another try?';
+    }
+  });
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function() {
+      typedTextElement.innerHTML = '';
+      // Optionally clear selection
+      radioPills.forEach(p => p.classList.remove('selected'));
+      selectedValue = null;
+    });
+  }
+}
+
