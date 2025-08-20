@@ -186,7 +186,6 @@ const aiAnswers = {
 };
 
 function typeWriter(text, element, speed = 50) {
-  let i = 0;
   element.innerHTML = '';
   
   function type() {
