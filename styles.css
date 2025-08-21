@@ -1099,6 +1099,7 @@ img.loaded {
 /* Large tablets and small desktops */
 @media (max-width: 900px) {
   .landing-grid {
+    margin-top: 100px;
     grid-template-columns: 1fr;
     gap: 24px;
     max-width: 95vw;
@@ -1122,7 +1123,7 @@ img.loaded {
 
   .floating-logo {
     top: 3.8vh;
-    left: 6vw;
+    left: 5vw;
     width: 40px;
     height: 40px;
   }
@@ -1139,7 +1140,7 @@ img.loaded {
   /* Floating logo adjustments */
   .floating-logo {
     top: 5.8vh;
-    left: 8vw;
+    left: 6.5vw;
     width: 48px;
     height: 48px;
   }
