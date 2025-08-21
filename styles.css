@@ -1045,6 +1045,17 @@ img.loaded {
   flex: 1;
 }
 
+#typedText a {
+  color: #947b57;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#typedText a:hover {
+  color: #7a6548;
+  text-decoration: none;
+}
+
 #buttonSet {
   display: flex;
 }
