@@ -163,18 +163,16 @@ document.getElementById('mailBtn').addEventListener('click', function() {
     window.open('https://www.linkedin.com/in/ade98', '_blank', 'noopener');
   });
 
-  // Welcome message fade-out (desktop only)
-  if (window.innerWidth > 600) {
-    const welcomeMessage = document.querySelector('.welcome-message');
-    if (welcomeMessage) {
+  // Welcome message fade-out (all devices)
+  const welcomeMessage = document.querySelector('.welcome-message');
+  if (welcomeMessage) {
+    setTimeout(() => {
+      welcomeMessage.classList.add('fade-out');
+      // Remove from DOM after animation completes
       setTimeout(() => {
-        welcomeMessage.classList.add('fade-out');
-        // Remove from DOM after animation completes
-        setTimeout(() => {
-          welcomeMessage.remove();
-        }, 500);
-      }, 5000);
-    }
+        welcomeMessage.remove();
+      }, 500);
+    }, 5000);
   }
 
 // AI Answer Machine functionality
