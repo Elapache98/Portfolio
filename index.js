@@ -182,7 +182,7 @@ const aiAnswers = {
   "1": "\"The best time to plant a tree was 20 years ago. The second best time is now.\" - This taught me that starting is more important than perfect timing.",
   "2": "\"If you never set the <b>stage</b>, how do you expect to perform?\" - Adé's drama teacher, through some rather clever word-play, always pushed him to be proactive in life.",
   "3": "\"That's Not Me\" isn't just a song title, it's a philosophy. Stay true to yourself no matter what.\" - Skepta's authenticity inspired my design approach.",
-  "4": "😂🤣 - Sorry for my unprofessionalism.Adé trained me to not answer this question."
+  "4": "😂🤣 - Sorry for my unprofessionalism. Adé trained me to not answer this question."
 };
 
 function typeWriter(text, element, speed = 50) {
@@ -284,4 +284,28 @@ if (generateBtn && typedTextElement) {
     });
   }
 }
+
+// Floating logo click event - navigate to home except when already on index.html
+document.addEventListener('DOMContentLoaded', function() {
+  const floatingLogo = document.querySelector('.floating-logo');
+  if (floatingLogo) {
+    floatingLogo.addEventListener('click', function() {
+      // Check if we're not already on index.html
+      const currentPage = window.location.pathname;
+      const isOnIndex = currentPage.endsWith('index.html') || currentPage === '/' || currentPage.endsWith('/');
+      
+      if (!isOnIndex) {
+        window.location.href = 'index.html';
+      }
+    });
+    
+    // Add cursor pointer style when not on index
+    const currentPage = window.location.pathname;
+    const isOnIndex = currentPage.endsWith('index.html') || currentPage === '/' || currentPage.endsWith('/');
+    
+    if (!isOnIndex) {
+      floatingLogo.style.cursor = 'pointer';
+    }
+  }
+});
 
