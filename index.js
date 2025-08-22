@@ -349,5 +349,50 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
   }
+
+  // Password gate functionality for explore.html
+  if (window.location.pathname.endsWith('explore.html')) {
+    const passwordForm = document.getElementById('password-form');
+    const passwordInput = document.getElementById('password-input');
+    const passwordError = document.getElementById('password-error');
+    const passwordGate = document.getElementById('password-gate');
+    const articleContent = document.getElementById('article-content');
+    
+    // Set the correct password here
+    const correctPassword = 'forbes2024'; // Change this to your desired password
+    
+    // Always show password gate on fresh visits (no persistence)
+    // Password gate is visible by default, content is hidden
+    
+    if (passwordForm) {
+      passwordForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const enteredPassword = passwordInput.value.trim();
+        
+        if (enteredPassword === correctPassword) {
+          // Correct password - grant access for this session only
+          passwordGate.style.display = 'none';
+          articleContent.style.display = 'flex';
+          passwordError.style.display = 'none';
+        } else {
+          // Wrong password - show error
+          passwordError.style.display = 'block';
+          passwordInput.value = '';
+          passwordInput.focus();
+          
+          // Add shake animation to the modal
+          const modal = document.querySelector('.password-modal');
+          modal.style.animation = 'shake 0.5s ease-in-out';
+          setTimeout(() => {
+            modal.style.animation = '';
+          }, 500);
+        }
+      });
+      
+      // Focus on password input when page loads
+      passwordInput.focus();
+    }
+  }
 });
 

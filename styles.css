@@ -1010,6 +1010,148 @@ img.loaded {
   align-items: center;
 }
 
+/* Password Gate Styles */
+.password-gate {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(245, 245, 245, 0.95);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.password-modal {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(148, 123, 87, 0.1);
+  text-align: center;
+}
+
+.password-header {
+  margin-bottom: 32px;
+}
+
+.password-header svg {
+  margin-bottom: 16px;
+}
+
+.password-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 8px;
+}
+
+.password-header p {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.password-form {
+  margin-bottom: 24px;
+}
+
+.input-group {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #947b57;
+  box-shadow: 0 0 0 3px rgba(148, 123, 87, 0.1);
+}
+
+.password-submit {
+  width: 100%;
+  background: #222;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.password-submit:hover {
+  background: #333;
+}
+
+.password-submit:active {
+  transform: translateY(1px);
+}
+
+.password-error {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: rgba(220, 53, 69, 0.1);
+  border-radius: 6px;
+  border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+.password-footer {
+  border-top: 1px solid #e1e5e9;
+  padding-top: 20px;
+}
+
+.password-footer p {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.password-footer a {
+  color: #947b57;
+  text-decoration: none;
+}
+
+.password-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Shake animation for incorrect password */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
 /* Article/Documentation Layout Styles */
 .article-layout {
   display: flex;
@@ -1305,6 +1447,32 @@ html {
   
   .feature-info {
     padding: 16px;
+  }
+  
+  /* Password gate mobile responsive */
+  .password-modal {
+    width: calc(88vw - 32px);
+    max-width: calc(88vw - 32px);
+    margin: 0 16px;
+    padding: 32px 24px;
+  }
+  
+  .password-header h2 {
+    font-size: 20px;
+  }
+  
+  .password-header p {
+    font-size: 14px;
+  }
+  
+  .input-group input {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 14px 16px;
+  }
+  
+  .password-submit {
+    padding: 14px 20px;
+    font-size: 16px;
   }
   
   /* Adjust scroll offset for mobile */
