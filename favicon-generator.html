@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Favicon Generator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+        }
+        .circular-image {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: white;
+            border: 2px solid #ddd;
+            margin: 10px;
+        }
+        canvas {
+            border: 1px solid #ccc;
+            margin: 10px;
+        }
+        .sizes {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Circular Favicon Generator</h1>
+        <p>Original Image:</p>
+        <img src="Notionme.png" class="circular-image" id="originalImg" alt="Original">
+        
+        <div class="sizes">
+            <div>
+                <p>16x16 Favicon</p>
+                <canvas id="canvas16" width="16" height="16"></canvas>
+            </div>
+            <div>
+                <p>32x32 Favicon</p>
+                <canvas id="canvas32" width="32" height="32"></canvas>
+            </div>
+            <div>
+                <p>64x64 Favicon</p>
+                <canvas id="canvas64" width="64" height="64"></canvas>
+            </div>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <button onclick="downloadFavicon(16)">Download 16x16</button>
+            <button onclick="downloadFavicon(32)">Download 32x32</button>
+            <button onclick="downloadFavicon(64)">Download 64x64</button>
+        </div>
+    </div>
+
+    <script>
+        function createCircularFavicon(size) {
+            const canvas = document.getElementById(`canvas${size}`);
+            const ctx = canvas.getContext('2d');
+            const img = document.getElementById('originalImg');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, size, size);
+            
+            // Create circular clipping path
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size/2, 0, Math.PI * 2);
+            ctx.clip();
+            
+            // Draw image
+            ctx.drawImage(img, 0, 0, size, size);
+        }
+        
+        function downloadFavicon(size) {
+            const canvas = document.getElementById(`canvas${size}`);
+            const link = document.createElement('a');
+            link.download = `favicon-${size}x${size}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        
+        // Generate favicons when image loads
+        document.getElementById('originalImg').onload = function() {
+            createCircularFavicon(16);
+            createCircularFavicon(32);
+            createCircularFavicon(64);
+        };
+    </script>
+</body>
+</html> 
