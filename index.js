@@ -50,16 +50,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Set active based on current page (future-proof)
   let setByUrl = false;
+  const currentPath = window.location.pathname;
+  
+  // Clear all active states first
+  buttons.forEach(btn => btn.classList.remove('active'));
+  
   buttons.forEach(btn => {
     const href = btn.getAttribute('href');
-    if (href && href !== '#' && window.location.pathname.endsWith(href.replace('#', ''))) {
-      btn.classList.add('active');
-      setByUrl = true;
+    if (href && href !== '#') {
+      const cleanHref = href.replace('#', '');
+      // Direct match
+      if (currentPath.endsWith(cleanHref)) {
+        btn.classList.add('active');
+        btn.setAttribute('aria-current', 'page');
+        setByUrl = true;
+      }
+      // Special case: work case studies (like explore.html) should highlight Work
+      else if (cleanHref === 'work.html' && (currentPath.endsWith('explore.html') || currentPath.includes('work-'))) {
+        btn.classList.add('active');
+        btn.setAttribute('aria-current', 'page');
+        setByUrl = true;
+      }
     }
   });
   // If no match, default to first (Home)
   if (!setByUrl && buttons.length > 0) {
     buttons[0].classList.add('active');
+    buttons[0].setAttribute('aria-current', 'page');
   }
 
   buttons.forEach(btn => {
@@ -318,6 +335,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (!isOnIndex) {
       floatingLogo.style.cursor = 'pointer';
+    }
+  }
+
+  // Make Forbes project card clickable on work.html
+  if (window.location.pathname.endsWith('work.html')) {
+    const projectCards = document.querySelectorAll('.project-content');
+    if (projectCards.length >= 2) {
+      const forbesCard = projectCards[0]; // Second project-content (Forbes one)
+      forbesCard.style.cursor = 'pointer';
+      forbesCard.addEventListener('click', function() {
+        window.location.href = 'explore.html';
+      });
     }
   }
 });
