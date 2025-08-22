@@ -50,16 +50,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Set active based on current page (future-proof) - Updated today
   let setByUrl = false;
+  const currentPath = window.location.pathname;
+  const currentPageFile = currentPath.split('/').pop() || 'index.html';
+  
   buttons.forEach(btn => {
     const href = btn.getAttribute('href');
-    if (href && href !== '#' && window.location.pathname.endsWith(href.replace('#', ''))) {
-      btn.classList.add('active');
-      setByUrl = true;
+    if (href && href !== '#') {
+      // Check if current page matches the button's href
+      if (currentPageFile === href || (currentPageFile === '' && href === 'index.html')) {
+        btn.classList.add('active');
+        setByUrl = true;
+      }
     }
   });
   
   // Special case: explore.html should show Work as active
-  if (!setByUrl && window.location.pathname.endsWith('explore.html')) {
+  if (!setByUrl && currentPageFile === 'explore.html') {
     buttons.forEach(btn => {
       if (btn.getAttribute('href') === 'work.html') {
         btn.classList.add('active');
@@ -191,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (window.location.pathname.endsWith('work.html')) {
     const projectCards = document.querySelectorAll('.project-content');
     if (projectCards.length >= 2) {
-      const forbesCard = projectCards[0]; // First project-content (Forbes one)
+      const forbesCard = projectCards[0]; // Second project-content (Forbes one)
       forbesCard.style.cursor = 'pointer';
       forbesCard.addEventListener('click', function() {
         window.location.href = 'explore.html';
