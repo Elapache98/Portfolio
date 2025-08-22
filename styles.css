@@ -1041,6 +1041,9 @@ html {
 }
 
 .toc-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 12px;
   font-weight: 600;
   color: #666;
@@ -1050,6 +1053,10 @@ html {
   background: #f8f9fa;
   border-radius: 8px;
   text-align: left;
+}
+
+.toc-header svg {
+  flex-shrink: 0;
 }
 
 .toc-nav {
