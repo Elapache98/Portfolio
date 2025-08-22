@@ -57,6 +57,17 @@ document.addEventListener('DOMContentLoaded', function() {
       setByUrl = true;
     }
   });
+  
+  // Special case: explore.html should show Work as active
+  if (!setByUrl && window.location.pathname.endsWith('explore.html')) {
+    buttons.forEach(btn => {
+      if (btn.getAttribute('href') === 'work.html') {
+        btn.classList.add('active');
+        setByUrl = true;
+      }
+    });
+  }
+  
   // If no match, default to first (Home)
   if (!setByUrl && buttons.length > 0) {
     buttons[0].classList.add('active');
