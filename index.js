@@ -234,6 +234,12 @@ function typeWriter(text, element, speed = 50) {
       // Set the innerHTML to parse HTML properly
       element.innerHTML = currentHTML;
       
+      // Add haptic feedback for characters (not HTML tags)
+      if (token.type === 'char' && 'vibrate' in navigator) {
+        // Very subtle vibration for typing effect (10ms)
+        navigator.vibrate(10);
+      }
+      
       i++;
       setTimeout(type, speed);
     }
