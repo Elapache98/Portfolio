@@ -1163,7 +1163,7 @@ img.loaded {
   transition: box-shadow .25s;
     box-shadow:75px var(--card-box-shadow-1-y) var(--card-box-shadow-1-blur) var(--card-box-shadow-1), 0px var(--card-box-shadow-2-y) var(--card-box-shadow-2-blur) var(--card-box-shadow-2), 0 0 0 1px var(--card-border-color);
    margin-bottom: 24px;
-   margin-top:8px 
+   margin-top:8px;
    
   }
 
