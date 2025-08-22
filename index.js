@@ -142,6 +142,18 @@ document.addEventListener('DOMContentLoaded', function() {
     window.open('https://github.com/Elapache98', '_blank', 'noopener');
   });
 
+  // Make floating logo clickable to go home
+  const floatingLogo = document.querySelector('.floating-logo');
+  if (floatingLogo) {
+    floatingLogo.style.cursor = 'pointer';
+    floatingLogo.addEventListener('click', function() {
+      // Detect environment and use appropriate URL
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const homeUrl = isLocalhost ? 'index.html' : '/';
+      window.location.href = homeUrl;
+    });
+  }
+
   // Lightbox logic
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightbox-img');
@@ -208,18 +220,16 @@ document.addEventListener('DOMContentLoaded', function() {
     window.open('https://www.linkedin.com/in/ade98', '_blank', 'noopener');
   });
 
-  // Welcome message fade-out (desktop only)
-  if (window.innerWidth > 600) {
-    const welcomeMessage = document.querySelector('.welcome-message');
-    if (welcomeMessage) {
+  // Welcome message fade-out (all devices)
+  const welcomeMessage = document.querySelector('.welcome-message');
+  if (welcomeMessage) {
+    setTimeout(() => {
+      welcomeMessage.classList.add('fade-out');
+      // Remove from DOM after animation completes
       setTimeout(() => {
-        welcomeMessage.classList.add('fade-out');
-        // Remove from DOM after animation completes
-        setTimeout(() => {
-          welcomeMessage.remove();
-        }, 500);
-      }, 5000);
-    }
+        welcomeMessage.remove();
+      }, 500);
+    }, 5000);
   }
 
   // Make Forbes project card clickable on work.html
@@ -255,7 +265,11 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Password gate functionality for explore.html
-  if (window.location.pathname.endsWith('explore.html')) {
+  if (window.location.pathname.endsWith('explore.html') || 
+      window.location.pathname.endsWith('/explore.html') || 
+      window.location.pathname === '/explore' || 
+      window.location.pathname.endsWith('/explore')) {
+    
     const passwordForm = document.getElementById('password-form');
     const passwordInput = document.getElementById('password-input');
     const passwordError = document.getElementById('password-error');
@@ -265,37 +279,64 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set the correct password here
     const correctPassword = 'forbes2024'; // Change this to your desired password
     
+    console.log('Password gate initialized for explore page');
+    
     // Always show password gate on fresh visits (no persistence)
     // Password gate is visible by default, content is hidden
     
-    if (passwordForm) {
+    if (passwordForm && passwordInput) {
+      console.log('Password form elements found');
+      
+      // Handle form submission
       passwordForm.addEventListener('submit', function(e) {
         e.preventDefault();
+        console.log('Form submitted');
         
         const enteredPassword = passwordInput.value.trim();
+        console.log('Entered password length:', enteredPassword.length);
         
         if (enteredPassword === correctPassword) {
+          console.log('Correct password entered');
           // Correct password - grant access for this session only
           passwordGate.style.display = 'none';
           articleContent.style.display = 'flex';
           passwordError.style.display = 'none';
         } else {
+          console.log('Incorrect password entered');
           // Wrong password - show error
           passwordError.style.display = 'block';
           passwordInput.value = '';
-          passwordInput.focus();
           
           // Add shake animation to the modal
           const modal = document.querySelector('.password-modal');
-          modal.style.animation = 'shake 0.5s ease-in-out';
+          if (modal) {
+            modal.style.animation = 'shake 0.5s ease-in-out';
+            setTimeout(() => {
+              modal.style.animation = '';
+            }, 500);
+          }
+          
+          // Re-focus after a short delay (mobile-friendly)
           setTimeout(() => {
-            modal.style.animation = '';
-          }, 500);
+            passwordInput.focus();
+          }, 100);
         }
       });
       
-      // Focus on password input when page loads
-      passwordInput.focus();
+      // Handle mobile keyboard "Go" button and Enter key
+      passwordInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          passwordForm.dispatchEvent(new Event('submit'));
+        }
+      });
+      
+      // Focus on password input when page loads (with delay for mobile)
+      setTimeout(() => {
+        passwordInput.focus();
+      }, 300);
+    } else {
+      console.log('Password form elements not found');
     }
   }
 });
