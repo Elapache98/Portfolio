@@ -53,11 +53,28 @@ document.addEventListener('DOMContentLoaded', function() {
   const currentPath = window.location.pathname;
   const currentPageFile = currentPath.split('/').pop() || 'index.html';
   
+  // Debug logging for Netlify
+  console.log('Current path:', currentPath);
+  console.log('Current page file:', currentPageFile);
+  console.log('Available buttons:', buttons.length);
+  
+  // Clear all active states first
+  buttons.forEach(btn => btn.classList.remove('active'));
+  
   buttons.forEach(btn => {
     const href = btn.getAttribute('href');
-    if (href && href !== '#') {
-      // Check if current page matches the button's href
-      if (currentPageFile === href || (currentPageFile === '' && href === 'index.html')) {
+    console.log('Checking button with href:', href);
+    
+    if (href && href !== '#' && href !== '#thoughts') {
+      // More flexible matching for different deployment environments
+      const isMatch = currentPageFile === href || 
+                     (currentPageFile === '' && href === 'index.html') ||
+                     (currentPageFile === 'index.html' && href === 'index.html') ||
+                     currentPath.endsWith('/' + href) ||
+                     (currentPath === '/' && href === 'index.html');
+      
+      if (isMatch) {
+        console.log('Setting active button:', href);
         btn.classList.add('active');
         setByUrl = true;
       }
@@ -65,9 +82,10 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
   // Special case: explore.html should show Work as active
-  if (!setByUrl && currentPageFile === 'explore.html') {
+  if (!setByUrl && (currentPageFile === 'explore.html' || currentPath.endsWith('/explore.html'))) {
     buttons.forEach(btn => {
       if (btn.getAttribute('href') === 'work.html') {
+        console.log('Setting Work as active for explore.html');
         btn.classList.add('active');
         setByUrl = true;
       }
@@ -76,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // If no match, default to first (Home)
   if (!setByUrl && buttons.length > 0) {
+    console.log('No match found, defaulting to Home');
     buttons[0].classList.add('active');
   }
 
@@ -194,15 +213,27 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Make Forbes project card clickable on work.html
-  if (window.location.pathname.endsWith('work.html')) {
+  if (window.location.pathname.endsWith('work.html') || window.location.pathname.endsWith('/work.html')) {
+    console.log('On work.html, setting up Forbes card');
     const projectCards = document.querySelectorAll('.project-content');
-    if (projectCards.length >= 2) {
-      const forbesCard = projectCards[0]; // Second project-content (Forbes one)
-      forbesCard.style.cursor = 'pointer';
-      forbesCard.addEventListener('click', function() {
-        window.location.href = 'explore.html';
-      });
-    }
+    console.log('Found project cards:', projectCards.length);
+    
+    // Look for the Forbes card specifically by checking for "Forbes" in the text
+    projectCards.forEach((card, index) => {
+      const cardText = card.textContent || card.innerText;
+      console.log(`Card ${index} text:`, cardText.substring(0, 50) + '...');
+      
+      if (cardText.includes('Forbes: Explore') || cardText.includes('Forbes')) {
+        console.log('Found Forbes card at index:', index);
+        card.style.cursor = 'pointer';
+        card.style.border = '2px solid #947b57'; // Visual indicator for debugging
+        card.addEventListener('click', function(e) {
+          e.preventDefault();
+          console.log('Forbes card clicked, navigating to explore.html');
+          window.location.href = './explore.html'; // More explicit relative path
+        });
+      }
+    });
   }
 
   // Password gate functionality for explore.html
