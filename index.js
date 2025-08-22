@@ -233,3 +233,111 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 });
+
+// AI Answer Machine functionality
+const aiAnswers = {
+  "1": "\"The best time to plant a tree was <a href='https://quoteinvestigator.com/2013/10/20/best-time-plant/' target='_blank'>20</a> years ago. The second best time is now.\" - This taught me that starting is more important than perfect timing.",
+  "2": "\"If you never set the <b>stage</b>, how do you expect to perform?\" - Adé's drama teacher, through some rather clever word-play, always pushed him to be proactive in life.",
+  "3": "\"That's Not Me\" isn't just a song title, it's a philosophy. Stay true to yourself no matter what.\" - Skepta's authenticity inspired my design approach.",
+  "4": "😂🤣 - Sorry for my unprofessionalism. Adé trained me to not answer this question."
+};
+
+function typeWriter(text, element, speed = 50) {
+  let i = 0;
+  element.innerHTML = '';
+  
+  // Parse HTML into tokens (text and tags)
+  const tokens = [];
+  let currentIndex = 0;
+  
+  while (currentIndex < text.length) {
+    const nextTagStart = text.indexOf('<', currentIndex);
+    
+    if (nextTagStart === -1) {
+      // No more tags, add remaining text character by character
+      const remainingText = text.substring(currentIndex);
+      for (let char of remainingText) {
+        tokens.push({ type: 'char', content: char });
+      }
+      break;
+    }
+    
+    // Add characters before the tag
+    const beforeTag = text.substring(currentIndex, nextTagStart);
+    for (let char of beforeTag) {
+      tokens.push({ type: 'char', content: char });
+    }
+    
+    // Find the end of the tag
+    const nextTagEnd = text.indexOf('>', nextTagStart);
+    if (nextTagEnd !== -1) {
+      const tagContent = text.substring(nextTagStart, nextTagEnd + 1);
+      tokens.push({ type: 'tag', content: tagContent });
+      currentIndex = nextTagEnd + 1;
+    } else {
+      // Malformed tag, treat as regular character
+      tokens.push({ type: 'char', content: text.charAt(nextTagStart) });
+      currentIndex = nextTagStart + 1;
+    }
+  }
+  
+  let currentHTML = '';
+  
+  function type() {
+    if (i < tokens.length) {
+      const token = tokens[i];
+      
+      // Build the HTML string
+      currentHTML += token.content;
+      
+      // Set the innerHTML to parse HTML properly
+      element.innerHTML = currentHTML;
+      
+      i++;
+      setTimeout(type, speed);
+    }
+  }
+  type();
+}
+
+// AI Answer Machine event listeners
+const generateBtn = document.getElementById('actionButton');
+const clearBtn = document.getElementById('secondaryButton');
+const radioPills = document.querySelectorAll('.radio-pill');
+const typedTextElement = document.getElementById('typedText');
+let selectedValue = null;
+
+// Handle radio pill selection
+radioPills.forEach(pill => {
+  pill.addEventListener('click', function() {
+    // Remove selected class from all pills
+    radioPills.forEach(p => p.classList.remove('selected'));
+    
+    // Add selected class to clicked pill
+    this.classList.add('selected');
+    
+    // Store the selected value
+    selectedValue = this.getAttribute('data-value');
+  });
+});
+
+// Handle generate button click
+if (generateBtn) {
+  generateBtn.addEventListener('click', function() {
+    if (selectedValue && aiAnswers[selectedValue]) {
+      typeWriter(aiAnswers[selectedValue], typedTextElement, 30);
+    }
+  });
+}
+
+// Handle clear button click
+if (clearBtn) {
+  clearBtn.addEventListener('click', function() {
+    if (typedTextElement) {
+      typedTextElement.innerHTML = '';
+      // Optionally clear selection
+      radioPills.forEach(p => p.classList.remove('selected'));
+      selectedValue = null;
+    }
+  });
+}
