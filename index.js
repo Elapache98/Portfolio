@@ -318,6 +318,11 @@ radioPills.forEach(pill => {
     
     // Store the selected value
     selectedValue = this.getAttribute('data-value');
+    
+    // Immediately trigger the AI response
+    if (selectedValue && aiAnswers[selectedValue] && typedTextElement) {
+      typeWriter(aiAnswers[selectedValue], typedTextElement, 30);
+    }
   });
 });
 
