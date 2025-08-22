@@ -14,7 +14,7 @@
 </head>
 <body>
   <!-- WebGL Canvas for particles -->
-  <canvas id="particleCanvas"></canvas>
+<!-- <canvas id="particleCanvas"></canvas> -->
 
   <div class="floating-logo">
     <!-- Add your logo here -->
@@ -48,12 +48,12 @@
           <path opacity="0.4" d="M13.85 3.70391C13.05 3.10391 11.95 3.10391 11.15 3.70391L4.65 8.57891C4.08344 9.00383 3.75 9.6707 3.75 10.3789V18.5003C3.75 19.743 4.75736 20.7503 6 20.7503H11V17.0003C11 16.1719 11.6716 15.5003 12.5 15.5003C13.3284 15.5003 14 16.1719 14 17.0003V20.7503H19C20.2426 20.7503 21.25 19.743 21.25 18.5003V10.3789C21.25 9.6707 20.9166 9.00383 20.35 8.57891L13.85 3.70391Z" fill="#947b57"/>
           <path d="M11 17.0005V20.7505H14V17.0005C14 16.1721 13.3284 15.5005 12.5 15.5005C11.6716 15.5005 11 16.1721 11 17.0005Z" fill="#947b57"/>
         </svg>Home</a>
-      <a href="#work.html" class="toolbar-btn">
+      <a href="work.html" class="toolbar-btn">
         <svg width="80" height="80" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
           <path opacity="0.4" d="M4.25 4.25C3.00736 4.25 2 5.25736 2 6.5V18.5C2 19.7426 3.00736 20.75 4.25 20.75H19.75C20.9926 20.75 22 19.7426 22 18.5V9.5C22 8.25736 20.9926 7.25 19.75 7.25H12.25C12.0139 7.25 11.7916 7.13885 11.65 6.95L10.3 5.15C9.87508 4.58344 9.2082 4.25 8.5 4.25H4.25Z" fill="#947b57"/>
           <path d="M2 6.5C2 5.25736 3.00736 4.25 4.25 4.25H8.5C9.2082 4.25 9.87508 4.58344 10.3 5.15L11.65 6.95C11.7916 7.13885 12.0139 7.25 12.25 7.25H19.75C20.9926 7.25 22 8.25736 22 9.5V18.5C22 19.7426 20.9926 20.75 19.75 20.75H4.25C3.00736 20.75 2 19.7426 2 18.5V6.5ZM4.25 5.75C3.83579 5.75 3.5 6.08579 3.5 6.5V18.5C3.5 18.9142 3.83579 19.25 4.25 19.25H19.75C20.1642 19.25 20.5 18.9142 20.5 18.5V9.5C20.5 9.08579 20.1642 8.75 19.75 8.75H12.25C11.5418 8.75 10.8749 8.41656 10.45 7.85L9.1 6.05C8.95836 5.86115 8.73607 5.75 8.5 5.75H4.25Z" fill="#947b57"/>
         </svg>Work</a>
-      <a href="#thoughts" class="toolbar-btn">
+      <a href="thoughts.html" class="toolbar-btn">
         <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
           <path d="M7.635 18.7988H2.5V21.7187C2.5 22.0145 2.67391 22.2827 2.94401 22.4034C3.21411 22.5241 3.52993 22.4748 3.75032 22.2774L7.635 18.7988Z" fill="#947b57"/>
           <path opacity="0.4" d="M4.75 3.75C3.50736 3.75 2.5 4.75736 2.5 6V18.7984H7.635H19.25C20.4926 18.7984 21.5 17.791 21.5 16.5484V6C21.5 4.75736 20.4926 3.75 19.25 3.75H4.75Z" fill="#947b57"/>
@@ -66,19 +66,171 @@
     </div>
   </nav>
 
-  <div class="project-grid">
-    <main class="project-content">
-        <img src="coverimage.png" alt="A photo of a building that looks like Iron." loading="lazy">
-      <h3>Forbes: Explore</h3>
-      <h4>Currently, a product designer <b>@Forbes</b> with a focus on consumer experiences and internal tools. Work includes habit formation, growth, retention, and 0–1 products.</h4>
-    </main>
-    <div class="project-content">
-      <img src="coverimage.png" alt="A photo of a building that looks like Iron." loading="lazy">
-    <h3>Forbes: Explore</h3>
-    <h4>Currently, a product designer <b>@Forbes</b> with a focus on consumer experiences and internal tools. Work includes habit formation, growth, retention, and 0–1 products.</h4>
-    </div>
+  <!-- Article Content -->
+  <div class="article-layout">
+    <!-- Table of Contents - Desktop Only -->
+    <aside class="table-of-contents">
+      <div class="toc-header">IN THIS ARTICLE</div>
+      <nav class="toc-nav">
+        <a href="#challenge" class="toc-link">The Challenge</a>
+        <a href="#solution" class="toc-link">The Solution</a>
+        <a href="#design-process" class="toc-link">Design Process</a>
+        <a href="#key-features" class="toc-link">Key Features</a>
+        <a href="#results" class="toc-link">Results & Impact</a>
+        <a href="#lessons" class="toc-link">Lessons Learned</a>
+      </nav>
+    </aside>
+
+    <main class="article-container">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb">
+        <a href="work.html">Work</a>
+        <span class="breadcrumb-separator">›</span>
+        <span>Forbes Explore Case Study</span>
+      </nav>
+
+    <!-- Article Header -->
+    <header class="article-header">
+      <h1>Forbes Explore: Redesigning Content Discovery</h1>
+      
+      <!-- Feature Info Box -->
+      <div class="feature-info">
+        <div class="feature-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" fill="#666"/>
+            <path d="M12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z" fill="#666"/>
+          </svg>
+          <span>All <strong>team members</strong> and <strong>stakeholders</strong></span>
+        </div>
+        <div class="feature-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+          <span>Available on <a href="#" class="inline-link">all platforms</a></span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Article Content -->
+    <article class="article-content">
+      <p class="lead-paragraph">
+        When Forbes needed to reimagine how readers discover and engage with content, we created Explore—a personalized content discovery platform that transforms how users navigate our vast editorial ecosystem.
+      </p>
+
+      <!-- Hero Image -->
+      <div class="content-image">
+        <img src="coverimage.png" alt="Forbes Explore interface showing personalized content recommendations" loading="lazy">
+      </div>
+
+      <h2 id="challenge">The Challenge</h2>
+      <p>
+        Forbes publishes hundreds of articles daily across diverse topics from business to technology, lifestyle to investing. Our readers were struggling to discover relevant content beyond what appeared on the homepage, leading to decreased engagement and shorter session times.
+      </p>
+
+      <div class="highlight-box">
+        <h3>Key Problems Identified</h3>
+        <ul>
+          <li>Content discovery relied heavily on manual navigation</li>
+          <li>Personalization was limited to basic preferences</li>
+          <li>Search functionality didn't surface related content effectively</li>
+          <li>Mobile experience lacked intuitive exploration patterns</li>
+        </ul>
+      </div>
+
+      <h2 id="solution">The Solution</h2>
+      <p>
+        We designed Forbes Explore as an AI-powered content discovery engine that learns from user behavior, reading patterns, and preferences to surface highly relevant articles, authors, and topics.
+      </p>
+
+      <!-- Process Images -->
+      <div class="image-grid">
+        <div class="image-item">
+          <img src="GSM.png" alt="User research and persona development" loading="lazy">
+          <p class="image-caption">User research revealed key behavior patterns in content consumption</p>
+        </div>
+        <div class="image-item">
+          <img src="Jordan.png" alt="Wireframe exploration" loading="lazy">
+          <p class="image-caption">Early wireframes exploring different discovery mechanisms</p>
+        </div>
+      </div>
+
+      <h2 id="design-process">Design Process</h2>
+      
+      <h3>Research & Discovery</h3>
+      <p>
+        We conducted extensive user interviews with 50+ Forbes readers to understand their content discovery habits. The research revealed that users often felt overwhelmed by choice and wanted more intelligent curation.
+      </p>
+
+      <h3>Information Architecture</h3>
+      <p>
+        We restructured content categorization to be more intuitive, moving from traditional sections to topic-based clusters that reflect how users actually think about business content.
+      </p>
+
+      <!-- Code/Technical Example -->
+      <div class="code-block">
+        <h4>Personalization Algorithm</h4>
+        <p>The recommendation engine considers multiple factors:</p>
+        <ul>
+          <li>Reading history and time spent on articles</li>
+          <li>Topic preferences and author follows</li>
+          <li>Trending content within user's industry</li>
+          <li>Social signals and peer recommendations</li>
+        </ul>
+      </div>
+
+      <h2 id="key-features">Key Features</h2>
+      
+      <h3>Smart Recommendations</h3>
+      <p>
+        The platform uses machine learning to understand user preferences and surface content that matches their interests, reading level, and professional focus.
+      </p>
+
+      <h3>Topic Clustering</h3>
+      <p>
+        Related articles are automatically grouped into coherent topic clusters, making it easier for users to dive deep into subjects they care about.
+      </p>
+
+      <h3>Progressive Disclosure</h3>
+      <p>
+        Information is revealed progressively as users engage, preventing cognitive overload while maintaining discoverability.
+      </p>
+
+      <!-- Results -->
+      <div class="results-section">
+        <h2 id="results">Results & Impact</h2>
+        <div class="metrics-grid">
+          <div class="metric">
+            <div class="metric-number">45%</div>
+            <div class="metric-label">Increase in session duration</div>
+          </div>
+          <div class="metric">
+            <div class="metric-number">32%</div>
+            <div class="metric-label">More articles per session</div>
+          </div>
+          <div class="metric">
+            <div class="metric-number">28%</div>
+            <div class="metric-label">Improvement in content engagement</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Final Image -->
+      <div class="content-image">
+        <img src="Clvye.gif" alt="Final Forbes Explore interface in action" loading="lazy">
+      </div>
+
+      <h2 id="lessons">Lessons Learned</h2>
+      <p>
+        This project reinforced the importance of user-centered design in content platforms. By focusing on how people naturally discover and consume information, we created a more intuitive and engaging experience that serves both readers and the business.
+      </p>
+
+      <p>
+        The success of Forbes Explore has influenced our approach to other product initiatives, emphasizing personalization and intelligent content curation across the Forbes ecosystem.
+      </p>
+    </article>
+  </main>
   </div>
-  <!-- <div class="content-divider">end of content</div> -->
+
   <div class="last-row">
     <h4>Get In Touch</h4>
     <div class="social-row">
