@@ -66,12 +66,19 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Checking button with href:', href);
     
     if (href && href !== '#' && href !== '#thoughts') {
-      // More flexible matching for different deployment environments
+      // Handle both .html files and clean URLs (Netlify style)
+      const cleanHref = href.replace('.html', ''); // Remove .html extension
+      const cleanPath = currentPath.replace('.html', ''); // Remove .html from current path
+      
       const isMatch = currentPageFile === href || 
                      (currentPageFile === '' && href === 'index.html') ||
                      (currentPageFile === 'index.html' && href === 'index.html') ||
                      currentPath.endsWith('/' + href) ||
-                     (currentPath === '/' && href === 'index.html');
+                     (currentPath === '/' && href === 'index.html') ||
+                     // Netlify clean URL matching
+                     currentPath === '/' + cleanHref ||
+                     currentPath === cleanHref ||
+                     (currentPath === '/' && cleanHref === 'index');
       
       if (isMatch) {
         console.log('Setting active button:', href);
@@ -82,7 +89,10 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
   // Special case: explore.html should show Work as active
-  if (!setByUrl && (currentPageFile === 'explore.html' || currentPath.endsWith('/explore.html'))) {
+  if (!setByUrl && (currentPageFile === 'explore.html' || 
+                   currentPath.endsWith('/explore.html') || 
+                   currentPath === '/explore' || 
+                   currentPath.endsWith('/explore'))) {
     buttons.forEach(btn => {
       if (btn.getAttribute('href') === 'work.html') {
         console.log('Setting Work as active for explore.html');
@@ -213,7 +223,10 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Make Forbes project card clickable on work.html
-  if (window.location.pathname.endsWith('work.html') || window.location.pathname.endsWith('/work.html')) {
+  if (window.location.pathname.endsWith('work.html') || 
+      window.location.pathname.endsWith('/work.html') || 
+      window.location.pathname === '/work' || 
+      window.location.pathname.endsWith('/work')) {
     console.log('On work.html, setting up Forbes card');
     const projectCards = document.querySelectorAll('.project-content');
     console.log('Found project cards:', projectCards.length);
@@ -226,11 +239,16 @@ document.addEventListener('DOMContentLoaded', function() {
       if (cardText.includes('Forbes: Explore') || cardText.includes('Forbes')) {
         console.log('Found Forbes card at index:', index);
         card.style.cursor = 'pointer';
-        card.style.border = '2px solid #947b57'; // Visual indicator for debugging
         card.addEventListener('click', function(e) {
           e.preventDefault();
           console.log('Forbes card clicked, navigating to explore.html');
-          window.location.href = './explore.html'; // More explicit relative path
+          
+          // Detect if we're on localhost or Netlify and use appropriate URL format
+          const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+          const targetUrl = isLocalhost ? 'explore.html' : '/explore';
+          
+          console.log('Navigating to:', targetUrl);
+          window.location.href = targetUrl;
         });
       }
     });
