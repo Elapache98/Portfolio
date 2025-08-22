@@ -153,11 +153,10 @@ document.addEventListener('DOMContentLoaded', function() {
       if (e.key === 'ArrowRight') showNext();
     }
   });
-});
 
-document.getElementById('mailBtn').addEventListener('click', function() {
-    window.open('mailto:adeobayomi@gmail.com', '_blank', 'noopener');
-  });
+  document.getElementById('mailBtn').addEventListener('click', function() {
+      window.open('mailto:adeobayomi@gmail.com', '_blank', 'noopener');
+    });
 
   document.getElementById('linkedinBtn').addEventListener('click', function() {
     window.open('https://www.linkedin.com/in/ade98', '_blank', 'noopener');
