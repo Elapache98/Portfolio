@@ -89,13 +89,18 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
   // Special case: explore.html should show Work as active
-  if (!setByUrl && (currentPageFile === 'explore.html' || 
-                   currentPath.endsWith('/explore.html') || 
-                   currentPath === '/explore' || 
-                   currentPath.endsWith('/explore'))) {
+  const isExplorePage = currentPageFile === 'explore.html' || 
+                       currentPageFile === 'explore' ||
+                       currentPath.includes('explore') ||
+                       currentPath.endsWith('/explore.html') || 
+                       currentPath === '/explore' || 
+                       currentPath.endsWith('/explore') ||
+                       window.location.href.includes('explore');
+  
+  if (!setByUrl && isExplorePage) {
     buttons.forEach(btn => {
-      if (btn.getAttribute('href') === 'work.html') {
-        console.log('Setting Work as active for explore.html');
+      const btnHref = btn.getAttribute('href');
+      if (btnHref === 'work.html' || btnHref === '/work') {
         btn.classList.add('active');
         setByUrl = true;
       }
