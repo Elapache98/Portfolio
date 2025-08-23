@@ -331,6 +331,28 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
       
+      // Password visibility toggle
+      const passwordToggle = document.getElementById('password-toggle');
+      if (passwordToggle) {
+        passwordToggle.addEventListener('click', function() {
+          const toggleText = this.querySelector('.password-toggle-text');
+          const toggleIcon = this.querySelector('.password-toggle-icon');
+          
+          if (passwordInput.type === 'password') {
+            // Show password - hide icon, show "Hide" text
+            passwordInput.type = 'text';
+            toggleIcon.style.display = 'none';
+            toggleText.style.display = 'inline';
+            toggleText.textContent = 'Hide';
+          } else {
+            // Hide password - show icon, hide text
+            passwordInput.type = 'password';
+            toggleIcon.style.display = 'inline';
+            toggleText.style.display = 'none';
+          }
+        });
+      }
+      
       // Focus on password input when page loads (with delay for mobile)
       setTimeout(() => {
         passwordInput.focus();
