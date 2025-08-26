@@ -229,13 +229,22 @@ document.addEventListener('DOMContentLoaded', function() {
   function optimizeGifs() {
     const gifs = document.querySelectorAll('img[src$=".gif"], img[src*=".gif"]');
     
+    // Check if we're on mobile - if so, skip the complex optimizations
+    const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
     gifs.forEach(gif => {
-      // Add loading="lazy" if not already present
+      // Always add loading="lazy" if not already present
       if (!gif.hasAttribute('loading')) {
         gif.setAttribute('loading', 'lazy');
       }
       
-      // Pause GIF when not in viewport (save CPU/battery)
+      // Skip viewport-based pausing on mobile to avoid responsive issues
+      if (isMobile) {
+        console.log('Mobile detected - skipping GIF viewport optimization for responsive compatibility');
+        return;
+      }
+      
+      // Pause GIF when not in viewport (desktop only)
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           const gif = entry.target;
@@ -283,11 +292,27 @@ document.addEventListener('DOMContentLoaded', function() {
       ctx.drawImage(gif, 0, 0);
       const staticSrc = canvas.toDataURL('image/jpeg', 0.8);
       
+      // Create a new image element for the static version
+      const staticImg = new Image();
+      staticImg.onload = function() {
+        // Copy all CSS classes and attributes from original GIF
+        staticImg.className = gif.className;
+        staticImg.style.cssText = gif.style.cssText;
+        staticImg.setAttribute('loading', 'lazy');
+        
+        // Store both versions
+        gif.dataset.staticSrc = staticSrc;
+      };
+      staticImg.src = staticSrc;
+      
       // Only replace with static version when out of viewport
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-          if (!entry.isIntersecting && gif.dataset.originalSrc) {
-            gif.src = staticSrc;
+          if (!entry.isIntersecting && gif.dataset.originalSrc && gif.dataset.staticSrc) {
+            // Maintain all styling when switching to static
+            const currentStyle = gif.style.cssText;
+            gif.src = gif.dataset.staticSrc;
+            gif.style.cssText = currentStyle;
           }
         });
       });
