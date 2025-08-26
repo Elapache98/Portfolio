@@ -225,6 +225,92 @@ document.addEventListener('DOMContentLoaded', function() {
     window.open('https://www.linkedin.com/in/ade98', '_blank', 'noopener');
   });
 
+  // GIF Performance Optimizations
+  function optimizeGifs() {
+    const gifs = document.querySelectorAll('img[src$=".gif"], img[src*=".gif"]');
+    
+    gifs.forEach(gif => {
+      // Add loading="lazy" if not already present
+      if (!gif.hasAttribute('loading')) {
+        gif.setAttribute('loading', 'lazy');
+      }
+      
+      // Pause GIF when not in viewport (save CPU/battery)
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const gif = entry.target;
+          
+          if (entry.isIntersecting) {
+            // GIF is visible - ensure it's playing
+            if (gif.dataset.originalSrc && gif.src !== gif.dataset.originalSrc) {
+              gif.src = gif.dataset.originalSrc;
+            }
+          } else {
+            // GIF is not visible - replace with static image to save resources
+            if (!gif.dataset.originalSrc) {
+              gif.dataset.originalSrc = gif.src;
+            }
+            // Create a canvas to capture first frame
+            createStaticFrame(gif);
+          }
+        });
+      }, {
+        rootMargin: '50px' // Start loading 50px before entering viewport
+      });
+      
+      observer.observe(gif);
+    });
+  }
+  
+  function createStaticFrame(gif) {
+    // Create a canvas to capture the first frame
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Wait for GIF to load if not already loaded
+    if (gif.complete) {
+      captureFrame(gif, canvas, ctx);
+    } else {
+      gif.addEventListener('load', () => captureFrame(gif, canvas, ctx), { once: true });
+    }
+  }
+  
+  function captureFrame(gif, canvas, ctx) {
+    canvas.width = gif.naturalWidth || gif.width;
+    canvas.height = gif.naturalHeight || gif.height;
+    
+    try {
+      ctx.drawImage(gif, 0, 0);
+      const staticSrc = canvas.toDataURL('image/jpeg', 0.8);
+      
+      // Only replace with static version when out of viewport
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting && gif.dataset.originalSrc) {
+            gif.src = staticSrc;
+          }
+        });
+      });
+      observer.observe(gif);
+    } catch (e) {
+      // If canvas fails (CORS issues), just use lazy loading
+      console.log('Could not create static frame for GIF, using lazy loading only');
+    }
+  }
+  
+  // Initialize GIF optimizations when page loads
+  optimizeGifs();
+  
+  // Re-run optimization if new GIFs are added dynamically
+  const gifObserver = new MutationObserver(() => {
+    optimizeGifs();
+  });
+  
+  gifObserver.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+
   // Welcome message fade-out (all devices)
   const welcomeMessage = document.querySelector('.welcome-message');
   if (welcomeMessage) {
