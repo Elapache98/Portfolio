@@ -758,11 +758,28 @@ img.loaded {
 img[src$=".gif"], 
 img[src*=".gif"] {
   width: 100%;
+  max-width: 100%;
   height: auto;
   aspect-ratio: 16 / 10;
   object-fit: cover;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(31, 38, 135, 0.15);
+  display: block;
+  box-sizing: border-box;
+}
+
+/* Mobile-specific GIF fixes */
+@media (max-width: 768px) {
+  img[src$=".gif"], 
+  img[src*=".gif"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0;
+    flex-shrink: 1;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    overflow: hidden;
+  }
 }
 
 /* Floating Toolbar */
