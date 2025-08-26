@@ -754,6 +754,17 @@ img.loaded {
   filter: none !important;
 }
 
+/* GIF Styling - 16:10 aspect ratio */
+img[src$=".gif"], 
+img[src*=".gif"] {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(31, 38, 135, 0.15);
+}
+
 /* Floating Toolbar */
 .floating-logo {
   position: fixed;
