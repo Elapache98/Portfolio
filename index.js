@@ -1,3 +1,19 @@
+// Performance optimizations for smooth scrolling
+let ticking = false;
+
+function optimizeScroll() {
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      // Batch DOM operations here if needed
+      ticking = false;
+    });
+    ticking = true;
+  }
+}
+
+// Throttle scroll events for performance
+window.addEventListener('scroll', optimizeScroll, { passive: true });
+
 document.addEventListener('DOMContentLoaded', function() {
   const toolbar = document.querySelector('.floating-toolbar');
   const hamburger = toolbar.querySelector('.toolbar-hamburger');

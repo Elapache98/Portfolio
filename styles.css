@@ -1,3 +1,8 @@
+/* Performance optimizations */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -9,6 +14,20 @@ body {
   justify-content: center;
   align-items: center;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Force hardware acceleration for elements that transform */
+.floating-toolbar,
+.floating-logo,
+.radio-pill,
+.toolbar-btn,
+.project-content,
+.landing-content {
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 #particleCanvas {
@@ -121,10 +140,16 @@ transition: box-shadow .25s;
   gap: 24px;
   justify-content: start;
   align-items: start;
-  max-width: 95vw;
+  max-width: 85vw;
   height: auto;
   padding: 16px;
-  margin-bottom: 24px;
+}
+
+/* Smaller desktop: 2 columns for project grid */
+@media (max-width: 1440px) {
+  .project-grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 
@@ -762,7 +787,7 @@ img[src*=".gif"] {
   aspect-ratio: 16 / 10;
   object-fit: cover;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(31, 38, 135, 0.15);
+  box-shadow: 0 4px 4px rgba(31, 38, 135, 0.15);
   display: block;
   box-sizing: border-box;
 }
