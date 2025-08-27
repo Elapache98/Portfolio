@@ -355,12 +355,11 @@ border: 1px solid rgba(13, 11, 70, 0.05);
 
 .toolbar-btn.active,
 .toolbar-btn[aria-current="page"] {
-    background: rgba(255,255,255,0.85);
-    border: 1px solid rgba(13, 11, 70, 0.15);
+    background: transparent;
+    border: none;
     color: #222;
-
-
-
+    position: relative;
+    z-index: 1;
 }
 
 .toolbar-hamburger {
@@ -378,6 +377,48 @@ border: 1px solid rgba(13, 11, 70, 0.05);
   display: flex;
   gap: 1.5rem;
   z-index: 1100;
+  position: relative;
+}
+
+/* Animated pill background */
+.toolbar-options::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: var(--pill-left, 0);
+  width: var(--pill-width, 0);
+  height: 100%;
+  background: rgba(255,255,255,0.85);
+  border: 1px solid rgba(13, 11, 70, 0.15);
+  border-radius: 50px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.toolbar-options.show-pill::before {
+  opacity: 1;
+}
+
+/* Mobile: Disable pill animation and restore original toolbar styling */
+@media (max-width: 768px) {
+  .toolbar-options::before {
+    display: none !important;
+  }
+  
+  .toolbar-options.show-pill::before {
+    display: none !important;
+  }
+  
+  .toolbar-btn.active,
+  .toolbar-btn[aria-current="page"] {
+    background: rgba(255,255,255,0.85) !important;
+    border: 1px solid rgba(13, 11, 70, 0.15) !important;
+    color: #222;
+    position: static;
+    z-index: auto;
+  }
 }
 
 .toolbar-hamburger .icon-close {
