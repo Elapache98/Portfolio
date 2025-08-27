@@ -101,10 +101,10 @@ document.addEventListener('DOMContentLoaded', function() {
     buttons.forEach(btn => {
       const btnHref = btn.getAttribute('href');
       if (btnHref === 'work.html' || btnHref === '/work') {
-        btn.classList.add('active');
-        setByUrl = true;
-      }
-    });
+      btn.classList.add('active');
+      setByUrl = true;
+    }
+  });
   }
   
   // If no match, default to first (Home)
@@ -113,71 +113,12 @@ document.addEventListener('DOMContentLoaded', function() {
     buttons[0].classList.add('active');
   }
 
-  // Function to animate the pill to the active button
-  function animatePill() {
-    const activeBtn = options.querySelector('.toolbar-btn.active');
-    const pillBackground = options.querySelector('::before') || options;
-    
-    if (activeBtn) {
-      const toolbarRect = options.getBoundingClientRect();
-      const btnRect = activeBtn.getBoundingClientRect();
-      
-      const leftOffset = btnRect.left - toolbarRect.left;
-      const width = btnRect.width;
-      
-      // Update CSS custom properties for the pill animation
-      options.style.setProperty('--pill-left', `${leftOffset}px`);
-      options.style.setProperty('--pill-width', `${width}px`);
-      
-      // Show the pill
-      options.classList.add('show-pill');
-    }
-  }
-  
   buttons.forEach(btn => {
     btn.addEventListener('click', function(e) {
-      const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      
-      // Mobile: Keep original behavior (immediate navigation)
-      if (isMobile) {
-        buttons.forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        return; // Let the default navigation happen
-      }
-      
-      // Desktop: Animate pill then navigate
-      e.preventDefault(); // Prevent immediate navigation
-      
-      const targetHref = this.getAttribute('href');
-      const isExternalLink = targetHref.startsWith('#') || targetHref.includes('thoughts');
-      
-      // Update active state immediately
       buttons.forEach(b => b.classList.remove('active'));
       this.classList.add('active');
-      
-      // Animate pill to new position
-      animatePill();
-      
-      // Navigate after animation completes (only for real page links)
-      if (!isExternalLink && targetHref && targetHref !== '#') {
-        setTimeout(() => {
-          // Detect environment and use appropriate URL
-          const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-          let targetUrl = targetHref;
-          
-          // Handle clean URLs for Netlify
-          if (!isLocalhost && targetHref.endsWith('.html')) {
-            targetUrl = targetHref.replace('.html', '');
-          }
-          
-          window.location.href = targetUrl;
-        }, 300); // Wait for animation to complete
-      }
     });
   });
-  
-  // Initialize pill position on page load
-  setTimeout(() => animatePill(), 100);
 
   // Delegate click to ::before using a transparent div
   if (toolbarOptions) {
@@ -396,15 +337,15 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Welcome message fade-out (all devices)
-  const welcomeMessage = document.querySelector('.welcome-message');
-  if (welcomeMessage) {
-    setTimeout(() => {
-      welcomeMessage.classList.add('fade-out');
-      // Remove from DOM after animation completes
+    const welcomeMessage = document.querySelector('.welcome-message');
+    if (welcomeMessage) {
       setTimeout(() => {
-        welcomeMessage.remove();
-      }, 500);
-    }, 5000);
+        welcomeMessage.classList.add('fade-out');
+        // Remove from DOM after animation completes
+        setTimeout(() => {
+          welcomeMessage.remove();
+        }, 500);
+      }, 5000);
   }
 
   // Make Forbes project card clickable on work.html
@@ -485,10 +426,10 @@ document.addEventListener('DOMContentLoaded', function() {
           // Add shake animation to the modal
           const modal = document.querySelector('.password-modal');
           if (modal) {
-            modal.style.animation = 'shake 0.5s ease-in-out';
-            setTimeout(() => {
-              modal.style.animation = '';
-            }, 500);
+          modal.style.animation = 'shake 0.5s ease-in-out';
+          setTimeout(() => {
+            modal.style.animation = '';
+          }, 500);
           }
           
           // Re-focus after a short delay (mobile-friendly)
@@ -530,7 +471,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Focus on password input when page loads (with delay for mobile)
       setTimeout(() => {
-        passwordInput.focus();
+      passwordInput.focus();
       }, 300);
     } else {
       console.log('Password form elements not found');
