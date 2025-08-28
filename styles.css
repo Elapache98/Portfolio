@@ -1311,7 +1311,6 @@ html {
 .toc-nav {
   display: flex;
   flex-direction: column;
-  gap: 4px;
   background-color: #f8f9fa;
 }
 
