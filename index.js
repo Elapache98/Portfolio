@@ -241,6 +241,17 @@ document.addEventListener('DOMContentLoaded', function() {
     window.open('https://www.linkedin.com/in/ade98', '_blank', 'noopener');
   });
 
+  // "View Select Works" button navigation
+  const viewWorksBtn = document.getElementById('actionButton');
+  if (viewWorksBtn) {
+    viewWorksBtn.addEventListener('click', function() {
+      // Detect environment and use appropriate URL
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const workUrl = isLocalhost ? 'work.html' : '/work';
+      window.location.href = workUrl;
+    });
+  }
+
   // GIF Performance Optimizations
   function optimizeGifs() {
     const gifs = document.querySelectorAll('img[src$=".gif"], img[src*=".gif"]');
@@ -351,6 +362,72 @@ document.addEventListener('DOMContentLoaded', function() {
     childList: true,
     subtree: true
   });
+
+  // Table of Contents Scroll Spy for explore.html
+  if (window.location.pathname.includes('explore')) {
+    const tocLinks = document.querySelectorAll('.toc-link');
+    const sections = document.querySelectorAll('[id]'); // All elements with IDs
+    
+    // Filter sections to only those referenced in TOC
+    const tocSections = Array.from(sections).filter(section => {
+      return Array.from(tocLinks).some(link => 
+        link.getAttribute('href') === '#' + section.id
+      );
+    });
+
+    if (tocLinks.length > 0 && tocSections.length > 0) {
+      console.log('TOC Scroll Spy initialized with', tocSections.length, 'sections');
+      
+      function updateActiveLink() {
+        let currentSection = '';
+        const scrollPosition = window.scrollY + 100; // Offset for better UX
+        
+        // Find the current section
+        tocSections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+          
+          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            currentSection = section.id;
+          }
+        });
+        
+        // If no section found, use the first visible section
+        if (!currentSection && tocSections.length > 0) {
+          for (let section of tocSections) {
+            if (section.offsetTop <= scrollPosition + 200) {
+              currentSection = section.id;
+            }
+          }
+        }
+        
+        // Update active states
+        tocLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + currentSection) {
+            link.classList.add('active');
+          }
+        });
+      }
+      
+      // Throttled scroll listener for performance
+      let tocTicking = false;
+      function handleTocScroll() {
+        if (!tocTicking) {
+          requestAnimationFrame(() => {
+            updateActiveLink();
+            tocTicking = false;
+          });
+          tocTicking = true;
+        }
+      }
+      
+      window.addEventListener('scroll', handleTocScroll, { passive: true });
+      
+      // Initial call to set active state on page load
+      updateActiveLink();
+    }
+  }
 
   // Welcome message fade-out (all devices)
     const welcomeMessage = document.querySelector('.welcome-message');
