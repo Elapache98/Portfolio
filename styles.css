@@ -1075,6 +1075,28 @@ img[src*=".gif"] {
   align-items: center;
 }
 
+/* AI Avatar thinking state - golden pulsing border */
+.ai-avatar.thinking {
+  border: 1px solid rgba(148, 123, 87, 0.5);
+  border-radius: 100%;
+  animation: goldenPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes goldenPulse {
+  0% {
+    border-color: rgba(148, 123, 87, 0.5);
+    box-shadow: 0 0 0 0 rgba(148, 123, 87, 0.3);
+  }
+  50% {
+    border-color: rgba(148, 123, 87, 0.8);
+    box-shadow: 0 0 0 8px rgba(148, 123, 87, 0);
+  }
+  100% {
+    border-color: rgba(148, 123, 87, 0.5);
+    box-shadow: 0 0 0 0 rgba(148, 123, 87, 0);
+  }
+}
+
 /* Password Gate Styles */
 .password-gate {
   position: fixed;
@@ -1532,6 +1554,8 @@ html {
 .image-item img[src$=".GIF"] {
   width: 100%;
 }
+
+
 
 .image-caption {
   font-size: 14px;

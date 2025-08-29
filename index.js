@@ -661,6 +661,30 @@ const aiAnswers = {
   "4": "😂🤣 - Sorry for my unprofessionalism. Adé trained me to not answer this question."
 };
 
+function showThinkingState(callback) {
+  const typedTextElement = document.getElementById('typedText');
+  const aiAvatar = document.querySelector('.ai-avatar');
+  
+  if (typedTextElement && aiAvatar) {
+    // Show "Thinking..." text
+    typedTextElement.innerHTML = 'Thinking...';
+    
+    // Add golden pulsing border to avatar
+    aiAvatar.classList.add('thinking');
+    
+    // Wait 2 seconds, then execute callback
+    setTimeout(() => {
+      // Remove thinking state
+      aiAvatar.classList.remove('thinking');
+      // Execute the callback (usually typeWriter)
+      callback();
+    }, 2000);
+  } else {
+    // Fallback if elements don't exist
+    callback();
+  }
+}
+
 function typeWriter(text, element, speed = 50) {
   let i = 0;
   element.innerHTML = '';
@@ -738,9 +762,11 @@ radioPills.forEach(pill => {
     // Store the selected value
     selectedValue = this.getAttribute('data-value');
     
-    // Immediately trigger the AI response
+    // Trigger the AI response with thinking state
     if (selectedValue && aiAnswers[selectedValue] && typedTextElement) {
-      typeWriter(aiAnswers[selectedValue], typedTextElement, 30);
+      showThinkingState(() => {
+        typeWriter(aiAnswers[selectedValue], typedTextElement, 30);
+      });
     }
   });
 });
@@ -749,7 +775,9 @@ radioPills.forEach(pill => {
 if (generateBtn) {
   generateBtn.addEventListener('click', function() {
     if (selectedValue && aiAnswers[selectedValue]) {
-      typeWriter(aiAnswers[selectedValue], typedTextElement, 30);
+      showThinkingState(() => {
+        typeWriter(aiAnswers[selectedValue], typedTextElement, 30);
+      });
     }
   });
 }
