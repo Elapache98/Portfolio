@@ -665,7 +665,7 @@ const aiAnswers = {
   "4": [
     "😂🤣 - Ahem.... Pardon me 🕴️, but Adé trained me to not answer this question.",
     "🤐 - Ok between you and me, I'm not sure if I'm allowed to answer this question.... but it's <span class=\"blur-text\">\"No information found.\"</span>",
-    "🙈 - Even AI has boundaries... This topic is off-limits per Adé's instructions."
+    "🥸 - Even AI has boundaries... This topic is off-limits per Adé's instructions."
   ]
 };
 
