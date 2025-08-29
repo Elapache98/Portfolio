@@ -289,11 +289,12 @@ width: 20vw;  }
 p {
   font-family: 'lato', Arial, sans-serif;
   font-family: 'lato', Arial, sans-serif;
-  font-size: 16px;
-  color: #737373;
+  font-size: 18px;
+  color: #605D5D;
   font-weight: 300;
   line-height: 1.65;
   letter-spacing: 0.25px;
+  
 }
 
 
@@ -1530,7 +1531,7 @@ html {
 .highlight-box h3 {
   margin-top: 0;
   margin-bottom: 16px;
-  color: #947b57;
+  color: #5b4b34;
 }
 
 .image-grid {
@@ -1624,7 +1625,7 @@ html {
 .metric-number {
   font-size: 32px;
   font-weight: 700;
-  color: #947b57;
+  color: #5b4b34;
   margin-bottom: 8px;
   text-align: left;
 }
