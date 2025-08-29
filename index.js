@@ -182,7 +182,18 @@ document.addEventListener('DOMContentLoaded', function() {
   const lightboxClose = document.getElementById('lightbox-close');
   const lightboxPrev = document.getElementById('lightbox-prev');
   const lightboxNext = document.getElementById('lightbox-next');
-  const images = Array.from(document.querySelectorAll('.photo-row img'));
+  
+  // Select appropriate images based on current page
+  let images;
+  
+  if (isExplorePage) {
+    // On explore page, select images from image grids and content images
+    images = Array.from(document.querySelectorAll('.image-item img, .content-image img'));
+  } else {
+    // Default to photo-row images for other pages
+    images = Array.from(document.querySelectorAll('.photo-row img'));
+  }
+  
   let currentIndex = 0;
 
   function showLightbox(index) {
@@ -190,18 +201,30 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!img) return;
     lightboxImg.src = img.src;
     lightboxImg.alt = img.alt;
-    lightboxDesc.textContent = img.alt;
+    
+    // For explore page, try to get caption from image-caption element
+    if (isExplorePage) {
+      const imageItem = img.closest('.image-item');
+      const caption = imageItem ? imageItem.querySelector('.image-caption') : null;
+      lightboxDesc.textContent = caption ? caption.textContent : img.alt;
+    } else {
+      lightboxDesc.textContent = img.alt;
+    }
+    
     lightbox.style.display = 'flex';
     lightbox.focus();
     currentIndex = index;
   }
 
-  images.forEach((img, idx) => {
-    img.style.cursor = 'pointer';
-    img.addEventListener('click', function() {
-      showLightbox(idx);
+  // Only set up lightbox if we have images and lightbox elements exist
+  if (lightbox && lightboxImg && images.length > 0) {
+    images.forEach((img, idx) => {
+      img.style.cursor = 'pointer';
+      img.addEventListener('click', function() {
+        showLightbox(idx);
+      });
     });
-  });
+  }
 
   function closeLightbox() {
     lightbox.style.display = 'none';
@@ -380,31 +403,34 @@ document.addEventListener('DOMContentLoaded', function() {
       
       function updateActiveLink() {
         let currentSection = '';
-        const scrollPosition = window.scrollY + 100; // Offset for better UX
         
-        // Find the current section
-        tocSections.forEach(section => {
-          const sectionTop = section.offsetTop;
-          const sectionHeight = section.offsetHeight;
+        // Only start highlighting after user scrolls past the first section
+        if (window.scrollY > 200) {
+          // Simple approach: find which section header is closest to the center of viewport
+          const viewportCenter = window.scrollY + (window.innerHeight / 2);
           
-          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-            currentSection = section.id;
-          }
-        });
-        
-        // If no section found, use the first visible section
-        if (!currentSection && tocSections.length > 0) {
-          for (let section of tocSections) {
-            if (section.offsetTop <= scrollPosition + 200) {
-              currentSection = section.id;
+          let closestSection = null;
+          let closestDistance = Infinity;
+          
+          tocSections.forEach(section => {
+            const sectionCenter = section.offsetTop + (section.offsetHeight / 2);
+            const distance = Math.abs(viewportCenter - sectionCenter);
+            
+            if (distance < closestDistance) {
+              closestDistance = distance;
+              closestSection = section;
             }
+          });
+          
+          if (closestSection) {
+            currentSection = closestSection.id;
           }
         }
         
         // Update active states
         tocLinks.forEach(link => {
           link.classList.remove('active');
-          if (link.getAttribute('href') === '#' + currentSection) {
+          if (currentSection && link.getAttribute('href') === '#' + currentSection) {
             link.classList.add('active');
           }
         });
@@ -424,8 +450,8 @@ document.addEventListener('DOMContentLoaded', function() {
       
       window.addEventListener('scroll', handleTocScroll, { passive: true });
       
-      // Initial call to set active state on page load
-      updateActiveLink();
+      // Initial call - no active state on page load, let user scroll first
+      // updateActiveLink(); // Commented out - no initial active state
     }
   }
 
@@ -484,6 +510,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const passwordError = document.getElementById('password-error');
     const passwordGate = document.getElementById('password-gate');
     const articleContent = document.getElementById('article-content');
+    
+    // Development bypass - auto-unlock on localhost
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    
+    if (isLocalhost) {
+      console.log('Development mode detected - bypassing password gate');
+      if (passwordGate) passwordGate.style.display = 'none';
+      if (articleContent) articleContent.style.display = 'flex';
+      return; // Skip the rest of the password logic
+    }
     
     // Set the correct password here
     const correctPassword = 'forbes2024'; // Change this to your desired password
@@ -562,9 +598,54 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       }
       
+            // Email copy functionality
+      const emailCopyBtn = document.getElementById('email-copy-btn');
+      const emailAddress = document.querySelector('.email-address');
+      
+      if (emailCopyBtn && emailAddress) {
+        emailCopyBtn.addEventListener('click', function() {
+          const copyIcon = this.querySelector('.copy-icon');
+          const copyText = this.querySelector('.copy-text');
+          const email = emailAddress.textContent;
+          
+          // Copy to clipboard
+          navigator.clipboard.writeText(email).then(() => {
+            // Show success feedback - hide icon, show text
+            copyIcon.style.display = 'none';
+            copyText.style.display = 'inline';
+            
+            // Reset after 5 seconds
+            setTimeout(() => {
+              copyIcon.style.display = 'inline';
+              copyText.style.display = 'none';
+            }, 5000);
+          }).catch(err => {
+            // Fallback for older browsers
+            console.log('Clipboard API failed, using fallback');
+            
+            // Create temporary input element
+            const tempInput = document.createElement('input');
+            tempInput.value = email;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            
+            // Show success feedback
+            copyIcon.style.display = 'none';
+            copyText.style.display = 'inline';
+            
+            setTimeout(() => {
+              copyIcon.style.display = 'inline';
+              copyText.style.display = 'none';
+            }, 5000);
+          });
+        });
+      }
+      
       // Focus on password input when page loads (with delay for mobile)
       setTimeout(() => {
-      passwordInput.focus();
+        passwordInput.focus();
       }, 300);
     } else {
       console.log('Password form elements not found');
