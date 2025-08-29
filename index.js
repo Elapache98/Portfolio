@@ -657,9 +657,9 @@ document.addEventListener('DOMContentLoaded', function() {
 const aiAnswers = {
 
   "2": [
-    "\"If you never set the <b>stage</b>, how do you expect to perform?\" - Adé's drama teacher, through some rather clever word-play, always pushed him to be proactive in life.",
+    "\"If you never set the <b>stage</b>, how do you expect to perform?\" - Adé's drama teacher, always pushed him to be proactive  life....Touché to her for the rather clever word-play.",
     "\"Look how many <b>finish-lines</b> it took for you to get here.\" - Hmmm..... I think Adé saw a Nike ad somewhere in Boston but I guess it's something about focusing on the journey not the destination from what I can decipher.",
-          "\"It's better to have 100 customers that <b>love</b> you, than 1M customers who <b>sorta like you</b>.\" - The full spiel can be found <a href='https://x.com/StartupArchive_/status/1737446769519124584?lang=en' target='_blank' style='color: #5b4b34; text-decoration: underline;'>here</a>. Quality always trumps Quanity is a concise way of getting the message across."
+          "\"It's better to have 100 customers that <b>love</b> you, than 1M customers who <b>sorta like you</b>.\" - The full spiel can be found <a href='https://x.com/StartupArchive_/status/1737446769519124584?lang=en' target='_blank' style='color: #5b4b34; text-decoration: underline;'>here</a>. \"Quality always trumps Quanity\" is a concise way of getting the message across."
   ],
 
   "4": [
