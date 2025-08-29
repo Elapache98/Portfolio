@@ -1594,7 +1594,7 @@ html {
 }
 
 .metric {
-  /* Remove center alignment to allow individual element alignment */
+  text-align: left;
 }
 
 .metric-number {
