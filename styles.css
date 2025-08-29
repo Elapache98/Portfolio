@@ -1083,6 +1083,16 @@ img[src*=".gif"] {
   animation: goldenPulse 1.5s ease-in-out infinite;
 }
 
+/* Blur effect utility class */
+.blur-text {
+  filter: blur(3px);
+  transition: filter 0.3s ease;
+}
+
+.blur-text:hover {
+  filter: blur(0px);
+}
+
 @keyframes goldenPulse {
   0% {
     border-color: rgba(148, 123, 87, 0.5);
