@@ -655,10 +655,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // AI Answer Machine functionality
 const aiAnswers = {
-  "1": "\"The best time to plant a tree was <a href='https://quoteinvestigator.com/2013/10/20/best-time-plant/' target='_blank'>20</a> years ago. The second best time is now.\" - This taught me that starting is more important than perfect timing.",
-  "2": "\"If you never set the <b>stage</b>, how do you expect to perform?\" - Adé's drama teacher, through some rather clever word-play, always pushed him to be proactive in life.",
-  "3": "\"That's Not Me\" isn't just a song title, it's a philosophy. Stay true to yourself no matter what.\" - Skepta's authenticity inspired my design approach.",
-  "4": "😂🤣 - Sorry for my unprofessionalism. Adé trained me to not answer this question."
+
+  "2": [
+    "\"If you never set the <b>stage</b>, how do you expect to perform?\" - Adé's drama teacher, always pushed him to be proactive  life....Touché to her for the rather clever word-play.",
+    "\"Look how many <b>finish-lines</b> it took for you to get here.\" - Hmmm..... I think Adé saw a Nike ad somewhere in Boston but I guess it's something about focusing on the journey not the destination from what I can decipher.",
+          "\"It's better to have 100 customers that <b>love</b> you, than 1M customers who <b>sorta like you</b>.\" - The full spiel can be found <a href='https://x.com/StartupArchive_/status/1737446769519124584?lang=en' target='_blank' style='color: #5b4b34; text-decoration: underline;'>here</a>. \"Quality always trumps Quanity\" is a concise way of getting the message across."
+  ],
+
+  "4": [
+    "😂🤣 - Ahem.... Pardon me 🕴️, but Adé trained me to not answer this question.",
+    "🤐 - Ok between you and me, I'm not sure if I'm allowed to answer this question.... but it's <span class=\"blur-text\">\"No information found.\"</span>",
+    "🙈 - Even AI has boundaries... This topic is off-limits per Adé's instructions."
+  ]
+};
+
+// Track answer indices for each question
+let answerIndices = {
+  "2": 0,
+  "4": 0
 };
 
 function showThinkingState(callback) {
@@ -685,7 +699,7 @@ function showThinkingState(callback) {
   }
 }
 
-function typeWriter(text, element, speed = 50) {
+function typeWriter(text, element, baseSpeed = 35) {
   let i = 0;
   element.innerHTML = '';
   
@@ -726,9 +740,46 @@ function typeWriter(text, element, speed = 50) {
   
   let currentHTML = '';
   
+  function getVariableSpeed(token, nextToken) {
+    // Base speed with natural variation
+    let speed = baseSpeed + Math.random() * 15 - 7; // ±7ms variation
+    
+    if (token.type === 'char') {
+      const char = token.content;
+      
+      // Longer pauses after sentences
+      if (char === '.' || char === '!' || char === '?') {
+        speed += 200 + Math.random() * 100; // 200-300ms pause
+      }
+      // Medium pauses after commas and colons
+      else if (char === ',' || char === ':' || char === ';') {
+        speed += 80 + Math.random() * 40; // 80-120ms pause
+      }
+      // Short pause after dashes and quotes
+      else if (char === '-' || char === '"' || char === "'" || char === ')') {
+        speed += 40 + Math.random() * 20; // 40-60ms pause
+      }
+      // Slightly faster for spaces (natural reading flow)
+      else if (char === ' ') {
+        speed *= 0.8;
+      }
+      // Faster for common letters
+      else if ('eaiotnshrdlu'.includes(char.toLowerCase())) {
+        speed *= 0.9;
+      }
+    }
+    // Tags appear instantly
+    else if (token.type === 'tag') {
+      speed = 0;
+    }
+    
+    return Math.max(speed, 15); // Minimum 15ms
+  }
+  
   function type() {
     if (i < tokens.length) {
       const token = tokens[i];
+      const nextToken = tokens[i + 1];
       
       // Build the HTML string
       currentHTML += token.content;
@@ -737,7 +788,10 @@ function typeWriter(text, element, speed = 50) {
       element.innerHTML = currentHTML;
       
       i++;
-      setTimeout(type, speed);
+      
+      // Get variable speed for more natural flow
+      const delay = getVariableSpeed(token, nextToken);
+      setTimeout(type, delay);
     }
   }
   type();
@@ -753,19 +807,26 @@ let selectedValue = null;
 // Handle radio pill selection
 radioPills.forEach(pill => {
   pill.addEventListener('click', function() {
+    // Store the selected value
+    const clickedValue = this.getAttribute('data-value');
+    
+    // Always cycle to next answer for the clicked pill
+    answerIndices[clickedValue] = (answerIndices[clickedValue] + 1) % aiAnswers[clickedValue].length;
+    
     // Remove selected class from all pills
     radioPills.forEach(p => p.classList.remove('selected'));
     
     // Add selected class to clicked pill
     this.classList.add('selected');
     
-    // Store the selected value
-    selectedValue = this.getAttribute('data-value');
+    // Update selected value
+    selectedValue = clickedValue;
     
     // Trigger the AI response with thinking state
     if (selectedValue && aiAnswers[selectedValue] && typedTextElement) {
+      const currentAnswer = aiAnswers[selectedValue][answerIndices[selectedValue]];
       showThinkingState(() => {
-        typeWriter(aiAnswers[selectedValue], typedTextElement, 30);
+        typeWriter(currentAnswer, typedTextElement);
       });
     }
   });
@@ -775,8 +836,9 @@ radioPills.forEach(pill => {
 if (generateBtn) {
   generateBtn.addEventListener('click', function() {
     if (selectedValue && aiAnswers[selectedValue]) {
+      const currentAnswer = aiAnswers[selectedValue][answerIndices[selectedValue]];
       showThinkingState(() => {
-        typeWriter(aiAnswers[selectedValue], typedTextElement, 30);
+        typeWriter(currentAnswer, typedTextElement);
       });
     }
   });
