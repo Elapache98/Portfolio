@@ -2151,6 +2151,15 @@ html {
     padding: 12px;
     margin: 16px 0;
   }
+
+
+  .password-modal {
+    width: 88vw;
+    max-width: 75vw;
+    margin: 0 16px;
+    padding: 32px 24px;
+  }
+
 }
 
 /* Small mobile devices */
@@ -2166,6 +2175,13 @@ html {
     z-index: 1040;
     transition: opacity 0.2s;
     opacity: 0;
+  }
+
+  .password-modal {
+    width: 88vw;
+    max-width: 75vw;
+    margin: 0 16px;
+    padding: 32px 24px;
   }
 
 
