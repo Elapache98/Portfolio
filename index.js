@@ -288,6 +288,36 @@ document.addEventListener('DOMContentLoaded', function() {
         gif.setAttribute('loading', 'lazy');
       }
       
+      // Handle loading state for work page GIFs
+      const container = gif.closest('.gif-container');
+      const loader = container ? container.querySelector('.gif-loader') : null;
+      
+      if (container && loader) {
+        // Function to hide loader and show GIF
+        const showGif = () => {
+          loader.style.display = 'none';
+          gif.classList.remove('gif-loading');
+          gif.classList.add('gif-loaded');
+        };
+        
+        // Check if GIF is already loaded (cached)
+        if (gif.complete && gif.naturalHeight !== 0) {
+          showGif();
+        } else {
+          // Show loader initially
+          gif.style.opacity = '0';
+          
+          // Handle load event
+          gif.addEventListener('load', showGif);
+          
+          // Handle error event
+          gif.addEventListener('error', function() {
+            loader.style.display = 'none';
+            gif.style.opacity = '1'; // Show even if error
+          });
+        }
+      }
+      
       // Skip viewport-based pausing on mobile to avoid responsive issues
       if (isMobile) {
         console.log('Mobile detected - skipping GIF viewport optimization for responsive compatibility');
