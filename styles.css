@@ -1235,7 +1235,7 @@ img[src*=".gif"] {
   line-height: 1.4;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   text-align: center;
   font-size: 14px;
 }
@@ -1246,12 +1246,12 @@ img[src*=".gif"] {
   cursor: pointer;
   display: inline-flex;
   justify-content: center;
-  padding: 0;
+  padding: 8px;
   border-radius: 4px;
   transition: all 0.5s ease;
   color: #666;
-  width: 16px;
-  height: 16px;
+  width: 32px;
+  height: 32px;
   flex-shrink: 0;
   vertical-align: baseline;
  
@@ -1268,12 +1268,7 @@ img[src*=".gif"] {
   flex-shrink: 0;
 }
 
-.copy-text {
-  font-weight: 500;
-  font-size: 12px;
-  white-space: nowrap;
-  color: #947b57;
-}
+
 
 .password-modal {
   background: white;

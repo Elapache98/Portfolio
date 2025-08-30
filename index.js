@@ -542,14 +542,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const articleContent = document.getElementById('article-content');
     
     // Development bypass - auto-unlock on localhost
-    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    // const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     
-    if (isLocalhost) {
-      console.log('Development mode detected - bypassing password gate');
-      if (passwordGate) passwordGate.style.display = 'none';
-      if (articleContent) articleContent.style.display = 'flex';
-      return; // Skip the rest of the password logic
-    }
+    // if (isLocalhost) {
+    //   console.log('Development mode detected - bypassing password gate');
+    //   if (passwordGate) passwordGate.style.display = 'none';
+    //   if (articleContent) articleContent.style.display = 'flex';
+    //   return; // Skip the rest of the password logic
+    // }
     
     // Set the correct password here
     const correctPassword = 'forbes2024'; // Change this to your desired password
@@ -635,19 +635,19 @@ document.addEventListener('DOMContentLoaded', function() {
       if (emailCopyBtn && emailAddress) {
         emailCopyBtn.addEventListener('click', function() {
           const copyIcon = this.querySelector('.copy-icon');
-          const copyText = this.querySelector('.copy-text');
+          const copySuccessIcon = this.querySelector('.copy-success-icon');
           const email = emailAddress.textContent;
           
           // Copy to clipboard
           navigator.clipboard.writeText(email).then(() => {
-            // Show success feedback - hide icon, show text
+            // Show success feedback - hide copy icon, show checkmark
             copyIcon.style.display = 'none';
-            copyText.style.display = 'inline';
+            copySuccessIcon.style.display = 'inline';
             
             // Reset after 5 seconds
             setTimeout(() => {
               copyIcon.style.display = 'inline';
-              copyText.style.display = 'none';
+              copySuccessIcon.style.display = 'none';
             }, 5000);
           }).catch(err => {
             // Fallback for older browsers
@@ -663,11 +663,11 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Show success feedback
             copyIcon.style.display = 'none';
-            copyText.style.display = 'inline';
+            copySuccessIcon.style.display = 'inline';
             
             setTimeout(() => {
               copyIcon.style.display = 'inline';
-              copyText.style.display = 'none';
+              copySuccessIcon.style.display = 'none';
             }, 5000);
           });
         });
