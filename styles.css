@@ -1937,7 +1937,7 @@ html {
 @media (max-width: 600px) {
   /* Floating logo adjustments */
   .floating-logo {
-    top: 5vh;
+    top: 6vh;
     left: 6.5vw;
     width: 48px;
     height: 48px;
