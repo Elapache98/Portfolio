@@ -92,6 +92,17 @@ margin-top: calc(100vh * .25);
   padding:  16px;
 }
 
+.about-grid {
+  margin-top: calc(100vh * .15);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    justify-content: start;
+    align-items: stretch;
+    max-width: 900px;
+    padding:  16px;
+  }
+
 
 
 .landing-content {
@@ -1843,6 +1854,13 @@ html {
     gap: 24px;
     max-width: 95vw;
   }
+
+    .about-grid {
+      margin-top: 100px;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      max-width: 95vw;
+    }
   
   .landing-content {
     max-width: 95vw;
@@ -1865,6 +1883,13 @@ html {
 
 @media (max-width: 1024px) {
   .landing-grid {
+    margin-top: 100px;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    max-width: 95vw;
+  }
+
+  .about-grid {
     margin-top: 100px;
     grid-template-columns: 1fr;
     gap: 24px;
