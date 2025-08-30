@@ -1201,12 +1201,10 @@ img[src*=".gif"] {
   border: none;
   cursor: pointer;
   display: inline-flex;
-  align-items: center;
   justify-content: center;
   padding: 4px 6px;
   border-radius: 4px;
   transition: all 0.2s ease;
-  font-size: 16px;
   color: #666;
   min-width: 28px;
   height: 24px;
