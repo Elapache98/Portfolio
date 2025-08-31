@@ -1648,8 +1648,11 @@ html {
 
 .results-section {
   background: #f8f9fa;
-  border: 1px solid #947b57;
-  border-radius: 12px;
+  
+  
+  border-left: 3px solid #947b57;
+ 
+  border-radius: 0px 12px 12px 0px;
   padding: 32px;
   margin: 40px 0;
   text-align: left;
@@ -1663,6 +1666,7 @@ html {
   margin-bottom: 16px;
   line-height: 1.6;
   padding-left: 8px;
+  font-size: 18px;
 }
 
 .results-list li:last-child {
