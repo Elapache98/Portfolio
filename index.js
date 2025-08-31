@@ -542,14 +542,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const articleContent = document.getElementById('article-content');
     
     // Development bypass - auto-unlock on localhost
-    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    // const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     
-    if (isLocalhost) {
-      console.log('Development mode detected - bypassing password gate');
-      if (passwordGate) passwordGate.style.display = 'none';
-      if (articleContent) articleContent.style.display = 'flex';
-      return; // Skip the rest of the password logic
-    }
+    // if (isLocalhost) {
+    //   console.log('Development mode detected - bypassing password gate');
+    //   if (passwordGate) passwordGate.style.display = 'none';
+    //   if (articleContent) articleContent.style.display = 'flex';
+    //   return; // Skip the rest of the password logic
+    // }
     
     // Set the correct password here
     const correctPassword = 'forbes2024'; // Change this to your desired password
