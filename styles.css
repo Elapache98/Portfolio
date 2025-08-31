@@ -281,7 +281,7 @@ width: 20vw;  }
 
  h3 {
     font-family: 'Bricolage Grotesque', sans-serif;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 700;
     margin-bottom: 8px;
     color: #555;
@@ -308,6 +308,10 @@ p {
   line-height: 1.65;
   letter-spacing: 0.25px;
   
+}
+
+p b, p strong {
+  font-weight: 700;
 }
 
 
@@ -1225,6 +1229,7 @@ img[src*=".gif"] {
   gap: 6px;
   flex-wrap: wrap;
   line-height: 1.4;
+
   
 }
 
@@ -1237,7 +1242,7 @@ img[src*=".gif"] {
   align-items: center;
   gap: 8px;
   text-align: center;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .email-copy-btn {
@@ -1246,7 +1251,7 @@ img[src*=".gif"] {
   cursor: pointer;
   display: inline-flex;
   justify-content: center;
-  padding: 8px;
+  padding: 4px 8px;
   border-radius: 4px;
   transition: all 0.5s ease;
   color: #666;
@@ -1588,8 +1593,7 @@ html {
 .highlight-box {
   background: rgba(148, 123, 87, 0.05);
   border-left: 4px solid #947b57;
-  padding: 20px;
-  margin: 24px 0;
+  padding: 16px;
   border-radius: 0 8px 8px 0;
 }
 
@@ -1636,14 +1640,47 @@ html {
   border: 1px solid #e9ecef;
   border-radius: 8px;
   padding: 20px;
-  margin: 24px 0;
+  
   font-family: 'Courier New', monospace;
+}
+
+.code-blocks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin: 24px 0;
+}
+
+@media (max-width: 768px) {
+  .code-blocks-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .code-block h4 {
   margin-top: 0;
   margin-bottom: 12px;
   font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 18px;
+}
+
+.code-block-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.code-block-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  padding: 2px;
+  margin-bottom: 4px;
+
+
+ 
+ 
+  /* Space reserved for icon - you can add background-image or content here */
 }
 
 .results-section {

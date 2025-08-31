@@ -76,7 +76,7 @@
           </svg>
           
         <h2>Protected Case Study</h2>
-        <p class="email-access-text">Reach out for access code: 
+        <p class="email-access-text" style="font-size: 16px;">Reach out for access code: 
           <span class="email-address">adeobayomi@gmail.com
             <button type="button" class="email-copy-btn" id="email-copy-btn" aria-label="Copy email address">
               <svg class="copy-icon" width="16" height="16" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
@@ -149,9 +149,9 @@
         <a href="#introduction" class="toc-link">Introduction</a>
         <a href="#challenge" class="toc-link">Challenge</a>
         <a href="#results" class="toc-link">Results & Impact</a>
-        <a href="#solution" class="toc-link">Solution</a>
-        <a href="#design-process" class="toc-link">Design Process</a>
+        <a href="#process" class="toc-link">Process</a>
         <a href="#key-features" class="toc-link">Key Features</a>
+        <a href="#solution" class="toc-link">Solution</a>
         <a href="#lessons" class="toc-link">Lessons Learned</a>
       </nav>
     </aside>
@@ -196,7 +196,7 @@
             <path d="M7.18457 16.7492C7.18457 16.3074 7.54274 15.9492 7.98457 15.9492H7.99457C8.4364 15.9492 8.79457 16.3074 8.79457 16.7492C8.79457 17.191 8.4364 17.5492 7.99457 17.5492H7.98457C7.54274 17.5492 7.18457 17.191 7.18457 16.7492Z" fill="#947b57"/>
             </svg>
             
-            <span><strong>Project Timeline:</strong> 6 Weeks for initial MVP then ongoing with subsequent optimizations</span>
+            <span><strong>Project Timeline:</strong> 6 weeks for initial MVP then ongoing from April till August 2025.</span>
             </div>
       </div>
     </header>
@@ -223,7 +223,7 @@
 <!-- Hero Image -->
 
       <h2 id="challenge">The Challenge</h2>
-      <p class="lead-paragraph">
+      <p>
         These reasons, combined with the rise of AI, made the shift away from long-form content an even more urgent challenge to face as a company.
         <br></br>
        As a response, a small team was hand-picked by our Chief Product Officer and the task she presented to us was:
@@ -260,7 +260,7 @@
     </div>
     <div class="image-item">
       <img src="Explore launch.jpg" alt="Explore launch" loading="lazy">
-      <p class="image-caption">Explore launch</p>
+      <p class="image-caption">Explore launch.</p>
     </div>
   </div>
   <div class="results-divider"></div>
@@ -268,10 +268,10 @@
   <div class="metrics-grid">
     <div class="metric">
       <div class="metric-number">a 4x Increase</div>
-      <div class="metric-label">in average user engagement when compared to the legacy* homepage</div>
+      <div class="metric-label">in average user engagement when compared to the legacy* homepage.</div>
     </div>
     <div class="metric">
-      <div class="metric-number">125+ Seconds</div>
+      <div class="metric-number">2+ Minutes </div>
       <div class="metric-label">As the average time on page per user.</div>
     </div>
     <div class="metric">
@@ -285,30 +285,120 @@
 <p style="font-family: 'Courier New', monospace; font-size: 16px; color: #666;">*Legacy homepage is the homepage that existed before the launch of Explore. It was the current homepage that was used by the majority of Forbes' users before its redesign in September 2025.
 </p>
 
-      <h2 id="design-process">Design Process</h2>
+
+      <h2 id="process">Process: How We Got Here</h2>
       
       <h3>Research & Discovery</h3>
       <p>
-        We conducted extensive user interviews with 50+ Forbes readers to understand their content discovery habits. The research revealed that users often felt overwhelmed by choice and wanted more intelligent curation.
-      </p>
+        Given the broad challenge of reimagining information consumption for a modern publishing media company:</p>
 
-      <p>
-        We restructured content categorization to be more intuitive, moving from traditional sections to topic-based clusters that reflect how users actually think about business content.
-      </p>
+        <p class="lead-paragraph">
+          The team had no shortage of directions we could approach the problem with. But one goal united us from the start: <b>to build a delightful, AI-first reading experience for news.</b>
+         
+</p>
 
-      <!-- Code/Technical Example -->
-      <div class="code-block">
-        <h4>Personalization Algorithm</h4>
-        <p>The recommendation engine considers multiple factors:</p>
-        <ul>
-          <li>Reading history and time spent on articles</li>
-          <li>Topic preferences and author follows</li>
-          <li>Trending content within user's industry</li>
-          <li>Social signals and peer recommendations</li>
-        </ul>
+<p>
+          At the start of our six-week hackathon, I led user research alongside Jagan, Forbes’ Director of AI Products. Through surveys and in-depth interviews, we identified key gaps in the current news experience. The interviews revealed the most actionable insights, with two standout user stories shaping our direction. Let’s call them <b>User 1 and User 2.</b></p>
+       
+         <!-- Process Images -->
+      <div class="image-grid">
+        <div class="image-item">
+          <img src="UXresearch2.PNG" alt="User research and persona development" loading="lazy">
+          <p class="image-caption">User Research Qualitative Coding.</p>
+        </div>
+        <div class="image-item">
+          <img src="UXresearch3.PNG" alt="Wireframe exploration" loading="lazy">
+          <p class="image-caption">User Research Qualitative Coding.</p>
+        </div>
       </div>
 
-      <h2 id="key-features">Key Features</h2>
+      <p>
+        User 1 was a power reader. They subscribed to both The Wall Street Journal and their local news outlet, CBC, consuming news daily with intentionality. 
+In contrast, User 2 represented a more passive audience: someone who primarily encounters news through the MSN app on their laptop and by chance, through Instagram or X (formerly Twitter).
+</p>
+
+<p>This contrast helped crystallize the gap we needed to bridge in: 
+</p>
+
+<p class="lead-paragraph"><b>Creating an experience engaging enough for casual browsers, yet rich and trustworthy enough for committed readers.</b><p>
+
+      <h3>Highlighted Quotes</h3>
+      <p>
+        Across both user types, a common sentiment was inferred by the way of these two quotes: </p>
+<div class="code-blocks-grid">
+        <div class="highlight-box">
+          <h3>“ It’s a normal reaction of mine to go to the comment section and see what people are saying. 
+            Sometimes it’s meaningless but sometimes it brings another perspective or summary. "</h3>
+
+            <p style="font-size: 16px;">User 1 in relation to how they relate to articles.</p>
+
+          </div>
+
+         <div class="highlight-box">
+          <h3>“ Like with instagram, I like the idea of getting various pieces of information quickly. "</h3>
+
+          <p style="font-size: 16px;">User 2 in relation to what makes Instagram an attractive platform for news consumption.</p>
+           </div>
+</div>
+
+      
+     
+          
+
+      <h2 id="key-features">Insights & Features</h2>
+
+      <h3>Key Insights</h3>
+      <!-- Code/Technical Example -->
+      <div class="code-blocks-grid">
+        <div class="code-block">
+          <p style="font-size: 14px; text-transform: uppercase; color: #947b57;">Insight 1:</p>
+          <h4 class="code-block-title">
+            <span class="code-block-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+              <path opacity="0.4" d="M7.41016 2C7.05632 2 6.75061 2.24731 6.6767 2.59336L4.4267 13.1285C4.37942 13.3499 4.43468 13.5809 4.57707 13.7569C4.71947 13.9329 4.93376 14.0352 5.16016 14.0352H10.6842L10.0637 21.1852C10.0338 21.5302 10.244 21.8509 10.5724 21.9611C10.9008 22.0712 11.2619 21.9422 11.4461 21.6489L19.4749 8.86368C19.6201 8.63255 19.6282 8.34081 19.4962 8.10195C19.3641 7.86309 19.1127 7.71482 18.8398 7.71482L13.1876 7.71482L15.368 3.06863C15.477 2.83632 15.4597 2.5644 15.3221 2.3478C15.1845 2.1312 14.9457 2 14.6891 2H7.41016Z" fill="#947b57"/>
+              <path d="M6.6767 2.59336C6.75061 2.24731 7.05632 2 7.41016 2H14.6891C14.9457 2 15.1845 2.1312 15.3221 2.3478C15.4597 2.5644 15.477 2.83632 15.368 3.06863L13.1876 7.71482L18.8398 7.71482C19.1127 7.71482 19.3641 7.86309 19.4962 8.10195C19.6282 8.34081 19.6201 8.63255 19.4749 8.86368L11.4461 21.6489C11.2619 21.9422 10.9008 22.0712 10.5724 21.9611C10.244 21.8509 10.0338 21.5302 10.0637 21.1852L10.6842 14.0352H5.16016C4.93376 14.0352 4.71947 13.9329 4.57707 13.7569C4.43468 13.5809 4.37942 13.3499 4.4267 13.1285L6.6767 2.59336ZM8.0169 3.5L6.08725 12.5352H11.5021C11.7123 12.5352 11.9128 12.6234 12.0549 12.7783C12.1969 12.9332 12.2675 13.1406 12.2493 13.35L11.8264 18.2226L17.4832 9.21482L12.0071 9.21482C11.7505 9.21482 11.5117 9.08362 11.3741 8.86702C11.2365 8.65042 11.2192 8.3785 11.3282 8.14619L13.5086 3.5H8.0169Z" fill="#947b57"/>
+              </svg>
+              </span>
+           Bite Sized, Quick Delivery News
+          </h4>
+          <p>User 2’s quote suggests they value speed and brevity over long-form reading that today’s model of digital publishing supports in the form of dense articles.</p>
+        </div>
+        <div class="code-block">
+          <p style="font-size: 14px; text-transform: uppercase; color: #947b57;">Insight 2:</p>
+          <h4 class="code-block-title">
+            <span class="code-block-icon">  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+              <path d="M8.80437 4.10156C6.7626 4.10156 5.10742 5.75674 5.10742 7.79851C5.10742 9.84027 6.7626 11.4955 8.80437 11.4955C10.8461 11.4955 12.5013 9.84027 12.5013 7.79851C12.5013 5.75674 10.8461 4.10156 8.80437 4.10156Z" fill="#947b57"/>
+              <path d="M1.85175 19.16L1.85172 19.1577L1.85165 19.1513L1.85156 19.1321C1.85156 19.1164 1.85169 19.0952 1.85215 19.0688C1.85309 19.016 1.85538 18.9421 1.86069 18.8502C1.8713 18.6666 1.89402 18.4095 1.94242 18.1031C2.03866 17.4938 2.23948 16.6698 2.66304 15.837C3.08862 15.0001 3.74414 14.1453 4.74743 13.5023C5.75344 12.8576 7.06383 12.4551 8.75032 12.4551C10.4368 12.4551 11.7472 12.8576 12.7532 13.5023C13.7565 14.1453 14.412 15.0001 14.8376 15.837C15.2612 16.6698 15.462 17.4938 15.5582 18.1031C15.6066 18.4095 15.6293 18.6666 15.6399 18.8502C15.6453 18.9421 15.6476 19.016 15.6485 19.0688C15.649 19.0952 15.6491 19.1164 15.6491 19.1321L15.649 19.1513L15.6489 19.1577L15.6489 19.161C15.6418 19.5701 15.3081 19.8988 14.899 19.8988H2.60167C2.19253 19.8988 1.85888 19.5709 1.85178 19.1618C1.85178 19.1618 1.85179 19.1625 1.85175 19.16Z" fill="#947b57"/>
+              <g opacity="0.4">
+              <path d="M17.0209 19.8988C17.0999 19.6756 17.1446 19.4363 17.149 19.187L17.1491 19.1799L17.1493 19.1676L17.1494 19.1387L17.1494 19.1327C17.1494 19.1083 17.1492 19.078 17.1486 19.0422C17.1473 18.9708 17.1443 18.8769 17.1378 18.7637C17.1247 18.538 17.0974 18.2312 17.0402 17.8691C17.0103 17.6801 16.9717 17.472 16.9215 17.2494C16.9165 17.2261 16.9113 17.2028 16.9058 17.1794C16.6448 16.0607 16.0667 14.4931 14.7497 13.189C14.515 12.9567 14.2627 12.7384 13.9924 12.5363C14.3865 12.4831 14.8056 12.4551 15.2509 12.4551C16.9373 12.4551 18.2477 12.8576 19.2537 13.5023C20.257 14.1453 20.9126 15.0001 21.3381 15.837C21.7617 16.6698 21.9625 17.4938 22.0588 18.1031C22.1072 18.4095 22.1299 18.6666 22.1405 18.8502C22.1458 18.9421 22.1481 19.016 22.149 19.0688C22.1495 19.0952 22.1496 19.1164 22.1496 19.1321L22.1495 19.1513L22.1495 19.1577L22.1494 19.161C22.1423 19.5701 21.8086 19.8988 21.3995 19.8988H17.0209Z" fill="#947b57"/>
+              <path d="M14.0028 7.79851C14.0028 8.89595 13.6627 9.91394 13.082 10.7528C13.7007 11.219 14.4705 11.4955 15.3049 11.4955C17.3467 11.4955 19.0018 9.84027 19.0018 7.79851C19.0018 5.75674 17.3467 4.10156 15.3049 4.10156C14.4705 4.10156 13.7007 4.37797 13.082 4.84422C13.6627 5.68307 14.0028 6.70106 14.0028 7.79851Z" fill="#947b57"/>
+              </g>
+              </svg>
+              
+              </span>
+              Reader to Reader Perspectives
+          </h4>
+          <p>
+            User 1 valued the comment section as a social layer; using others’ takes for context, validation, and quick summaries beyond the article itself.</p>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <p style="font-size: 14px; text-transform: uppercase; color: #947b57;">Insight 3:</p>
+        <h4 class="code-block-title">
+          <span style="margin-bottom: -8px;"> <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+            <g opacity="0.4">
+            <path d="M11.9985 2.50098C9.90741 2.50098 7.8747 3.19099 6.21568 4.464C4.55666 5.737 3.36406 7.52186 2.82283 9.54175C2.71563 9.94185 2.95306 10.3531 3.35316 10.4603C3.75326 10.5675 4.16451 10.3301 4.27172 9.92998C4.72749 8.22904 5.73177 6.72602 7.12882 5.65403C8.52587 4.58203 10.2376 4.00098 11.9985 4.00098C13.7595 4.00098 15.4712 4.58203 16.8683 5.65403C17.6571 6.25932 18.3207 7.00205 18.8311 7.84024L17.2784 8.27435C16.9863 8.35603 16.7721 8.60564 16.7358 8.90679C16.6994 9.20794 16.8481 9.50134 17.1124 9.65017L20.1931 11.3849C20.3664 11.4825 20.5714 11.5072 20.763 11.4537C20.9546 11.4001 21.117 11.2727 21.2146 11.0993L22.9492 8.01828C23.0981 7.75395 23.073 7.426 22.8857 7.18735C22.6985 6.9487 22.3859 6.84636 22.0938 6.92804L20.3225 7.42325C19.6932 6.27881 18.8306 5.26905 17.7814 4.464C16.1224 3.19099 14.0897 2.50098 11.9985 2.50098Z" fill="#947b57"/>
+            <path d="M3.79695 12.6155C3.62362 12.5179 3.41862 12.4932 3.22704 12.5467C3.03547 12.6003 2.87301 12.7278 2.77542 12.9011L1.0408 15.9821C0.891979 16.2465 0.917043 16.5744 1.1043 16.8131C1.29157 17.0517 1.60414 17.1541 1.89629 17.0724L3.67618 16.5747C4.30559 17.72 5.16861 18.7305 6.21839 19.536C7.87741 20.809 9.91012 21.499 12.0013 21.499C14.0924 21.499 16.1251 20.809 17.7841 19.536C19.4431 18.263 20.6358 16.4781 21.177 14.4582C21.2842 14.0581 21.0468 13.6469 20.6467 13.5397C20.2466 13.4325 19.8353 13.6699 19.7281 14.07C19.2723 15.7709 18.268 17.274 16.871 18.346C15.4739 19.418 13.7622 19.999 12.0013 19.999C10.2403 19.999 8.52859 19.418 7.13154 18.346C6.34208 17.7402 5.67803 16.9968 5.16752 16.1578L6.71162 15.7261C7.00375 15.6444 7.21793 15.3948 7.25427 15.0936C7.29061 14.7925 7.14198 14.4991 6.87766 14.3502L3.79695 12.6155Z" fill="#947b57"/>
+            </g>
+            <path d="M10.7857 12.0876C9.54951 12.0876 8.54736 13.0898 8.54736 14.326V15.2562C8.54736 15.6704 8.88315 16.0062 9.29736 16.0062H14.7024C15.1166 16.0062 15.4524 15.6704 15.4524 15.2562V14.326C15.4524 13.0898 14.4503 12.0876 13.214 12.0876H10.7857Z" fill="#947b57"/>
+            <path d="M10.385 9.86061C10.385 8.96867 11.1081 8.24561 12 8.24561H12.0054C12.8973 8.24561 13.6204 8.96867 13.6204 9.86061C13.6204 10.7525 12.8973 11.4756 12.0054 11.4756H12C11.1081 11.4756 10.385 10.7525 10.385 9.86061Z" fill="#947b57"/>
+            </svg>
+            </span>
+            Low Friction Engagement
+        </h4>
+        <p>
+          Both users favored <b>effortless information consumption</b>: User 1 quickly scanned multiple bites, while User 2 scrolled comments to avoid the cognitive load of full articles cluttered with ads and distractions.</p></div>
+
       
       <h3>Smart Recommendations</h3>
       <p>
@@ -325,6 +415,27 @@
         Information is revealed progressively as users engage, preventing cognitive overload while maintaining discoverability.
       </p>
 
+      <h2 id="solution">The Solution</h2>
+      
+       <!-- Hero Image -->
+       <div class="content-image">
+        <img src="xplore.gif" alt="Forbes Explore interface showing personalized content recommendations" loading="lazy">
+      </div>
+      <p>
+        We designed Forbes Explore as an AI-powered content discovery engine that learns from user behavior, reading patterns, and preferences to surface highly relevant articles, authors, and topics.
+      </p>
+
+      <!-- Process Images -->
+      <div class="image-grid">
+        <div class="image-item">
+          <img src="GSM.png" alt="User research and persona development" loading="lazy">
+          <p class="image-caption">User research revealed key behavior patterns in content consumption</p>
+        </div>
+        <div class="image-item">
+          <img src="Jordan.png" alt="Wireframe exploration" loading="lazy">
+          <p class="image-caption">Early wireframes exploring different discovery mechanisms</p>
+        </div>
+      </div>
 
       <!-- Final Image -->
       <div class="content-image">
