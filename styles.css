@@ -42,10 +42,12 @@ body {
 
 #actionButton{
     background-color:#222;
-    padding: 8px 16px;
+    padding: 10px 16px;
     color:white;
-    border-radius: 24px;
+    border-radius: 100px;
     font-size: 16px;
+    font-weight: 600;
+    font-family: 'Bricolage Grotesque', sans-serif;
     transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
 
 }
@@ -314,6 +316,11 @@ p b, p strong {
   font-weight: 700;
 }
 
+/* Button font family */
+button {
+  font-family: 'Bricolage Grotesque', sans-serif;
+}
+
 
 
 
@@ -374,6 +381,7 @@ p b, p strong {
   gap: 8px;
   font-size: 14px;
   font-weight: 500;
+  font-family: 'Bricolage Grotesque', sans-serif;
   color: #6C7278;
   border: 1px solid rgba(255, 255, 255, 0.05);
   text-decoration: none;
@@ -1347,8 +1355,9 @@ img[src*=".gif"] {
   border: none;
   padding: 12px 20px;
   border-radius: 50px;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Bricolage Grotesque', sans-serif;
   cursor: pointer;
   transition: background 0.2s ease;
   display: flex;
@@ -1668,6 +1677,14 @@ html {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .code-block-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
 }
 
 .code-block-icon {
