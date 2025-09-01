@@ -157,6 +157,7 @@ transition: box-shadow .25s;
   height: auto;
   padding: 16px;
   animation: fadeInUp 1.0s cubic-bezier(0.23, 1, 0.32, 1);
+  margin-bottom: 32px;
 }
 
 /* Smaller desktop: 2 columns for project grid */
@@ -2038,6 +2039,7 @@ html {
   .project-grid {
     grid-template-columns: 1fr;
     max-width: 90vw;
+    margin-bottom: 48px;
   }
 
 
