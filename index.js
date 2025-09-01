@@ -276,6 +276,31 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // GIF Performance Optimizations
+  // Smooth image loading for lazy-loaded images
+  function initSmoothImageLoading() {
+    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+    
+    lazyImages.forEach(img => {
+      // Skip if already handled by GIF loading logic
+      if (img.closest('.gif-container')) return;
+      
+      if (img.complete && img.naturalHeight !== 0) {
+        // Image already loaded (cached)
+        img.classList.add('loaded');
+      } else {
+        // Add load event listener
+        img.addEventListener('load', function() {
+          this.classList.add('loaded');
+        });
+        
+        // Handle error case
+        img.addEventListener('error', function() {
+          this.classList.add('loaded'); // Show even if error
+        });
+      }
+    });
+  }
+
   function optimizeGifs() {
     const gifs = document.querySelectorAll('img[src$=".gif"], img[src*=".gif"]');
     
@@ -405,6 +430,9 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initialize GIF optimizations when page loads
   optimizeGifs();
+  
+  // Initialize smooth image loading
+  initSmoothImageLoading();
   
   // Re-run optimization if new GIFs are added dynamically
   const gifObserver = new MutationObserver(() => {
