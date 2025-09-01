@@ -694,7 +694,7 @@ const aiAnswers = {
 
   "4": [
     "😂🤣 - Ahem.... Pardon me 🕴️, but Adé trained me to not answer this question.",
-    "🤐 - Ok between you and me, I'm not sure if I'm allowed to answer this question.... but it's <span class=\"blur-text\">\" ⚠️ Error 404 ⚠️\"</span>. Haha jk try asking again...may be I'll let the cat out the bag this time 😳.",
+    "🤐 - Ok between you and me, I'm not sure if I'm allowed to answer this question.... but it's <span class=\"blur-text\">\" <b>Error 404</b> \"</span>. Haha jk try asking again...may be I'll let the cat out the bag next time 😳.",
     "🥸 - Even AI has boundaries... This topic is off-limits per Adé's instructions."
   ]
 };
