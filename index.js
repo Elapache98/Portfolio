@@ -823,13 +823,15 @@ function showThinkingState(callback) {
     }, 100);
     
     // Wait 6 seconds, then execute callback
-    setTimeout(() => {
+    thinkingTimeout = setTimeout(() => {
       // Remove thinking state
       aiAvatar.classList.remove('thinking');
       // Reset styles for typewriter
       typedTextElement.style.transition = '';
       typedTextElement.style.opacity = '';
       typedTextElement.style.transform = '';
+      // Clear timeout reference
+      thinkingTimeout = null;
       // Execute the callback (usually typeWriter)
       callback();
     }, 6000);
@@ -949,6 +951,7 @@ const radioPills = document.querySelectorAll('.radio-pill');
 const typedTextElement = document.getElementById('typedText');
 let selectedValue = null;
 let isTyping = false;
+let thinkingTimeout = null;
 
 // Functions to manage pill states during typing
 function disableUnselectedPills() {
@@ -969,6 +972,29 @@ function enableAllPills() {
     pill.style.cursor = '';
     pill.style.pointerEvents = '';
   });
+}
+
+function clearThinkingState() {
+  // Clear any pending thinking timeout
+  if (thinkingTimeout) {
+    clearTimeout(thinkingTimeout);
+    thinkingTimeout = null;
+  }
+  
+  // Remove thinking state from avatar
+  const aiAvatar = document.querySelector('.ai-avatar');
+  if (aiAvatar) {
+    aiAvatar.classList.remove('thinking');
+  }
+  
+  // Clear and reset typed text element
+  const typedTextElement = document.getElementById('typedText');
+  if (typedTextElement) {
+    typedTextElement.innerHTML = '';
+    typedTextElement.style.transition = '';
+    typedTextElement.style.opacity = '';
+    typedTextElement.style.transform = '';
+  }
 }
 
 // Redo button functions
@@ -1065,10 +1091,13 @@ radioPills.forEach(pill => {
     // Store the selected value
     const clickedValue = this.getAttribute('data-value');
     
-    // Prevent clicking on already active pill or during typing
+    // Prevent clicking on already active pill or during typing (but allow during thinking)
     if (selectedValue === clickedValue || isTyping) {
       return;
     }
+    
+    // Clear any ongoing thinking state (allows interrupting thinking to switch topics)
+    clearThinkingState();
     
     // Reset to initial random index when switching to a different pill
     answerIndices[clickedValue] = initialIndices[clickedValue];
