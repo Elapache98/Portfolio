@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const caption = imageItem ? imageItem.querySelector('.image-caption') : null;
       lightboxDesc.textContent = caption ? caption.textContent : img.alt;
     } else {
-      lightboxDesc.textContent = img.alt;
+    lightboxDesc.textContent = img.alt;
     }
     
     lightbox.style.display = 'flex';
@@ -218,12 +218,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Only set up lightbox if we have images and lightbox elements exist
   if (lightbox && lightboxImg && images.length > 0) {
-    images.forEach((img, idx) => {
-      img.style.cursor = 'pointer';
-      img.addEventListener('click', function() {
-        showLightbox(idx);
-      });
+  images.forEach((img, idx) => {
+    img.style.cursor = 'pointer';
+    img.addEventListener('click', function() {
+      showLightbox(idx);
     });
+  });
   }
 
   function closeLightbox() {
@@ -299,6 +299,68 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       }
     });
+  }
+
+  // Photo row entrance animations for mobile
+  function initPhotoRowAnimations() {
+    const photoRows = document.querySelectorAll('.photo-row');
+    
+    if (photoRows.length === 0) return;
+    
+    // Check if mobile on load and resize
+    function handlePhotoRowAnimations() {
+      const isMobile = window.innerWidth <= 768;
+      
+      photoRows.forEach(row => {
+        if (isMobile) {
+          // Reset for mobile animation
+          if (!row.classList.contains('in-view')) {
+            row.style.opacity = '0';
+            row.style.transform = 'translateY(30px)';
+          }
+        } else {
+          // Remove mobile styles for desktop
+          row.style.opacity = '';
+          row.style.transform = '';
+          row.classList.remove('in-view');
+        }
+      });
+      
+      if (!isMobile) return;
+    }
+    
+    // Initial setup
+    handlePhotoRowAnimations();
+    
+    // Only run observer on mobile
+    if (window.innerWidth <= 768) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            console.log('Photo row entering view:', entry.target);
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target); // Only animate once
+          }
+        });
+      }, {
+        threshold: 0.05, // More sensitive
+        rootMargin: '100px 0px -20px 0px' // Start earlier, end later
+      });
+      
+      photoRows.forEach(row => {
+        observer.observe(row);
+        // Immediate show if already in viewport
+        const rect = row.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          setTimeout(() => {
+            row.classList.add('in-view');
+          }, 100);
+        }
+      });
+    }
+    
+    // Handle resize events
+    window.addEventListener('resize', handlePhotoRowAnimations);
   }
 
   function optimizeGifs() {
@@ -433,6 +495,9 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initialize smooth image loading
   initSmoothImageLoading();
+  
+  // Initialize photo row animations for mobile
+  initPhotoRowAnimations();
   
   // Re-run optimization if new GIFs are added dynamically
   const gifObserver = new MutationObserver(() => {
