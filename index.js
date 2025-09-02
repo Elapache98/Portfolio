@@ -782,12 +782,13 @@ const aiAnswers = {
   "2": [
     "\"<b>If you never set the stage, how do you expect to perform?</b>\" — Adé's drama teacher, always pushed him to be proactive in life....Kudos to her for that clever word-play that always stuck with him.",
     "\"<b>Look how many finish-lines it took for you to get here</b>.\" — Hmmm..... I think Adé saw a Nike ad somewhere in Boston but I guess it's something about focusing on the journey not the destination from what I can decipher.",
-          "\"<b>It's better to have 100 customers that love you, than 1 million customers who sorta like you</b>.\" - The full spiel can be found <a href='https://x.com/StartupArchive_/status/1737446769519124584?lang=en' target='_blank' style='color: #5b4b34; text-decoration: underline;'>here</a>. \"Quality Trumps Quantity\" is a concise way to get the message across."
+          "\"<b>It's better to have 100 customers that love you, than 1 million customers who sorta like you</b>.\" - The full spiel can be found <a href='https://x.com/StartupArchive_/status/1737446769519124584?lang=en' target='_blank' style='color: #5b4b34; text-decoration: underline;'>here</a>. \"Quality Trumps Quantity\" is a concise way to get the message across.",
+          
   ],
 
   "4": [
     "😂🤣 - Ahem.... Pardon me 🕴️, but Adé trained me to not answer this question.",
-    "🤐 - Ok between you and me...it's <span class=\"blur-text\">\" <b>Error 404</b> \"</span>. Haha try asking again...I might let the cat out the bag next time 😳.",
+    "🤐 - Ok between you and me...it's <span class=\"blur-text\">\" <b>Error 404</b> \"</span>. 🫣",
     "🥸 - Even AI has boundaries... This topic is off-limits per Adé's instructions."
   ]
 };
@@ -800,6 +801,27 @@ let answerIndices = {
 
 // Store the initial random indices for resetting
 let initialIndices = { ...answerIndices };
+
+// Track which answers have been shown for each question
+let shownAnswers = {
+  "2": new Set(),
+  "4": new Set()
+};
+
+// Helper function to check if all answers have been shown
+function allAnswersShown(questionId) {
+  return shownAnswers[questionId].size >= aiAnswers[questionId].length;
+}
+
+// Helper function to mark an answer as shown
+function markAnswerAsShown(questionId, answerIndex) {
+  shownAnswers[questionId].add(answerIndex);
+}
+
+// Helper function to reset shown answers when switching pills
+function resetShownAnswers(questionId) {
+  shownAnswers[questionId].clear();
+}
 
 function showThinkingState(callback) {
   const typedTextElement = document.getElementById('typedText');
@@ -1035,8 +1057,10 @@ function createRedoButton() {
         disableUnselectedPills();
         typeWriter(currentAnswer, typedTextElement, 50, () => {
           enableAllPills();
-          // Show redo button again if there are more variations
-          if (aiAnswers[selectedValue].length > 1) {
+          // Mark this answer as shown
+          markAnswerAsShown(selectedValue, answerIndices[selectedValue]);
+          // Show redo button only if there are still unshown variations
+          if (!allAnswersShown(selectedValue)) {
             showRedoButton();
           }
         });
@@ -1102,6 +1126,9 @@ radioPills.forEach(pill => {
     // Reset to initial random index when switching to a different pill
     answerIndices[clickedValue] = initialIndices[clickedValue];
     
+    // Reset shown answers tracking for the new pill
+    resetShownAnswers(clickedValue);
+    
     // Remove selected class from all pills
     radioPills.forEach(p => p.classList.remove('selected'));
     
@@ -1121,8 +1148,10 @@ radioPills.forEach(pill => {
         disableUnselectedPills();
         typeWriter(currentAnswer, typedTextElement, 50, () => {
           enableAllPills();
-          // Show redo button after typing completes if there are more variations
-          if (aiAnswers[selectedValue].length > 1) {
+          // Mark this answer as shown
+          markAnswerAsShown(selectedValue, answerIndices[selectedValue]);
+          // Show redo button only if there are unshown variations
+          if (!allAnswersShown(selectedValue)) {
             showRedoButton();
           }
         });
@@ -1141,8 +1170,10 @@ if (generateBtn) {
         disableUnselectedPills();
         typeWriter(currentAnswer, typedTextElement, 50, () => {
           enableAllPills();
-          // Show redo button after typing completes if there are more variations
-          if (aiAnswers[selectedValue].length > 1) {
+          // Mark this answer as shown
+          markAnswerAsShown(selectedValue, answerIndices[selectedValue]);
+          // Show redo button only if there are unshown variations
+          if (!allAnswersShown(selectedValue)) {
             showRedoButton();
           }
         });
