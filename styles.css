@@ -1711,7 +1711,7 @@ html {
 }
 
 .content-image img {
-  max-width: 80%; /* 20% narrower */
+  max-width: 100%; /* Full width */
   height: auto;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -1744,7 +1744,7 @@ html {
 }
 
 .image-item img {
-  width: 80%; /* 20% narrower */
+  width: 100%; /* Full width */
   height: auto;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
