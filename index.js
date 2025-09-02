@@ -284,6 +284,13 @@ document.addEventListener('DOMContentLoaded', function() {
       // Skip if already handled by GIF loading logic
       if (img.closest('.gif-container')) return;
       
+      // Skip preloaded images (they should load immediately)
+      const preloadedImages = ['Feature Intro Thumbnail.png', 'taskforce.png', 'coverimage.png'];
+      if (preloadedImages.some(preloadedImg => img.src.includes(preloadedImg))) {
+        img.classList.add('loaded');
+        return;
+      }
+      
       if (img.complete && img.naturalHeight !== 0) {
         // Image already loaded (cached)
         img.classList.add('loaded');
@@ -498,6 +505,14 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initialize photo row animations for mobile
   initPhotoRowAnimations();
+  
+  // Ensure preloaded images are immediately visible
+  const preloadedImages = document.querySelectorAll('img.preloaded, img[src*="Feature Intro Thumbnail"], img[src*="taskforce"], img[src*="coverimage"]');
+  preloadedImages.forEach(img => {
+    img.style.opacity = '1';
+    img.style.transform = 'none';
+    img.classList.add('loaded');
+  });
   
   // Re-run optimization if new GIFs are added dynamically
   const gifObserver = new MutationObserver(() => {

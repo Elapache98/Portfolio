@@ -9,8 +9,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
-  <!-- Preload critical image -->
+  <!-- Preload critical images -->
   <link rel="preload" as="image" href="coverimage.png">
+  <link rel="preload" as="image" href="Feature Intro Thumbnail.png" fetchpriority="high">
+  <link rel="preload" as="image" href="taskforce.png">
 </head>
 <body>
   <!-- WebGL Canvas for particles -->
@@ -237,7 +239,7 @@
       </div>
 
       <div class="image-item">
-        <img src="taskforce.png" alt="Hackathon Taskforce Invite." loading="lazy">
+        <img src="taskforce.png" alt="Hackathon Taskforce Invite.">
         <p class="image-caption">Hackathon Taskforce Invite.</p>
       </div>
 
@@ -406,7 +408,7 @@ In contrast, User 2 represented a more passive audience: someone who primarily e
       
        <!-- Hero Image -->
        <div class="content-image">
-        <img src="Feature Intro Thumbnail.png" alt="Forbes Explore interface showing personalized content recommendations" loading="lazy">
+        <img src="Feature Intro Thumbnail.png" alt="Forbes Explore interface showing personalized content recommendations" class="preloaded">
       </div>
       <p>
         We designed Forbes Explore as an AI-powered content discovery engine that learns from user behavior, reading patterns, and preferences to surface highly relevant articles, authors, and topics.
