@@ -351,6 +351,30 @@ img[loading="lazy"].loaded {
     opacity: 1;
     transform: translateY(0);
   }
+  
+  /* Photo row entrance animations */
+  .photo-row {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .photo-row.in-view {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+  
+  /* Fallback: show images after 2 seconds if animation fails */
+  .photo-row {
+    animation: showPhotoRowFallback 0.1s ease-out 2s forwards;
+  }
+  
+  @keyframes showPhotoRowFallback {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
 
