@@ -822,7 +822,7 @@ function showThinkingState(callback) {
       typedTextElement.style.transform = 'translateY(0)';
     }, 100);
     
-    // Wait 6 seconds, then execute callback
+    // Wait 4 seconds, then execute callback
     thinkingTimeout = setTimeout(() => {
       // Remove thinking state
       aiAvatar.classList.remove('thinking');
@@ -834,7 +834,7 @@ function showThinkingState(callback) {
       thinkingTimeout = null;
       // Execute the callback (usually typeWriter)
       callback();
-    }, 6000);
+    }, 4000);
   } else {
     // Fallback if elements don't exist
     callback();
