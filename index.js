@@ -780,42 +780,59 @@ document.addEventListener('DOMContentLoaded', function() {
 const aiAnswers = {
 
   "2": [
-    "\"If you never set the <b>stage</b>, how do you expect to perform?\" - Adé's drama teacher, always pushed him to be proactive in life....Touché to her for the clever word-play.",
-    "\"Look how many <b>finish-lines</b> it took for you to get here.\" - Hmmm..... I think Adé saw a Nike ad somewhere in Boston but I guess it's something about focusing on the journey not the destination from what I can decipher.",
-          "\"It's better to have 100 customers that <b>love</b> you, than 1M customers who <b>sorta like you</b>.\" - The full spiel can be found <a href='https://x.com/StartupArchive_/status/1737446769519124584?lang=en' target='_blank' style='color: #5b4b34; text-decoration: underline;'>here</a>. \"Quality always trumps Quantity\" is a concise way of getting the message across."
+    "\"<b>If you never set the stage, how do you expect to perform?</b>\" — Adé's drama teacher, always pushed him to be proactive in life....Kudos to her for that clever word-play that always stuck with him.",
+    "\"<b>Look how many finish-lines it took for you to get here</b>.\" — Hmmm..... I think Adé saw a Nike ad somewhere in Boston but I guess it's something about focusing on the journey not the destination from what I can decipher.",
+          "\"<b>It's better to have 100 customers that love you, than 1 million customers who sorta like you</b>.\" - The full spiel can be found <a href='https://x.com/StartupArchive_/status/1737446769519124584?lang=en' target='_blank' style='color: #5b4b34; text-decoration: underline;'>here</a>. \"Quality Trumps Quantity\" is a concise way to get the message across."
   ],
 
   "4": [
     "😂🤣 - Ahem.... Pardon me 🕴️, but Adé trained me to not answer this question.",
-    "🤐 - Ok between you and me, I'm not sure if I'm allowed to answer this question.... but it's <span class=\"blur-text\">\" <b>Error 404</b> \"</span>. Haha jk try asking again...may be I'll let the cat out the bag next time 😳.",
+    "🤐 - Ok between you and me...it's <span class=\"blur-text\">\" <b>Error 404</b> \"</span>. Haha try asking again...I might let the cat out the bag next time 😳.",
     "🥸 - Even AI has boundaries... This topic is off-limits per Adé's instructions."
   ]
 };
 
-// Track answer indices for each question
+// Track answer indices for each question - randomize initial indices
 let answerIndices = {
-  "2": 0,
-  "4": 0
+  "2": Math.floor(Math.random() * aiAnswers["2"].length),
+  "4": Math.floor(Math.random() * aiAnswers["4"].length)
 };
+
+// Store the initial random indices for resetting
+let initialIndices = { ...answerIndices };
 
 function showThinkingState(callback) {
   const typedTextElement = document.getElementById('typedText');
   const aiAvatar = document.querySelector('.ai-avatar');
   
   if (typedTextElement && aiAvatar) {
-    // Show "Thinking..." text
-    typedTextElement.innerHTML = 'Thinking...';
+    // Clear content and prepare for animation
+    typedTextElement.innerHTML = '';
+    typedTextElement.style.opacity = '0';
+    typedTextElement.style.transform = 'translateY(10px)';
     
     // Add golden pulsing border to avatar
     aiAvatar.classList.add('thinking');
     
-    // Wait 2 seconds, then execute callback
+    // Small delay then fade in thinking text
+    setTimeout(() => {
+      typedTextElement.innerHTML = 'Thinking...';
+      typedTextElement.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
+      typedTextElement.style.opacity = '1';
+      typedTextElement.style.transform = 'translateY(0)';
+    }, 100);
+    
+    // Wait 6 seconds, then execute callback
     setTimeout(() => {
       // Remove thinking state
       aiAvatar.classList.remove('thinking');
+      // Reset styles for typewriter
+      typedTextElement.style.transition = '';
+      typedTextElement.style.opacity = '';
+      typedTextElement.style.transform = '';
       // Execute the callback (usually typeWriter)
       callback();
-    }, 2000);
+    }, 6000);
   } else {
     // Fallback if elements don't exist
     callback();
@@ -931,6 +948,28 @@ const clearBtn = document.getElementById('secondaryButton');
 const radioPills = document.querySelectorAll('.radio-pill');
 const typedTextElement = document.getElementById('typedText');
 let selectedValue = null;
+let isTyping = false;
+
+// Functions to manage pill states during typing
+function disableUnselectedPills() {
+  isTyping = true;
+  radioPills.forEach(pill => {
+    if (!pill.classList.contains('selected')) {
+      pill.style.opacity = '0.5';
+      pill.style.cursor = 'not-allowed';
+      pill.style.pointerEvents = 'none';
+    }
+  });
+}
+
+function enableAllPills() {
+  isTyping = false;
+  radioPills.forEach(pill => {
+    pill.style.opacity = '';
+    pill.style.cursor = '';
+    pill.style.pointerEvents = '';
+  });
+}
 
 // Redo button functions
 function createRedoButton() {
@@ -938,11 +977,15 @@ function createRedoButton() {
   redoBtn.id = 'redoButton';
   redoBtn.className = 'sec-btn';
   redoBtn.style.opacity = '0';
-  redoBtn.style.height='30px'; 
-  redoBtn.style.width='30px'; 
+  redoBtn.style.height='0'; 
+  redoBtn.style.width='32px'; 
+  redoBtn.style.marginTop = '0';
+  redoBtn.style.marginBottom = '0';
+  redoBtn.style.overflow = 'hidden';
+  redoBtn.style.transform = 'translateY(-10px)';
+  redoBtn.style.pointerEvents = 'none';
 
-  redoBtn.style.transition = 'opacity 0.4s ease-in-out';
-  redoBtn.style.marginTop = '12px';
+  redoBtn.style.transition = 'opacity 0.4s ease-in-out, height 0.4s ease-in-out, transform 0.4s ease-in-out, margin 0.4s ease-in-out';
   redoBtn.innerHTML = `
    <svg width="80" height="80" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
 <path d="M7.17466 4.46302C8.83368 3.19001 10.8664 2.5 12.9575 2.5C15.0487 2.5 17.0814 3.19001 18.7404 4.46302C19.7896 5.26807 20.6522 6.27783 21.2815 7.42228L23.0527 6.92706C23.3449 6.84538 23.6575 6.94772 23.8447 7.18637C24.032 7.42502 24.0571 7.75297 23.9082 8.0173L22.1736 11.0983C22.076 11.2717 21.9136 11.3991 21.722 11.4527C21.5304 11.5063 21.3254 11.4815 21.1521 11.3839L18.0714 9.64919C17.8071 9.50036 17.6584 9.20697 17.6948 8.90582C17.7311 8.60466 17.9453 8.35506 18.2374 8.27338L19.7901 7.83927C19.2797 7.00108 18.6161 6.25835 17.8273 5.65305C16.4302 4.58106 14.7185 4 12.9575 4C11.1966 4 9.48486 4.58106 8.08781 5.65305C6.69076 6.72504 5.68647 8.22807 5.2307 9.92901C5.1235 10.3291 4.71225 10.5665 4.31215 10.4593C3.91205 10.3521 3.67461 9.94088 3.78182 9.54078C4.32304 7.52089 5.51565 5.73603 7.17466 4.46302Z" fill="#947b57"/>
@@ -963,7 +1006,9 @@ function createRedoButton() {
       // Show new answer
       const currentAnswer = aiAnswers[selectedValue][answerIndices[selectedValue]];
       showThinkingState(() => {
-        typeWriter(currentAnswer, typedTextElement, 35, () => {
+        disableUnselectedPills();
+        typeWriter(currentAnswer, typedTextElement, 50, () => {
+          enableAllPills();
           // Show redo button again if there are more variations
           if (aiAnswers[selectedValue].length > 1) {
             showRedoButton();
@@ -984,19 +1029,33 @@ function showRedoButton() {
     const outputDiv = document.getElementById('output');
     if (outputDiv) {
       outputDiv.appendChild(redoBtn);
+      // Force reflow to ensure collapsed state is applied before animation
+      redoBtn.offsetHeight;
     }
   }
   
-  // Fade in
-  requestAnimationFrame(() => {
+  // Fade in with slight delay to ensure DOM is ready
+  setTimeout(() => {
+    redoBtn.style.height = '32px';
+    redoBtn.style.marginTop = '12px';
+    redoBtn.style.marginBottom = '';
+    redoBtn.style.transform = 'translateY(0)';
+    redoBtn.style.overflow = '';
     redoBtn.style.opacity = '1';
-  });
+    redoBtn.style.pointerEvents = 'auto';
+  }, 10);
 }
 
 function hideRedoButton() {
   const redoBtn = document.getElementById('redoButton');
   if (redoBtn) {
     redoBtn.style.opacity = '0';
+    redoBtn.style.pointerEvents = 'none';
+    redoBtn.style.transform = 'translateY(-10px)';
+    redoBtn.style.height = '0';
+    redoBtn.style.marginTop = '0';
+    redoBtn.style.marginBottom = '0';
+    redoBtn.style.overflow = 'hidden';
   }
 }
 
@@ -1006,13 +1065,13 @@ radioPills.forEach(pill => {
     // Store the selected value
     const clickedValue = this.getAttribute('data-value');
     
-    // Prevent clicking on already active pill
-    if (selectedValue === clickedValue) {
+    // Prevent clicking on already active pill or during typing
+    if (selectedValue === clickedValue || isTyping) {
       return;
     }
     
-    // Reset to first answer when switching to a different pill
-    answerIndices[clickedValue] = 0;
+    // Reset to initial random index when switching to a different pill
+    answerIndices[clickedValue] = initialIndices[clickedValue];
     
     // Remove selected class from all pills
     radioPills.forEach(p => p.classList.remove('selected'));
@@ -1030,7 +1089,9 @@ radioPills.forEach(pill => {
     if (selectedValue && aiAnswers[selectedValue] && typedTextElement) {
       const currentAnswer = aiAnswers[selectedValue][answerIndices[selectedValue]];
       showThinkingState(() => {
-        typeWriter(currentAnswer, typedTextElement, 35, () => {
+        disableUnselectedPills();
+        typeWriter(currentAnswer, typedTextElement, 50, () => {
+          enableAllPills();
           // Show redo button after typing completes if there are more variations
           if (aiAnswers[selectedValue].length > 1) {
             showRedoButton();
@@ -1048,7 +1109,9 @@ if (generateBtn) {
       hideRedoButton();
       const currentAnswer = aiAnswers[selectedValue][answerIndices[selectedValue]];
       showThinkingState(() => {
-        typeWriter(currentAnswer, typedTextElement, 35, () => {
+        disableUnselectedPills();
+        typeWriter(currentAnswer, typedTextElement, 50, () => {
+          enableAllPills();
           // Show redo button after typing completes if there are more variations
           if (aiAnswers[selectedValue].length > 1) {
             showRedoButton();
