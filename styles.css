@@ -280,7 +280,7 @@ width: 20vw;  }
 
  h2 {
     font-family: 'Bricolage Grotesque', sans-serif;
-    font-size: 36px;
+    font-size: 32px;
     font-weight: 700;
     margin-bottom: 8px;
     color: #333;
@@ -362,7 +362,8 @@ img.preloaded {
     transform: translateY(0);
   }
   
-  /* Photo row entrance animations */
+  /* Photo row entrance animations - DISABLED, using universal system instead */
+  /*
   .photo-row {
     opacity: 0;
     transform: translateY(30px);
@@ -374,7 +375,6 @@ img.preloaded {
     transform: translateY(0) !important;
   }
   
-  /* Fallback: show images after 2 seconds if animation fails */
   .photo-row {
     animation: showPhotoRowFallback 0.1s ease-out 2s forwards;
   }
@@ -385,10 +385,35 @@ img.preloaded {
       transform: translateY(0);
     }
   }
+  */
+  
+
 }
 
+/* Universal image animations - works on all devices and pages */
+.image-item, .content-image, .photo-row {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  will-change: opacity, transform;
+}
 
+.image-item.in-view, .content-image.in-view, .photo-row.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
 
+/* Staggered animations for image grids */
+.image-grid .image-item:nth-child(1) { transition-delay: 0ms; }
+.image-grid .image-item:nth-child(2) { transition-delay: 150ms; }
+.image-grid .image-item:nth-child(3) { transition-delay: 300ms; }
+
+/* Special handling for preloaded images */
+.image-item.preloaded, .content-image.preloaded, .photo-row.preloaded {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
 
 .floating-toolbar {
   position: fixed;
@@ -1661,7 +1686,7 @@ html {
 }
 
 .article-header h1 {
-  font-size: 48px;
+  font-size: 42px;
   font-weight: 700;
   margin-bottom: 24px;
   color: #222;
@@ -1916,7 +1941,7 @@ html {
   }
   
   .article-header h1 {
-    font-size: 36px;
+    font-size: 32px;
     line-height: 1.2;
   }
 
