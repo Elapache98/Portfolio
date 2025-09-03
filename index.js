@@ -370,6 +370,33 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('resize', handlePhotoRowAnimations);
   }
 
+    // Universal image animations for all pages
+  function initImageAnimations() {
+    const imageElements = document.querySelectorAll('.image-item, .content-image, .photo-row');
+    
+    if (imageElements.length === 0) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target); // Stop observing once animated
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '50px 0px -10% 0px'
+    });
+
+    imageElements.forEach(element => {
+      // Skip preloaded images
+      if (!element.classList.contains('preloaded') && 
+          !element.closest('.preloaded')) {
+        observer.observe(element);
+      }
+    });
+  }
+
   function optimizeGifs() {
     const gifs = document.querySelectorAll('img[src$=".gif"], img[src*=".gif"]');
     
@@ -504,7 +531,10 @@ document.addEventListener('DOMContentLoaded', function() {
   initSmoothImageLoading();
   
   // Initialize photo row animations for mobile
-  initPhotoRowAnimations();
+  // initPhotoRowAnimations(); // Replaced by universal image animations
+  
+  // Initialize image animations on all pages
+  initImageAnimations();
   
   // Ensure preloaded images are immediately visible
   const preloadedImages = document.querySelectorAll('img.preloaded, img[src*="Feature Intro Thumbnail"], img[src*="taskforce"], img[src*="coverimage"]');
