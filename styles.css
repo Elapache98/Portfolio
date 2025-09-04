@@ -1489,7 +1489,7 @@ img[src*=".gif"] {
 }
 
 .email-copy-btn {
-  background-color: rgba(148, 123, 87, 0.05);  
+  background-color: rgba(148, 123, 87, 0.025);  
   border: .25px solid rgba(148, 123, 87, 0.25);
   cursor: pointer;
   display: inline-flex;
