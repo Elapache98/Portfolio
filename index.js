@@ -778,14 +778,14 @@ document.addEventListener('DOMContentLoaded', function() {
           
           // Copy to clipboard
           navigator.clipboard.writeText(email).then(() => {
-            // Show success feedback - hide copy icon, show checkmark
-            copyIcon.style.display = 'none';
-            copySuccessIcon.style.display = 'inline';
+            // Show success feedback - fade out copy icon, fade in checkmark
+            copyIcon.style.opacity = '0';
+            copySuccessIcon.style.opacity = '1';
             
             // Reset after 5 seconds
             setTimeout(() => {
-              copyIcon.style.display = 'inline';
-              copySuccessIcon.style.display = 'none';
+              copyIcon.style.opacity = '1';
+              copySuccessIcon.style.opacity = '0';
             }, 5000);
           }).catch(err => {
             // Fallback for older browsers
@@ -800,12 +800,12 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.removeChild(tempInput);
             
             // Show success feedback
-            copyIcon.style.display = 'none';
-            copySuccessIcon.style.display = 'inline';
+            copyIcon.style.opacity = '0';
+            copySuccessIcon.style.opacity = '1';
             
             setTimeout(() => {
-              copyIcon.style.display = 'inline';
-              copySuccessIcon.style.display = 'none';
+              copyIcon.style.opacity = '1';
+              copySuccessIcon.style.opacity = '0';
             }, 5000);
           });
         });
@@ -1204,7 +1204,7 @@ function createTokensAlert() {
         <path opacity="0.4" d="M7.19447 4.625C7.16931 4.78798 7.15625 4.95497 7.15625 5.125C7.15625 6.91992 8.61132 8.375 10.4062 8.375H13.5937C15.3887 8.375 16.8438 6.91992 16.8437 5.12499C16.8437 4.95496 16.8307 4.78798 16.8055 4.625H17.25C18.4926 4.625 19.5 5.63236 19.5 6.875L19.5 20.625C19.5 21.8676 18.4926 22.875 17.25 22.875H6.75C5.50736 22.875 4.5 21.8676 4.5 20.625V6.875C4.5 5.63236 5.50736 4.625 6.75 4.625H7.19447Z" fill="#947b57"/>
         <path d="M10.4063 2.875C9.16361 2.875 8.15625 3.88236 8.15625 5.125C8.15625 6.36764 9.16361 7.375 10.4062 7.375H13.5937C14.8364 7.375 15.8438 6.36764 15.8437 5.125C15.8437 3.88236 14.8364 2.875 13.5937 2.875H10.4063Z" fill="#947b57"/>
       </svg>
-      <svg class="copy-success-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)" style="display: none;">
+      <svg class="copy-success-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
         <path d="M19.5455 6.4965C19.9848 6.93584 19.9848 7.64815 19.5455 8.08749L10.1286 17.5043C9.6893 17.9437 8.97699 17.9437 8.53765 17.5043L4.45451 13.4212C4.01517 12.9819 4.01516 12.2695 4.4545 11.8302C4.89384 11.3909 5.60616 11.3909 6.0455 11.8302L9.33315 15.1179L17.9545 6.4965C18.3938 6.05716 19.1062 6.05716 19.5455 6.4965Z" fill="#947b57"/>
       </svg>
     </button>
@@ -1233,13 +1233,13 @@ function showTokensAlert(skipAnimation = false) {
         
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(emailAddress).then(() => {
-            // Show success feedback - hide copy icon, show checkmark
-            copyIcon.style.display = 'none';
-            copySuccessIcon.style.display = 'inline';
+            // Show success feedback - fade out copy icon, fade in checkmark
+            copyIcon.style.opacity = '0';
+            copySuccessIcon.style.opacity = '1';
             
             setTimeout(() => {
-              copyIcon.style.display = 'inline';
-              copySuccessIcon.style.display = 'none';
+              copyIcon.style.opacity = '1';
+              copySuccessIcon.style.opacity = '0';
             }, 2000);
           }).catch(() => {
             // Fallback for clipboard API failure
@@ -1259,11 +1259,11 @@ function showTokensAlert(skipAnimation = false) {
           
           try {
             document.execCommand('copy');
-            copyIcon.style.display = 'none';
-            copySuccessIcon.style.display = 'inline';
+            copyIcon.style.opacity = '0';
+            copySuccessIcon.style.opacity = '1';
             setTimeout(() => {
-              copyIcon.style.display = 'inline';
-              copySuccessIcon.style.display = 'none';
+              copyIcon.style.opacity = '1';
+              copySuccessIcon.style.opacity = '0';
             }, 2000);
           } catch (err) {
             console.error('Fallback: Could not copy text');
