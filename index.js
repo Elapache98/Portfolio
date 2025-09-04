@@ -868,22 +868,34 @@ function resetShownAnswers(questionId) {
   shownAnswers[questionId].clear();
 }
 
-// Disabled pills system - pills become disabled for 1 hour after token exhaustion
-const DISABLE_DURATION = 60 * 60 * 1000; // 1 hour in milliseconds
+// Disabled pills system - pills become disabled after token exhaustion
+// 2 minutes for localhost, 1 hour for production
+const DISABLE_DURATION_LOCALHOST = 2 * 60 * 1000; // 2 minutes in milliseconds
+const DISABLE_DURATION_PRODUCTION = 60 * 60 * 1000; // 1 hour in milliseconds
 let disabledPills = new Set();
+
+// Get disable duration based on environment
+function getDisableDuration() {
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    return DISABLE_DURATION_LOCALHOST; // 2 minutes for localhost
+  }
+  return DISABLE_DURATION_PRODUCTION; // 1 hour for production
+}
 
 // Load disabled pills from localStorage
 function loadDisabledPills() {
   try {
     const stored = localStorage.getItem('disabledPills');
+    
     if (stored) {
       const data = JSON.parse(stored);
       const now = Date.now();
+      const duration = getDisableDuration();
       
       // Filter out expired disabled pills
       Object.keys(data).forEach(pillValue => {
         const disabledAt = data[pillValue];
-        if (now - disabledAt < DISABLE_DURATION) {
+        if (now - disabledAt < duration) {
           disabledPills.add(pillValue);
         }
       });
@@ -913,21 +925,47 @@ function disablePill(pillValue) {
   }
 }
 
-// Apply disabled state to pills
+// Check if a pill is still within its disabled period
+function isPillDisabled(pillValue) {
+  if (!disabledPills.has(pillValue)) return false;
+  
+  try {
+    const stored = localStorage.getItem('disabledPills');
+    if (stored) {
+      const data = JSON.parse(stored);
+      const disabledAt = data[pillValue];
+      const duration = getDisableDuration();
+      
+      if (disabledAt && (Date.now() - disabledAt < duration)) {
+        return true;
+      } else {
+        // Time expired, remove from disabled set
+        disabledPills.delete(pillValue);
+        delete data[pillValue];
+        localStorage.setItem('disabledPills', JSON.stringify(data));
+        return false;
+      }
+    }
+  } catch (e) {
+    console.error('Error checking disabled pill:', e);
+  }
+  return false;
+}
+
+// Apply disabled state to pills (visual only - still clickable)
 function updatePillStates() {
   const pills = document.querySelectorAll('.radio-pill');
   pills.forEach(pill => {
     const pillValue = pill.getAttribute('data-value');
-    if (disabledPills.has(pillValue)) {
+    if (isPillDisabled(pillValue)) {
       pill.classList.add('disabled');
-      pill.style.opacity = '0.5';
-      pill.style.cursor = 'not-allowed';
-      pill.style.pointerEvents = 'none';
+      pill.style.opacity = '0.7';
+      pill.style.cursor = 'pointer'; // Keep clickable
+      // Remove pointer-events blocking to allow clicks
     } else {
       pill.classList.remove('disabled');
       pill.style.opacity = '';
       pill.style.cursor = '';
-      pill.style.pointerEvents = '';
     }
   });
 }
@@ -1088,6 +1126,21 @@ let thinkingTimeout = null;
 if (radioPills.length > 0) {
   loadDisabledPills();
   updatePillStates();
+  
+  // Check every minute to update pill states (in case hour expires)
+  setInterval(() => {
+    updatePillStates();
+  }, 60000); // 60 seconds
+}
+
+// Debug function for localhost development
+if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+  window.clearDisabledPills = function() {
+    disabledPills.clear();
+    localStorage.removeItem('disabledPills');
+    updatePillStates();
+    console.log('All disabled pills cleared for testing');
+  };
 }
 
 // Functions to manage pill states during typing
@@ -1159,8 +1212,10 @@ function createTokensAlert() {
   return alert;
 }
 
-function showTokensAlert() {
+function showTokensAlert(skipAnimation = false) {
   let tokensAlert = document.getElementById('tokensAlert');
+  const isFirstTime = !tokensAlert;
+  
   if (!tokensAlert) {
     tokensAlert = createTokensAlert();
     const output = document.getElementById('output');
@@ -1220,11 +1275,17 @@ function showTokensAlert() {
     }
   }
   
-  // Force reflow and show with animation
-  tokensAlert.offsetHeight;
-  setTimeout(() => {
+  // Show with or without animation based on parameters
+  if (skipAnimation || !isFirstTime) {
+    // Show immediately without animation for subsequent clicks
     tokensAlert.classList.add('show');
-  }, 10);
+  } else {
+    // First time showing - use fade-in animation
+    tokensAlert.offsetHeight;
+    setTimeout(() => {
+      tokensAlert.classList.add('show');
+    }, 10);
+  }
 }
 
 function hideTokensAlert() {
@@ -1341,8 +1402,25 @@ radioPills.forEach(pill => {
     // Store the selected value
     const clickedValue = this.getAttribute('data-value');
     
-    // Prevent clicking on disabled pills
-    if (disabledPills.has(clickedValue)) {
+    // If pill is disabled, show tokens alert instead of normal flow
+    if (isPillDisabled(clickedValue)) {
+      // Still update visual selection
+      radioPills.forEach(p => p.classList.remove('selected'));
+      this.classList.add('selected');
+      selectedValue = clickedValue;
+      
+      // Hide any existing redo button
+      hideRedoButton();
+      
+      // For disabled pills, show tokens alert immediately (skip hide/show cycle)
+      let tokensAlert = document.getElementById('tokensAlert');
+      if (tokensAlert) {
+        // Alert already exists, just make sure it's visible
+        tokensAlert.classList.add('show');
+      } else {
+        // Show tokens alert immediately (skip animation for subsequent clicks)
+        showTokensAlert(true);
+      }
       return;
     }
     

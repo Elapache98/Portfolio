@@ -1317,16 +1317,17 @@ img[src*=".gif"] {
 }
 
 .radio-pill.disabled {
-  opacity: 0.5 !important;
-  cursor: not-allowed !important;
-  pointer-events: none !important;
-  background: rgba(0, 0, 0, 0.05) !important;
-  color: #999 !important;
+  opacity: 0.7 !important;
+  cursor: pointer !important;
+  background: rgba(0, 0, 0, 0.08) !important;
+  color: #666 !important;
+  border-color: rgba(0, 0, 0, 0.15) !important;
 }
 
 .radio-pill.disabled:hover {
-  transform: none !important;
-  box-shadow: none !important;
+  background: rgba(0, 0, 0, 0.12) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1) !important;
 }
 
 #output {
