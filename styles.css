@@ -1668,6 +1668,10 @@ img[src*=".gif"] {
   .tokens-divider {
     display: none;
   }
+  
+  .tokens-alert svg:first-child {
+    display: none;
+  }
 }
 
 .tokens-copy-btn {
