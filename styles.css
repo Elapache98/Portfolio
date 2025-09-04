@@ -2228,10 +2228,10 @@ html {
 
 #typedText {
   font-family: 'Courier New', monospace;
-  word-wrap: break-word;
-  word-break: break-word;
-  overflow-wrap: break-word;
-  hyphens: auto;
+  word-break: keep-all;
+  overflow-wrap: normal;
+  hyphens: none;
+  white-space: pre-wrap;
   max-width: 100%;
   flex: 1;
 }
