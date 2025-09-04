@@ -1291,9 +1291,13 @@ function showTokensAlert(skipAnimation = false) {
     }
   }
   
+  // Ensure alert is always visible
+  tokensAlert.classList.remove('show'); // Remove first to ensure clean state
+  
   // Show with or without animation based on parameters
   if (skipAnimation || !isFirstTime) {
     // Show immediately without animation for subsequent clicks
+    tokensAlert.offsetHeight; // Force reflow
     tokensAlert.classList.add('show');
   } else {
     // First time showing - use fade-in animation
@@ -1361,17 +1365,19 @@ function createRedoButton() {
       showThinkingState(() => {
         disableUnselectedPills();
         typeWriter(currentAnswer, typedTextElement, 50, () => {
-          enableAllPills();
           // Mark this answer as shown
           markAnswerAsShown(selectedValue, answerIndices[selectedValue]);
           // Show redo button only if there are still unshown variations
           if (!allAnswersShown(selectedValue)) {
+            enableAllPills();
             showRedoButton();
           } else {
             // Show tokens alert when all answers are exhausted
             showTokensAlert();
             // Disable this pill for 1 hour
             disablePill(selectedValue);
+            // Enable all pills first, then update states (so other pills become clickable)
+            enableAllPills();
             updatePillStates();
           }
         });
@@ -1447,11 +1453,10 @@ radioPills.forEach(pill => {
       this.classList.add('selected');
       selectedValue = clickedValue;
       
-      // Hide any existing redo button and tokens alert
+      // Hide any existing redo button
       hideRedoButton();
-      hideTokensAlert();
       
-      // Show fresh tokens alert immediately
+      // Show tokens alert immediately (will replace existing if present)
       showTokensAlert(true);
       return;
     }
@@ -1495,12 +1500,20 @@ radioPills.forEach(pill => {
       showThinkingState(() => {
         disableUnselectedPills();
         typeWriter(currentAnswer, typedTextElement, 50, () => {
-          enableAllPills();
           // Mark this answer as shown
           markAnswerAsShown(selectedValue, answerIndices[selectedValue]);
           // Show redo button only if there are unshown variations
           if (!allAnswersShown(selectedValue)) {
+            enableAllPills();
             showRedoButton();
+          } else {
+            // Show tokens alert when all answers are exhausted
+            showTokensAlert();
+            // Disable this pill for 1 hour
+            disablePill(selectedValue);
+            // Enable all pills first, then update states (so other pills become clickable)
+            enableAllPills();
+            updatePillStates();
           }
         });
       });
@@ -1518,12 +1531,20 @@ if (generateBtn) {
       showThinkingState(() => {
         disableUnselectedPills();
         typeWriter(currentAnswer, typedTextElement, 50, () => {
-          enableAllPills();
           // Mark this answer as shown
           markAnswerAsShown(selectedValue, answerIndices[selectedValue]);
           // Show redo button only if there are unshown variations
           if (!allAnswersShown(selectedValue)) {
+            enableAllPills();
             showRedoButton();
+          } else {
+            // Show tokens alert when all answers are exhausted
+            showTokensAlert();
+            // Disable this pill for 1 hour
+            disablePill(selectedValue);
+            // Enable all pills first, then update states (so other pills become clickable)
+            enableAllPills();
+            updatePillStates();
           }
         });
       });
