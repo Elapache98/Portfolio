@@ -346,6 +346,7 @@ img[loading="lazy"].loaded {
 img[src="Feature Intro Thumbnail.png"],
 img[src="taskforce.png"],
 img[src="coverimage.png"],
+img[src="Notionme.png"],
 img.preloaded {
   opacity: 1 !important;
   transition: none !important;
@@ -442,7 +443,7 @@ img.preloaded {
 
 .feature-headline {
   font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 600;
   color: #333;
   margin: 0 0 12px 0;
@@ -450,7 +451,7 @@ img.preloaded {
 }
 
 .feature-description {
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.6;
   color: #666;
   margin: 0;
@@ -482,12 +483,12 @@ img.preloaded {
   }
   
   .feature-headline {
-    font-size: 18px;
+    font-size:20px;
     margin-bottom: 8px;
   }
   
   .feature-description {
-    font-size: 15px;
+    font-size: 16px;
   }
 }
 
@@ -2291,7 +2292,10 @@ html {
   white-space: pre-wrap;
   max-width: 100%;
   flex: 1;
+  font-size: 18px;
+  line-height: 1.6;
 }
+
 
 #typedText a {
   color: #947b57;

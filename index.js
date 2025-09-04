@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (img.closest('.gif-container')) return;
       
       // Skip preloaded images (they should load immediately)
-      const preloadedImages = ['Feature Intro Thumbnail.png', 'taskforce.png', 'coverimage.png'];
+      const preloadedImages = ['Feature Intro Thumbnail.png', 'taskforce.png', 'coverimage.png', 'Notionme.png'];
       if (preloadedImages.some(preloadedImg => img.src.includes(preloadedImg))) {
         img.classList.add('loaded');
         return;
@@ -537,7 +537,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initImageAnimations();
   
   // Ensure preloaded images are immediately visible
-  const preloadedImages = document.querySelectorAll('img.preloaded, img[src*="Feature Intro Thumbnail"], img[src*="taskforce"], img[src*="coverimage"]');
+  const preloadedImages = document.querySelectorAll('img.preloaded, img[src*="Feature Intro Thumbnail"], img[src*="taskforce"], img[src*="coverimage"], img[src*="Notionme"]');
   preloadedImages.forEach(img => {
     img.style.opacity = '1';
     img.style.transform = 'none';
