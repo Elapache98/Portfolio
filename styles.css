@@ -1520,15 +1520,18 @@ img[src*=".gif"] {
 }
 
 .email-copy-btn svg {
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+  transform-origin: center;
 }
 
 .email-copy-btn svg.copy-icon {
   opacity: 1;
+  transform: scale(1);
 }
 
 .email-copy-btn svg.copy-success-icon {
   opacity: 0;
+  transform: scale(0.8);
   position: absolute;
 }
 
@@ -1708,13 +1711,15 @@ img[src*=".gif"] {
   .tokens-copy-btn svg.copy-icon {
     display: inline-flex !important;
     opacity: 1;
-    transition: opacity 0.3s ease-in-out;
+    transform: scale(1);
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
   }
   
   .tokens-copy-btn svg.copy-success-icon {
     display: inline-flex;
     opacity: 0;
-    transition: opacity 0.3s ease-in-out;
+    transform: scale(0.8);
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
     position: absolute;
   }
 }
@@ -1735,15 +1740,18 @@ img[src*=".gif"] {
 }
 
 .tokens-copy-btn svg {
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+  transform-origin: center;
 }
 
 .tokens-copy-btn svg.copy-icon {
   opacity: 1;
+  transform: scale(1);
 }
 
 .tokens-copy-btn svg.copy-success-icon {
   opacity: 0;
+  transform: scale(0.8);
   position: absolute;
 }
 

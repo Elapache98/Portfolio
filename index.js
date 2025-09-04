@@ -778,14 +778,18 @@ document.addEventListener('DOMContentLoaded', function() {
           
           // Copy to clipboard
           navigator.clipboard.writeText(email).then(() => {
-            // Show success feedback - fade out copy icon, fade in checkmark
+            // Show success feedback - scale out copy icon, scale in checkmark
             copyIcon.style.opacity = '0';
+            copyIcon.style.transform = 'scale(0.8)';
             copySuccessIcon.style.opacity = '1';
+            copySuccessIcon.style.transform = 'scale(1)';
             
             // Reset after 5 seconds
             setTimeout(() => {
               copyIcon.style.opacity = '1';
+              copyIcon.style.transform = 'scale(1)';
               copySuccessIcon.style.opacity = '0';
+              copySuccessIcon.style.transform = 'scale(0.8)';
             }, 5000);
           }).catch(err => {
             // Fallback for older browsers
@@ -801,11 +805,15 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Show success feedback
             copyIcon.style.opacity = '0';
+            copyIcon.style.transform = 'scale(0.8)';
             copySuccessIcon.style.opacity = '1';
+            copySuccessIcon.style.transform = 'scale(1)';
             
             setTimeout(() => {
               copyIcon.style.opacity = '1';
+              copyIcon.style.transform = 'scale(1)';
               copySuccessIcon.style.opacity = '0';
+              copySuccessIcon.style.transform = 'scale(0.8)';
             }, 5000);
           });
         });
@@ -1233,13 +1241,17 @@ function showTokensAlert(skipAnimation = false) {
         
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(emailAddress).then(() => {
-            // Show success feedback - fade out copy icon, fade in checkmark
+            // Show success feedback - scale out copy icon, scale in checkmark
             copyIcon.style.opacity = '0';
+            copyIcon.style.transform = 'scale(0.8)';
             copySuccessIcon.style.opacity = '1';
+            copySuccessIcon.style.transform = 'scale(1)';
             
             setTimeout(() => {
               copyIcon.style.opacity = '1';
+              copyIcon.style.transform = 'scale(1)';
               copySuccessIcon.style.opacity = '0';
+              copySuccessIcon.style.transform = 'scale(0.8)';
             }, 2000);
           }).catch(() => {
             // Fallback for clipboard API failure
@@ -1260,10 +1272,14 @@ function showTokensAlert(skipAnimation = false) {
           try {
             document.execCommand('copy');
             copyIcon.style.opacity = '0';
+            copyIcon.style.transform = 'scale(0.8)';
             copySuccessIcon.style.opacity = '1';
+            copySuccessIcon.style.transform = 'scale(1)';
             setTimeout(() => {
               copyIcon.style.opacity = '1';
+              copyIcon.style.transform = 'scale(1)';
               copySuccessIcon.style.opacity = '0';
+              copySuccessIcon.style.transform = 'scale(0.8)';
             }, 2000);
           } catch (err) {
             console.error('Fallback: Could not copy text');
