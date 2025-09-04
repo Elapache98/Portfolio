@@ -868,6 +868,70 @@ function resetShownAnswers(questionId) {
   shownAnswers[questionId].clear();
 }
 
+// Disabled pills system - pills become disabled for 1 hour after token exhaustion
+const DISABLE_DURATION = 60 * 60 * 1000; // 1 hour in milliseconds
+let disabledPills = new Set();
+
+// Load disabled pills from localStorage
+function loadDisabledPills() {
+  try {
+    const stored = localStorage.getItem('disabledPills');
+    if (stored) {
+      const data = JSON.parse(stored);
+      const now = Date.now();
+      
+      // Filter out expired disabled pills
+      Object.keys(data).forEach(pillValue => {
+        const disabledAt = data[pillValue];
+        if (now - disabledAt < DISABLE_DURATION) {
+          disabledPills.add(pillValue);
+        }
+      });
+      
+      // Update localStorage with only non-expired pills
+      const validData = {};
+      disabledPills.forEach(pillValue => {
+        validData[pillValue] = data[pillValue];
+      });
+      localStorage.setItem('disabledPills', JSON.stringify(validData));
+    }
+  } catch (e) {
+    console.error('Error loading disabled pills:', e);
+  }
+}
+
+// Save disabled pill to localStorage
+function disablePill(pillValue) {
+  disabledPills.add(pillValue);
+  try {
+    const stored = localStorage.getItem('disabledPills');
+    const data = stored ? JSON.parse(stored) : {};
+    data[pillValue] = Date.now();
+    localStorage.setItem('disabledPills', JSON.stringify(data));
+  } catch (e) {
+    console.error('Error saving disabled pill:', e);
+  }
+}
+
+// Apply disabled state to pills
+function updatePillStates() {
+  const pills = document.querySelectorAll('.radio-pill');
+  pills.forEach(pill => {
+    const pillValue = pill.getAttribute('data-value');
+    if (disabledPills.has(pillValue)) {
+      pill.classList.add('disabled');
+      pill.style.opacity = '0.5';
+      pill.style.cursor = 'not-allowed';
+      pill.style.pointerEvents = 'none';
+    } else {
+      pill.classList.remove('disabled');
+      pill.style.opacity = '';
+      pill.style.cursor = '';
+      pill.style.pointerEvents = '';
+    }
+  });
+}
+
 function showThinkingState(callback) {
   const typedTextElement = document.getElementById('typedText');
   const aiAvatar = document.querySelector('.ai-avatar');
@@ -1019,6 +1083,12 @@ const typedTextElement = document.getElementById('typedText');
 let selectedValue = null;
 let isTyping = false;
 let thinkingTimeout = null;
+
+// Initialize disabled pills system on page load
+if (radioPills.length > 0) {
+  loadDisabledPills();
+  updatePillStates();
+}
 
 // Functions to manage pill states during typing
 function disableUnselectedPills() {
@@ -1215,6 +1285,9 @@ function createRedoButton() {
           } else {
             // Show tokens alert when all answers are exhausted
             showTokensAlert();
+            // Disable this pill for 1 hour
+            disablePill(selectedValue);
+            updatePillStates();
           }
         });
       });
@@ -1267,6 +1340,11 @@ radioPills.forEach(pill => {
   pill.addEventListener('click', function() {
     // Store the selected value
     const clickedValue = this.getAttribute('data-value');
+    
+    // Prevent clicking on disabled pills
+    if (disabledPills.has(clickedValue)) {
+      return;
+    }
     
     // Prevent clicking on already active pill or during typing (but allow during thinking)
     if (selectedValue === clickedValue || isTyping) {
