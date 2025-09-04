@@ -1112,8 +1112,8 @@ function typeWriter(text, element, baseSpeed = 35, callback = null) {
       const delay = getVariableSpeed(token, nextToken);
       setTimeout(type, delay);
     } else {
-      // Typing completed, call callback if provided
-      if (callback) {
+      // Typing completed, call callback if provided and not disabled
+      if (callback && !element.dataset.disabled) {
         setTimeout(callback, 300); // Small delay before showing redo button
       }
     }
@@ -1304,15 +1304,23 @@ function showTokensAlert(skipAnimation = false) {
   }
 }
 
-function hideTokensAlert() {
+function hideTokensAlert(skipAnimation = false) {
   const tokensAlert = document.getElementById('tokensAlert');
   if (tokensAlert) {
-    tokensAlert.classList.remove('show');
-    setTimeout(() => {
+    if (skipAnimation) {
+      // Remove immediately without animation
       if (tokensAlert.parentNode) {
         tokensAlert.parentNode.removeChild(tokensAlert);
       }
-    }, 400); // Wait for animation to complete
+    } else {
+      // Remove with fade-out animation
+      tokensAlert.classList.remove('show');
+      setTimeout(() => {
+        if (tokensAlert.parentNode) {
+          tokensAlert.parentNode.removeChild(tokensAlert);
+        }
+      }, 400); // Wait for animation to complete
+    }
   }
 }
 
@@ -1420,23 +1428,31 @@ radioPills.forEach(pill => {
     
     // If pill is disabled, show tokens alert instead of normal flow
     if (isPillDisabled(clickedValue)) {
+      // Clear any ongoing thinking state and prevent output
+      clearThinkingState();
+      
+      // Reset typing state and enable all pills
+      enableAllPills();
+      
+      // Clear any existing output and prevent any pending callbacks
+      const typedTextElement = document.getElementById('typedText');
+      if (typedTextElement) {
+        typedTextElement.innerHTML = '';
+        // Add a flag to prevent any pending typewriter callbacks
+        typedTextElement.dataset.disabled = 'true';
+      }
+      
       // Still update visual selection
       radioPills.forEach(p => p.classList.remove('selected'));
       this.classList.add('selected');
       selectedValue = clickedValue;
       
-      // Hide any existing redo button
+      // Hide any existing redo button and tokens alert
       hideRedoButton();
+      hideTokensAlert();
       
-      // For disabled pills, show tokens alert immediately (skip hide/show cycle)
-      let tokensAlert = document.getElementById('tokensAlert');
-      if (tokensAlert) {
-        // Alert already exists, just make sure it's visible
-        tokensAlert.classList.add('show');
-      } else {
-        // Show tokens alert immediately (skip animation for subsequent clicks)
-        showTokensAlert(true);
-      }
+      // Show fresh tokens alert immediately
+      showTokensAlert(true);
       return;
     }
     
@@ -1447,6 +1463,12 @@ radioPills.forEach(pill => {
     
     // Clear any ongoing thinking state (allows interrupting thinking to switch topics)
     clearThinkingState();
+    
+    // Clear disabled flag to allow normal operation
+    const typedTextElement = document.getElementById('typedText');
+    if (typedTextElement) {
+      delete typedTextElement.dataset.disabled;
+    }
     
     // Reset to initial random index when switching to a different pill
     answerIndices[clickedValue] = initialIndices[clickedValue];
@@ -1465,7 +1487,7 @@ radioPills.forEach(pill => {
     
     // Hide redo button and tokens alert when switching pills
     hideRedoButton();
-    hideTokensAlert();
+    hideTokensAlert(true); // Skip animation for immediate hiding
     
     // Trigger the AI response with thinking state
     if (selectedValue && aiAnswers[selectedValue] && typedTextElement) {
