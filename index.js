@@ -970,7 +970,7 @@ function typeWriter(text, element, baseSpeed = 35, callback = null) {
       }
       // Slightly faster for spaces (natural reading flow)
       else if (char === ' ') {
-        speed *= 0.8;
+        speed *= 1;
       }
       // Faster for common letters
       else if ('eaiotnshrdlu'.includes(char.toLowerCase())) {
@@ -1065,6 +1065,110 @@ function clearThinkingState() {
 }
 
 // Redo button functions
+function createTokensAlert() {
+  const alert = document.createElement('div');
+  alert.id = 'tokensAlert';
+  alert.className = 'tokens-alert';
+  alert.innerHTML = `
+    <svg width="16" height="16" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+      <path opacity="0.4" d="M12.7516 3.50098C12.7516 3.08676 12.4158 2.75098 12.0016 2.75098C11.5874 2.75098 11.2516 3.08676 11.2516 3.50098V4.28801C7.46161 4.6643 4.5016 7.86197 4.5016 11.751V14.865L3.80936 16.7109C3.25776 18.1819 4.34514 19.751 5.9161 19.751H18.0871C19.658 19.7509 20.7454 18.1819 20.1938 16.7109L19.5016 14.865V11.751C19.5016 7.86197 16.5416 4.6643 12.7516 4.28801V3.50098Z" fill="#947b57"/>
+      <path d="M14.8736 20.751H9.12622C9.55878 21.918 10.6824 22.7495 11.9999 22.7495C13.3175 22.7495 14.4411 21.918 14.8736 20.751Z" fill="#947b57"/>
+    </svg>
+    <div class="tokens-divider"></div>
+    <span>You've run out of tokens for this conversation. To learn more, reach out to adeobayomi@gmail.com</span>
+    <button type="button" class="email-copy-btn tokens-copy-btn" aria-label="Copy email address">
+      <svg class="copy-icon" width="16" height="16" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+        <path opacity="0.4" d="M7.19447 4.625C7.16931 4.78798 7.15625 4.95497 7.15625 5.125C7.15625 6.91992 8.61132 8.375 10.4062 8.375H13.5937C15.3887 8.375 16.8438 6.91992 16.8437 5.12499C16.8437 4.95496 16.8307 4.78798 16.8055 4.625H17.25C18.4926 4.625 19.5 5.63236 19.5 6.875L19.5 20.625C19.5 21.8676 18.4926 22.875 17.25 22.875H6.75C5.50736 22.875 4.5 21.8676 4.5 20.625V6.875C4.5 5.63236 5.50736 4.625 6.75 4.625H7.19447Z" fill="#947b57"/>
+        <path d="M10.4063 2.875C9.16361 2.875 8.15625 3.88236 8.15625 5.125C8.15625 6.36764 9.16361 7.375 10.4062 7.375H13.5937C14.8364 7.375 15.8438 6.36764 15.8437 5.125C15.8437 3.88236 14.8364 2.875 13.5937 2.875H10.4063Z" fill="#947b57"/>
+      </svg>
+      <svg class="copy-success-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)" style="display: none;">
+        <path d="M19.5455 6.4965C19.9848 6.93584 19.9848 7.64815 19.5455 8.08749L10.1286 17.5043C9.6893 17.9437 8.97699 17.9437 8.53765 17.5043L4.45451 13.4212C4.01517 12.9819 4.01516 12.2695 4.4545 11.8302C4.89384 11.3909 5.60616 11.3909 6.0455 11.8302L9.33315 15.1179L17.9545 6.4965C18.3938 6.05716 19.1062 6.05716 19.5455 6.4965Z" fill="#947b57"/>
+      </svg>
+    </button>
+  `;
+  return alert;
+}
+
+function showTokensAlert() {
+  let tokensAlert = document.getElementById('tokensAlert');
+  if (!tokensAlert) {
+    tokensAlert = createTokensAlert();
+    const output = document.getElementById('output');
+    if (output) {
+      output.appendChild(tokensAlert);
+    }
+    
+    // Add copy functionality to the tokens alert
+    const tokensCopyBtn = tokensAlert.querySelector('.tokens-copy-btn');
+    if (tokensCopyBtn) {
+      tokensCopyBtn.addEventListener('click', function() {
+        const copyIcon = this.querySelector('.copy-icon');
+        const copySuccessIcon = this.querySelector('.copy-success-icon');
+        const emailAddress = 'adeobayomi@gmail.com';
+        
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(emailAddress).then(() => {
+            // Show success feedback - hide copy icon, show checkmark
+            copyIcon.style.display = 'none';
+            copySuccessIcon.style.display = 'inline';
+            
+            setTimeout(() => {
+              copyIcon.style.display = 'inline';
+              copySuccessIcon.style.display = 'none';
+            }, 2000);
+          }).catch(() => {
+            // Fallback for clipboard API failure
+            fallbackCopyTextToClipboard(emailAddress, copyIcon, copySuccessIcon);
+          });
+        } else {
+          // Fallback for older browsers
+          fallbackCopyTextToClipboard(emailAddress, copyIcon, copySuccessIcon);
+        }
+        
+        function fallbackCopyTextToClipboard(text, copyIcon, copySuccessIcon) {
+          const textArea = document.createElement("textarea");
+          textArea.value = text;
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+          
+          try {
+            document.execCommand('copy');
+            copyIcon.style.display = 'none';
+            copySuccessIcon.style.display = 'inline';
+            setTimeout(() => {
+              copyIcon.style.display = 'inline';
+              copySuccessIcon.style.display = 'none';
+            }, 2000);
+          } catch (err) {
+            console.error('Fallback: Could not copy text');
+          }
+          
+          document.body.removeChild(textArea);
+        }
+      });
+    }
+  }
+  
+  // Force reflow and show with animation
+  tokensAlert.offsetHeight;
+  setTimeout(() => {
+    tokensAlert.classList.add('show');
+  }, 10);
+}
+
+function hideTokensAlert() {
+  const tokensAlert = document.getElementById('tokensAlert');
+  if (tokensAlert) {
+    tokensAlert.classList.remove('show');
+    setTimeout(() => {
+      if (tokensAlert.parentNode) {
+        tokensAlert.parentNode.removeChild(tokensAlert);
+      }
+    }, 400); // Wait for animation to complete
+  }
+}
+
 function createRedoButton() {
   const redoBtn = document.createElement('button');
   redoBtn.id = 'redoButton';
@@ -1080,7 +1184,7 @@ function createRedoButton() {
 
   redoBtn.style.transition = 'opacity 0.4s ease-in-out, height 0.4s ease-in-out, transform 0.4s ease-in-out, margin 0.4s ease-in-out';
   redoBtn.innerHTML = `
-   <svg width="80" height="80" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+   <svg width="96" height="96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
 <path d="M7.17466 4.46302C8.83368 3.19001 10.8664 2.5 12.9575 2.5C15.0487 2.5 17.0814 3.19001 18.7404 4.46302C19.7896 5.26807 20.6522 6.27783 21.2815 7.42228L23.0527 6.92706C23.3449 6.84538 23.6575 6.94772 23.8447 7.18637C24.032 7.42502 24.0571 7.75297 23.9082 8.0173L22.1736 11.0983C22.076 11.2717 21.9136 11.3991 21.722 11.4527C21.5304 11.5063 21.3254 11.4815 21.1521 11.3839L18.0714 9.64919C17.8071 9.50036 17.6584 9.20697 17.6948 8.90582C17.7311 8.60466 17.9453 8.35506 18.2374 8.27338L19.7901 7.83927C19.2797 7.00108 18.6161 6.25835 17.8273 5.65305C16.4302 4.58106 14.7185 4 12.9575 4C11.1966 4 9.48486 4.58106 8.08781 5.65305C6.69076 6.72504 5.68647 8.22807 5.2307 9.92901C5.1235 10.3291 4.71225 10.5665 4.31215 10.4593C3.91205 10.3521 3.67461 9.94088 3.78182 9.54078C4.32304 7.52089 5.51565 5.73603 7.17466 4.46302Z" fill="#947b57"/>
 <path d="M4.18603 12.5458C4.3776 12.4922 4.58261 12.517 4.75594 12.6146L7.83665 14.3493C8.10096 14.4981 8.2496 14.7915 8.21325 15.0927C8.17691 15.3938 7.96274 15.6434 7.6706 15.7251L6.1265 16.1568C6.63702 16.9958 7.30106 17.7392 8.09052 18.345C9.48757 19.417 11.1993 19.998 12.9602 19.998C14.7212 19.998 16.4329 19.417 17.83 18.345C19.227 17.273 20.2313 15.77 20.6871 14.069C20.7943 13.6689 21.2055 13.4315 21.6056 13.5387C22.0057 13.6459 22.2432 14.0572 22.136 14.4573C21.5947 16.4771 20.4021 18.262 18.7431 19.535C17.0841 20.808 15.0514 21.498 12.9602 21.498C10.8691 21.498 8.8364 20.808 7.17738 19.535C6.12761 18.7295 5.26458 17.719 4.63517 16.5738L2.85527 17.0714C2.56313 17.1531 2.25055 17.0507 2.06329 16.8121C1.87603 16.5734 1.85096 16.2455 1.99978 15.9812L3.73441 12.9001C3.832 12.7268 3.99445 12.5993 4.18603 12.5458Z" fill="#947b57"/>
 </svg>
@@ -1093,8 +1197,9 @@ function createRedoButton() {
       // Cycle to next answer
       answerIndices[selectedValue] = (answerIndices[selectedValue] + 1) % aiAnswers[selectedValue].length;
       
-      // Hide redo button during typing
+      // Hide redo button and tokens alert during typing
       hideRedoButton();
+      hideTokensAlert();
       
       // Show new answer
       const currentAnswer = aiAnswers[selectedValue][answerIndices[selectedValue]];
@@ -1107,6 +1212,9 @@ function createRedoButton() {
           // Show redo button only if there are still unshown variations
           if (!allAnswersShown(selectedValue)) {
             showRedoButton();
+          } else {
+            // Show tokens alert when all answers are exhausted
+            showTokensAlert();
           }
         });
       });
@@ -1183,8 +1291,9 @@ radioPills.forEach(pill => {
     // Update selected value
     selectedValue = clickedValue;
     
-    // Hide redo button when switching pills
+    // Hide redo button and tokens alert when switching pills
     hideRedoButton();
+    hideTokensAlert();
     
     // Trigger the AI response with thinking state
     if (selectedValue && aiAnswers[selectedValue] && typedTextElement) {
@@ -1210,6 +1319,7 @@ if (generateBtn) {
   generateBtn.addEventListener('click', function() {
     if (selectedValue && aiAnswers[selectedValue]) {
       hideRedoButton();
+      hideTokensAlert();
       const currentAnswer = aiAnswers[selectedValue][answerIndices[selectedValue]];
       showThinkingState(() => {
         disableUnselectedPills();
@@ -1232,8 +1342,9 @@ if (clearBtn) {
   clearBtn.addEventListener('click', function() {
     if (typedTextElement) {
       typedTextElement.innerHTML = '';
-      // Hide and remove redo button
+      // Hide and remove redo button and tokens alert
       hideRedoButton();
+      hideTokensAlert();
       setTimeout(() => {
         const redoBtn = document.getElementById('redoButton');
         if (redoBtn) {
