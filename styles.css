@@ -1516,7 +1516,20 @@ img[src*=".gif"] {
   height: 32px;
   flex-shrink: 0;
   vertical-align: baseline;
- 
+  position: relative;
+}
+
+.email-copy-btn svg {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.email-copy-btn svg.copy-icon {
+  opacity: 1;
+}
+
+.email-copy-btn svg.copy-success-icon {
+  opacity: 0;
+  position: absolute;
 }
 
 .email-copy-btn:hover {
@@ -1686,6 +1699,24 @@ img[src*=".gif"] {
   .tokens-alert svg:first-child {
     display: none;
   }
+  
+  /* Ensure copy button and its SVGs are always visible on mobile */
+  .tokens-copy-btn {
+    display: inline-flex !important;
+  }
+  
+  .tokens-copy-btn svg.copy-icon {
+    display: inline-flex !important;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .tokens-copy-btn svg.copy-success-icon {
+    display: inline-flex;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    position: absolute;
+  }
 }
 
 .tokens-copy-btn {
@@ -1700,6 +1731,20 @@ img[src*=".gif"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+
+.tokens-copy-btn svg {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.tokens-copy-btn svg.copy-icon {
+  opacity: 1;
+}
+
+.tokens-copy-btn svg.copy-success-icon {
+  opacity: 0;
+  position: absolute;
 }
 
 .tokens-copy-btn:hover {
@@ -1718,13 +1763,17 @@ img[src*=".gif"] {
   }
 
   .tokens-copy-btn {
-    padding: 4px;
+    padding: 6px;
     margin-left: 8px;
+    background-color: rgba(148, 123, 87, 0.08) !important;
+    border: 1px solid rgba(148, 123, 87, 0.3) !important;
+    min-width: 32px;
+    min-height: 32px;
   }
 
   .tokens-copy-btn svg {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
   }
 }
 
