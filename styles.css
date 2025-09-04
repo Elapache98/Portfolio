@@ -415,6 +415,79 @@ img.preloaded {
   transition: none;
 }
 
+/* Feature Gallery - News article stream style */
+.feature-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin: 32px 0;
+}
+
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  background: #f8f9fa;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.feature-content {
+  order: 2; /* Put content after image */
+}
+
+.feature-headline {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 12px 0;
+  line-height: 1.3;
+}
+
+.feature-description {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #666;
+  margin: 0;
+}
+
+.feature-image {
+  order: 1; /* Put image on top */
+  width: 100%;
+  height: auto; /* Let container fit image height */
+}
+
+/* Feature image styling is handled by .image-item img which provides:
+   - Box shadow: 0 2px 8px rgba(0, 0, 0, 0.1)
+   - Border radius: 8px
+   - Lightbox functionality
+   - Fade-in animations
+*/
+.feature-image img {
+  width: 100%;
+  height: auto; /* Natural image height */
+  max-height: 480px; /* Uniform max height for consistency - 20% taller */
+  object-fit: cover; /* Maintain aspect ratio and fill container */
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .feature-card {
+    padding: 20px;
+  }
+  
+  .feature-headline {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  
+  .feature-description {
+    font-size: 15px;
+  }
+}
+
 .floating-toolbar {
   position: fixed;
   left: 50%;
