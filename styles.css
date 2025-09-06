@@ -1183,7 +1183,7 @@ img[src*=".gif"] {
   gap: 12px;
   margin-bottom: 24px;
   padding-bottom: 16px;
-  border-bottom: 1px solid rgba(74, 60, 47, 0.1);
+  border-bottom: 1px solid rgba(74, 60, 47, 0.065);
   /* Extend line full width */
   position: relative;
   margin-left: -24px;
@@ -1245,7 +1245,7 @@ img[src*=".gif"] {
 #QA {
   margin-bottom: 24px;
   text-align: left;
-  border-bottom: 1px solid rgba(74, 60, 47, 0.1);
+  border-bottom: 1px solid rgba(74, 60, 47, 0.065);
   padding-bottom: 24px;
   /* Extend line full width */
   position: relative;
@@ -2660,7 +2660,7 @@ html {
     gap: 12px;
     margin-bottom: 24px;
     padding-bottom: 16px;
-    border-bottom: 1px solid rgba(74, 60, 47, 0.1);
+    border-bottom: 1px solid rgba(74, 60, 47, 0.065);
   }
   
   #identifier p {
