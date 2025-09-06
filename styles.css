@@ -69,8 +69,9 @@ body {
 .sec-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     background: #ffffff;
-    border: .75px solid rgba(13, 11, 70, 0.065);
+    border: 1px solid rgba(13, 11, 70, 0.065);
     border-radius: 50px;
     padding: 8px 8px;    
     transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
@@ -82,7 +83,7 @@ body {
   .sec-btn:focus {
     transform: translateY(-2px) scale(1.04);
     outline: none;
-    border: .5px solid rgb(148, 123, 87,.2);
+    border: 1px solid rgba(64, 58, 51, 0.25);
 
     
     
@@ -1295,30 +1296,15 @@ img[src*=".gif"] {
   #radioPills {
     flex-wrap: nowrap;
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: visible;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
-    padding-bottom: 8px;
-    margin-bottom: 8px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 8px 0;
   }
   
   #radioPills::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
-  }
-
-  #QA {
-    margin-bottom: 24px;
-    text-align: left;
-    border-bottom: 1px solid rgba(74, 60, 47, 0.065);
-    padding-bottom: 2px;
-    /* Extend line full width */
-    position: relative;
-    margin-left: -24px;
-    margin-right: -24px;
-    padding-left: 24px;
-    padding-right: 8px;
-    
+    display: none;
   }
   
 
@@ -1338,7 +1324,7 @@ img[src*=".gif"] {
   align-items: center;
   padding: 8px 16px;
   background: #fafafa;
-  border: 1.5px solid rgba(74, 60, 47, 0.2);
+  border: 1.5px solid rgb(148, 123, 87,.35);
   border-radius: 50px;
   font-size: 14px;
   font-weight: 500;
@@ -1352,21 +1338,19 @@ img[src*=".gif"] {
   background: rgba(148, 123, 87, 0.08);
   border-color: rgba(148, 123, 87, 0.4);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(148, 123, 87, 0.15);
+  
 }
 
 .radio-pill.selected {
   background: rgba(148, 123, 87, 0.15);
   border-color: #947b57;
   color: #333;
-  box-shadow: 0 4px 12px rgba(148, 123, 87, 0.2);
   cursor: default;
 }
 
 .radio-pill.selected:hover {
   background: rgba(148, 123, 87, 0.15);
   transform: translateY(0);
-  box-shadow: 0 4px 12px rgba(148, 123, 87, 0.2);
 }
 
 .radio-pill.disabled {
@@ -1391,6 +1375,7 @@ img[src*=".gif"] {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  justify-content: flex-start;
   gap: 8px;
 }
 
@@ -1403,6 +1388,21 @@ img[src*=".gif"] {
 #redoButton {
   align-self: flex-end;
   margin-top: 4px;
+  /* Ensure perfect centering on all devices */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 32px;
+  height: 32px;
+  padding: 5.5px !important;
+  /* Force consistent rendering across browsers */
+  box-sizing: border-box;
+  line-height: 1;
+}
+
+#redoButton svg {
+  display: block;
+  margin: 0 auto;
 }
 
 /* AI Avatar thinking state - golden pulsing border */
@@ -2688,7 +2688,7 @@ html {
   }
 
   #typedText {
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.4;
   }
 
