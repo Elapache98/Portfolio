@@ -689,6 +689,9 @@ document.addEventListener('DOMContentLoaded', function() {
       return; // Skip the rest of the password logic
     }
     
+    // Add body class to prevent scrolling while password gate is visible
+    document.body.classList.add('password-gate-active');
+    
     // Set the correct password here
     const correctPassword = 'forbes2024'; // Change this to your desired password
     
@@ -700,20 +703,54 @@ document.addEventListener('DOMContentLoaded', function() {
     if (passwordForm && passwordInput) {
       console.log('Password form elements found');
       
+      // Handle mobile keyboard hiding on form submission
+      passwordInput.addEventListener('blur', function() {
+        // Reset viewport when keyboard hides
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 300);
+      });
+      
       // Handle form submission
       passwordForm.addEventListener('submit', function(e) {
         e.preventDefault();
         console.log('Form submitted');
+        
+        // Hide mobile keyboard immediately
+        passwordInput.blur();
         
         const enteredPassword = passwordInput.value.trim();
         console.log('Entered password length:', enteredPassword.length);
         
         if (enteredPassword === correctPassword) {
           console.log('Correct password entered');
+          
+          // Reset scroll position to top for mobile compatibility
+          window.scrollTo(0, 0);
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
+          
+          // Force viewport reset for mobile keyboards
+          if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', () => {
+              window.scrollTo(0, 0);
+            }, { once: true });
+          }
+          
           // Correct password - grant access for this session only
           passwordGate.style.display = 'none';
           articleContent.style.display = 'flex';
           passwordError.style.display = 'none';
+          
+          // Remove body scroll prevention class
+          document.body.classList.remove('password-gate-active');
+          
+          // Additional scroll reset after content loads
+          setTimeout(() => {
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+          }, 100);
         } else {
           console.log('Incorrect password entered');
           // Wrong password - show error

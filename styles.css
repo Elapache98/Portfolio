@@ -1156,7 +1156,7 @@ img[src*=".gif"] {
   background: rgba(148, 123, 87, 0.1);
   color: #947b57;
   border: 1px solid rgba(148, 123, 87, 0.2);
-  border-radius: 8px;
+  border-radius: 16px;
   font-size: 10px;
   font-weight: 500;
   text-transform: uppercase;
@@ -1433,6 +1433,25 @@ img[src*=".gif"] {
   align-items: center;
   justify-content: center;
   z-index: 2000;
+  /* Prevent scroll issues on mobile */
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent body scroll when password gate is visible */
+body:has(.password-gate:not([style*="display: none"])) {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+/* Fallback for browsers that don't support :has() */
+.password-gate-active {
+  overflow: hidden !important;
+  position: fixed !important;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .password-input-wrapper {
