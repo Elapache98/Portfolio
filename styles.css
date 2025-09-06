@@ -1181,7 +1181,7 @@ img[src*=".gif"] {
   justify-content: flex-start;
   align-items: stretch;
   gap: 12px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   padding-bottom: 16px;
   border-bottom: 1px solid rgba(74, 60, 47, 0.065);
   /* Extend line full width */
@@ -1246,13 +1246,13 @@ img[src*=".gif"] {
   margin-bottom: 24px;
   text-align: left;
   border-bottom: 1px solid rgba(74, 60, 47, 0.065);
-  padding-bottom: 24px;
+  padding-bottom: 20px;
   /* Extend line full width */
   position: relative;
   margin-left: -24px;
   margin-right: -24px;
   padding-left: 24px;
-  padding-right: 24px;
+  
 }
 
 #QA p {
@@ -1308,6 +1308,20 @@ img[src*=".gif"] {
   
   #radioPills::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
+  }
+
+  #QA {
+    margin-bottom: 24px;
+    text-align: left;
+    border-bottom: 1px solid rgba(74, 60, 47, 0.065);
+    padding-bottom: 2px;
+    /* Extend line full width */
+    position: relative;
+    margin-left: -24px;
+    margin-right: -24px;
+    padding-left: 24px;
+    padding-right: 16px;
+    
   }
   
 
@@ -2658,7 +2672,7 @@ html {
     justify-content: flex-start;
     align-items: stretch;
     gap: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 12px;
     padding-bottom: 16px;
     border-bottom: 1px solid rgba(74, 60, 47, 0.065);
   }
