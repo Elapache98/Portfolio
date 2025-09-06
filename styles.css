@@ -1320,7 +1320,7 @@ img[src*=".gif"] {
     margin-left: -24px;
     margin-right: -24px;
     padding-left: 24px;
-    padding-right: 16px;
+   
     
   }
   
@@ -2672,7 +2672,7 @@ html {
     justify-content: flex-start;
     align-items: stretch;
     gap: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     padding-bottom: 16px;
     border-bottom: 1px solid rgba(74, 60, 47, 0.065);
   }
