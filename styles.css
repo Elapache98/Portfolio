@@ -1295,7 +1295,6 @@ img[src*=".gif"] {
   #radioPills {
     flex-wrap: nowrap;
     overflow-x: auto;
-    overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE and Edge */
@@ -1359,14 +1358,12 @@ img[src*=".gif"] {
   background: rgba(148, 123, 87, 0.15);
   border-color: #947b57;
   color: #333;
-  box-shadow: 0 4px 12px rgba(148, 123, 87, 0.2);
   cursor: default;
 }
 
 .radio-pill.selected:hover {
   background: rgba(148, 123, 87, 0.15);
   transform: translateY(0);
-  box-shadow: 0 4px 12px rgba(148, 123, 87, 0.2);
 }
 
 .radio-pill.disabled {
