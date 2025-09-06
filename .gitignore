@@ -1,8 +1,22 @@
-*.js
-*.png
-*.jpg
-*.jpeg
-*.gif
-*.JPG
-*.PNG
-*.GIF
+# Hide original JavaScript files (keep minified/obfuscated versions)
+index.js
+particles.js
+image-optimizer.js
+test-deploy.js
+
+# Hide build files and development artifacts
+*.min.js
+build.js
+node_modules/
+webpack.config.js
+package*.json
+
+# System files
+*.log
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
+.cache/
+dist/
+build/
