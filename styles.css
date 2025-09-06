@@ -1968,7 +1968,7 @@ html {
   align-items: center;
   gap: 8px;
   margin-bottom: 12px;
-  font-size: 14px;
+  font-size: 16px;
   color: #666;
 }
 
@@ -2214,6 +2214,15 @@ html {
     margin-bottom: 8px;
     color: #333;
     line-height: 1;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    color: #666;
   }
   
   .image-grid {
