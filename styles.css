@@ -1287,7 +1287,7 @@ img[src*=".gif"] {
 #radioPills {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 16px;
   margin-top: 12px;
 }
 
