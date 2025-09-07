@@ -454,7 +454,7 @@ img.preloaded {
 .feature-description {
   font-size: 18px;
   line-height: 1.6;
-  color: #666;
+  color: #737373;
   margin: 0;
 }
 
@@ -1194,7 +1194,7 @@ img[src*=".gif"] {
   margin: 0;
   font-size: 12px;
   font-weight: 500;
-  color: #666;
+  color: #737373;
   text-wrap: nowrap;
 }
 
@@ -1357,7 +1357,7 @@ img[src*=".gif"] {
   opacity: 0.7 !important;
   cursor: pointer !important;
   background: rgba(0, 0, 0, 0.08) !important;
-  color: #666 !important;
+  color: #737373 !important;
   border-color: rgba(0, 0, 0, 0.15) !important;
 }
 
@@ -1531,7 +1531,7 @@ body:has(.password-gate:not([style*="display: none"])) {
   border-radius: 4px;
   transition: background-color 0.2s ease;
   font-size: 12px;
-  color: #666;
+  color: #737373;
   min-width: 24px;
   height: 24px;
 }
@@ -1583,7 +1583,7 @@ body:has(.password-gate:not([style*="display: none"])) {
   padding: 8px 8px;
   border-radius: 4px;
   transition: all 0.5s ease;
-  color: #666;
+  color: #737373;
   width: 32px;
   height: 32px;
   flex-shrink: 0;
@@ -1647,7 +1647,7 @@ body:has(.password-gate:not([style*="display: none"])) {
 }
 
 .password-header p {
-  color: #666;
+  color: #737373;
   font-size: 14px;
   line-height: 1.5;
 }
@@ -1864,7 +1864,7 @@ body:has(.password-gate:not([style*="display: none"])) {
 
 .password-footer p {
   font-size: 14px;
-  color: #666;
+  color: #737373;
   margin: 0;
 }
 
@@ -1920,7 +1920,7 @@ html {
   gap: 8px;
   font-size: 12px;
   font-weight: 600;
-  color: #666;
+  color: #737373;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   padding: 12px 16px;
@@ -1948,7 +1948,7 @@ html {
 .toc-link {
   display: block;
   padding: 12px 16px;
-  color: #666;
+  color: #737373;
   text-decoration: none;
   font-size: 14px;
   transition: all 0.2s ease;
@@ -1978,7 +1978,7 @@ html {
 .breadcrumb {
   margin-bottom: 32px;
   font-size: 14px;
-  color: #666;
+  color: #737373;
 }
 
 .breadcrumb a {
@@ -2020,8 +2020,8 @@ html {
   align-items: center;
   gap: 8px;
   margin-bottom: 12px;
-  font-size: 16px;
-  color: #666;
+  font-size: 14px;
+  color: #737373;
 }
 
 .feature-item:last-child {
@@ -2111,7 +2111,7 @@ html {
 
 .image-caption {
   font-size: 14px;
-  color: #666;
+  color: #737373;
   text-align: center;
   margin-top: 8px;
   font-style: italic;
@@ -2230,7 +2230,7 @@ html {
 
 .metric-label {
   font-size: 10px;
-  color: #666;
+  color: #737373;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   text-align: left;
@@ -2274,7 +2274,7 @@ html {
     gap: 8px;
     margin-bottom: 12px;
     font-size: 15px;
-    color: #666;
+    color: #737373;
   }
   
   .image-grid {
@@ -2678,7 +2678,7 @@ html {
     margin: 0;
     font-size: 12px;
     font-weight: 500;
-    color: #666;
+    color: #737373;
   }
 
   /* Mobile typer text wrapping */
