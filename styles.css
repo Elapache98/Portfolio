@@ -1410,6 +1410,61 @@ img[src*=".gif"] {
   height: 18px;
 }
 
+/* Interactive GIF Styles */
+.interactive-gif {
+  position: relative;
+  cursor: pointer;
+}
+
+.gif-interactive {
+  transition: opacity 0.3s ease;
+}
+
+.gif-play-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.interactive-gif:hover .gif-play-indicator {
+  opacity: 1;
+}
+
+.gif-annotation {
+  text-align: center;
+  font-size: 12px;
+  color: #737373;
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* Show/hide text based on device */
+.desktop-text {
+  display: inline;
+}
+
+.mobile-text {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-text {
+    display: none;
+  }
+  
+  .mobile-text {
+    display: inline;
+  }
+}
+
 /* AI Avatar thinking state - golden pulsing border */
 .ai-avatar.thinking {
   border: 1px solid rgba(148, 123, 87, 0.5);
