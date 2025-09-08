@@ -524,8 +524,61 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
+  // Interactive GIF functionality
+  function initInteractiveGifs() {
+    const interactiveGifs = document.querySelectorAll('.gif-interactive');
+    const isMobile = window.innerWidth <= 768;
+    
+    interactiveGifs.forEach(gif => {
+      const gifSrc = gif.getAttribute('data-gif-src');
+      const staticSrc = gif.getAttribute('data-static-src');
+      const playIndicator = gif.parentElement.querySelector('.gif-play-indicator');
+      
+      // Start with static image if available
+      if (staticSrc) {
+        gif.src = staticSrc;
+      }
+      
+      let isPlaying = false;
+      
+      function playGif() {
+        if (!isPlaying && gifSrc) {
+          gif.src = gifSrc;
+          if (playIndicator) playIndicator.style.display = 'none';
+          isPlaying = true;
+        }
+      }
+      
+      function pauseGif() {
+        if (isPlaying && staticSrc) {
+          gif.src = staticSrc;
+          if (playIndicator) playIndicator.style.display = 'block';
+          isPlaying = false;
+        }
+      }
+      
+      if (isMobile) {
+        // Mobile: click to play/pause
+        gif.parentElement.addEventListener('click', () => {
+          if (isPlaying) {
+            pauseGif();
+          } else {
+            playGif();
+          }
+        });
+      } else {
+        // Desktop: hover to play
+        gif.parentElement.addEventListener('mouseenter', playGif);
+        gif.parentElement.addEventListener('mouseleave', pauseGif);
+      }
+    });
+  }
+  
   // Initialize GIF optimizations when page loads
   optimizeGifs();
+  
+  // Initialize interactive GIFs
+  initInteractiveGifs();
   
   // Initialize smooth image loading
   initSmoothImageLoading();
