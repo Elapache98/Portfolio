@@ -220,7 +220,16 @@ document.addEventListener('DOMContentLoaded', function() {
   if (lightbox && lightboxImg && images.length > 0) {
   images.forEach((img, idx) => {
     img.style.cursor = 'pointer';
-    img.addEventListener('click', function() {
+    img.addEventListener('click', function(e) {
+      // Check if this is an interactive GIF on mobile
+      const isMobile = window.innerWidth <= 768;
+      const isInteractiveGif = img.classList.contains('gif-interactive');
+      
+      // If it's mobile and an interactive GIF, don't open lightbox
+      if (isMobile && isInteractiveGif) {
+        return;
+      }
+      
       showLightbox(idx);
     });
   });
