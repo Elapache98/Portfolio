@@ -1577,6 +1577,30 @@ img[src*=".gif"] {
 }
 
 @media (max-width: 768px) {
+  .image-slider-container {
+    width: 100%;
+    min-height: 200px;
+  }
+  
+  .image-slider {
+    min-height: 200px;
+    width: 100%;
+  }
+  
+  .slider-image {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 200px;
+    object-fit: contain !important;
+    display: block !important;
+  }
+  
+  .slider-before,
+  .slider-after {
+    width: 100% !important;
+    min-height: 200px;
+  }
+  
   .slider-button {
     width: 40px;
     height: 40px;
