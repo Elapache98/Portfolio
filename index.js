@@ -583,11 +583,78 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
+  // Image slider functionality
+  function initImageSliders() {
+    const sliders = document.querySelectorAll('.image-slider');
+    
+    sliders.forEach(slider => {
+      const handle = slider.querySelector('.slider-handle');
+      const afterImage = slider.querySelector('.slider-after');
+      
+      let isDragging = false;
+      
+             function updateSlider(x) {
+         const rect = slider.getBoundingClientRect();
+         const percentage = Math.max(0, Math.min(100, ((x - rect.left) / rect.width) * 100));
+         
+         handle.style.left = percentage + '%';
+         afterImage.style.clipPath = `polygon(${percentage}% 0%, 100% 0%, 100% 100%, ${percentage}% 100%)`;
+         
+         // Debug logging
+         console.log('Slider percentage:', percentage);
+         console.log('Clip path:', `polygon(${percentage}% 0%, 100% 0%, 100% 100%, ${percentage}% 100%)`);
+       }
+      
+      function startDrag(e) {
+        isDragging = true;
+        slider.style.cursor = 'grabbing';
+        e.preventDefault();
+      }
+      
+      function stopDrag() {
+        isDragging = false;
+        slider.style.cursor = 'grab';
+      }
+      
+      function handleMove(e) {
+        if (!isDragging) return;
+        
+        const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+        updateSlider(clientX);
+      }
+      
+      // Mouse events
+      handle.addEventListener('mousedown', startDrag);
+      slider.addEventListener('mousedown', (e) => {
+        startDrag(e);
+        const clientX = e.clientX;
+        updateSlider(clientX);
+      });
+      
+      document.addEventListener('mousemove', handleMove);
+      document.addEventListener('mouseup', stopDrag);
+      
+      // Touch events for mobile
+      handle.addEventListener('touchstart', startDrag, { passive: false });
+      slider.addEventListener('touchstart', (e) => {
+        startDrag(e);
+        const clientX = e.touches[0].clientX;
+        updateSlider(clientX);
+      }, { passive: false });
+      
+      document.addEventListener('touchmove', handleMove, { passive: false });
+      document.addEventListener('touchend', stopDrag);
+    });
+  }
+
   // Initialize GIF optimizations when page loads
   optimizeGifs();
   
   // Initialize interactive GIFs
   initInteractiveGifs();
+  
+  // Initialize image sliders
+  initImageSliders();
   
   // Initialize smooth image loading
   initSmoothImageLoading();
