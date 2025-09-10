@@ -590,6 +590,18 @@ document.addEventListener('DOMContentLoaded', function() {
     sliders.forEach(slider => {
       const handle = slider.querySelector('.slider-handle');
       const afterImage = slider.querySelector('.slider-after');
+      const beforeImage = slider.querySelector('.slider-before');
+      
+      // Debug logging for mobile
+      console.log('Initializing slider:', slider);
+      console.log('Handle found:', !!handle);
+      console.log('After image found:', !!afterImage);
+      console.log('Before image found:', !!beforeImage);
+      
+      if (!handle || !afterImage || !beforeImage) {
+        console.error('Missing slider elements');
+        return;
+      }
       
       let isDragging = false;
       
@@ -653,8 +665,12 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize interactive GIFs
   initInteractiveGifs();
   
-  // Initialize image sliders
-  initImageSliders();
+  // Initialize image sliders after images load
+  if (document.readyState === 'loading') {
+    window.addEventListener('load', initImageSliders);
+  } else {
+    initImageSliders();
+  }
   
   // Initialize smooth image loading
   initSmoothImageLoading();
