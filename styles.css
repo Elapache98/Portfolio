@@ -1465,6 +1465,129 @@ img[src*=".gif"] {
   }
 }
 
+/* Image Slider Styles */
+.image-slider-container {
+  position: relative;
+  width: 100%;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+.image-slider {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  border-radius: 8px;
+  cursor: grab;
+  user-select: none;
+  background: transparent;
+}
+
+.image-slider:active {
+  cursor: grabbing;
+}
+
+.slider-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  pointer-events: none;
+  object-fit: contain;
+  max-height: none;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+/* Override any parent .feature-image img styles */
+.image-slider-container .slider-image {
+  object-fit: contain !important;
+  max-height: none !important;
+  box-shadow: none !important;
+}
+
+.slider-before {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+.slider-after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%);
+  transition: clip-path 0.1s ease;
+}
+
+.slider-handle {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2px;
+  height: 100%;
+  background: rgba(148, 123, 87, 0.8);
+  transform: translateX(-50%);
+  z-index: 3;
+  cursor: grab;
+  transition: left 0.1s ease;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.slider-handle:active {
+  cursor: grabbing;
+}
+
+.slider-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 48px;
+  height: 48px;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.slider-button:hover {
+  background: rgba(0, 0, 0, 1);
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  font-size: 14px;
+  color: #737373;
+  font-style: italic;
+}
+
+.slider-label-left,
+.slider-label-right {
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .slider-button {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .slider-labels {
+    font-size: 12px;
+    margin-top: 8px;
+  }
+}
+
 /* AI Avatar thinking state - golden pulsing border */
 .ai-avatar.thinking {
   border: 1px solid rgba(148, 123, 87, 0.5);
