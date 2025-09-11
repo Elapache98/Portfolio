@@ -550,8 +550,16 @@ document.addEventListener('DOMContentLoaded', function() {
       
       let isPlaying = false;
       
+      // Store initial height to prevent jumping
+      let containerHeight = null;
+      
       function playGif() {
         if (!isPlaying && gifSrc) {
+          // Store container height before switching to prevent jumping
+          if (!containerHeight) {
+            containerHeight = gif.offsetHeight;
+            gif.style.height = containerHeight + 'px';
+          }
           gif.src = gifSrc;
           if (playIndicator) playIndicator.style.display = 'none';
           isPlaying = true;
@@ -659,11 +667,62 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // Mobile GIF visibility observer - pause GIFs when out of view
+  function initMobileGifVisibilityObserver() {
+    const isMobile = window.innerWidth <= 768;
+    
+    if (!isMobile) return; // Only run on mobile
+    
+    const interactiveGifs = document.querySelectorAll('.gif-interactive');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const gif = entry.target;
+        const gifSrc = gif.getAttribute('data-gif-src');
+        const staticSrc = gif.getAttribute('data-static-src');
+        const playIndicator = gif.parentElement.querySelector('.gif-play-indicator');
+        
+        // If GIF goes out of view and is currently playing (detected by comparing src)
+        if (!entry.isIntersecting && staticSrc) {
+          // Check if currently showing the GIF (not the static preview)
+          const isCurrentlyPlayingGif = gif.src.includes(gifSrc) || gif.src.endsWith('.gif');
+          
+          if (isCurrentlyPlayingGif) {
+            // Return to preview image
+            gif.src = staticSrc;
+            if (playIndicator) playIndicator.style.display = 'block';
+            
+            console.log('GIF paused - out of view:', gif.alt || 'Unnamed GIF');
+          }
+        }
+      });
+    }, {
+      threshold: 0.1, // Trigger when 10% or less is visible
+      rootMargin: '-20px' // Add some buffer but not too much
+    });
+    
+    interactiveGifs.forEach(gif => {
+      observer.observe(gif);
+    });
+  }
+
   // Initialize GIF optimizations when page loads
   optimizeGifs();
   
   // Initialize interactive GIFs
   initInteractiveGifs();
+  
+  // Initialize mobile GIF visibility observer
+  initMobileGifVisibilityObserver();
+  
+  // Reinitialize mobile GIF observer on resize
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      initMobileGifVisibilityObserver();
+    }, 250);
+  });
   
   // Initialize image sliders after images load
   if (document.readyState === 'loading') {
