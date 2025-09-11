@@ -1418,6 +1418,11 @@ img[src*=".gif"] {
 
 .gif-interactive {
   transition: opacity 0.3s ease;
+  width: 100%;
+  height: auto;
+  display: block;
+  max-width: 100%;
+  vertical-align: top;
 }
 
 .gif-play-indicator {
@@ -1610,6 +1615,11 @@ img[src*=".gif"] {
     font-size: 12px;
     margin-top: 8px;
   }
+  
+  /* Hide icons in feature-info on mobile */
+  .feature-info .feature-item svg {
+    display: none;
+  }
 }
 
 /* AI Avatar thinking state - golden pulsing border */
@@ -1634,6 +1644,7 @@ img[src*=".gif"] {
   position: relative;
   display: inline-block;
   width: 100%;
+  min-height: 0; /* Prevent height jumping */
 }
 
 .gif-loading {
@@ -2220,15 +2231,16 @@ html {
   border-radius: 8px;
   padding: 20px;
   margin: 24px 0;
+ 
 }
 
 .feature-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-  font-size: 14px;
+  margin-bottom: 24px;
+  font-size: 16px;
   color: #737373;
+  
 }
 
 .feature-item:last-child {
@@ -2237,6 +2249,7 @@ html {
 
 .feature-item svg {
   flex-shrink: 0;
+  margin-right: 16px;
 }
 
 .inline-link {
@@ -2478,8 +2491,8 @@ html {
   .feature-item {
     display: flex;
     align-items: center;
-    margin-bottom: 12px;
-    font-size: 15px;
+    margin-bottom: 24px;
+    font-size: 14px;
     color: #737373;
   }
   
@@ -2507,9 +2520,7 @@ html {
     margin: 24px 0 20px 0;
   }
   
-  .feature-info {
-    padding: 16px;
-  }
+ 
   
   /* Password gate mobile responsive */
   .password-modal {
