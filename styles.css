@@ -510,11 +510,12 @@ img.preloaded {
   z-index: 1000;
   width: auto;
   overflow: visible;
-  position: fixed;
   box-shadow:
     0 2px 8px 0 rgba(31, 38, 135, 0.06),  /* even lighter main shadow */
     0 1px 2px 0 rgba(80, 80, 120, 0.03),   /* very subtle secondary shadow */
     0 0.5px 1px 0 rgba(255,255,255,0.05); /* faint highlight */
+  /* Prevent layout shift during font loading */
+  visibility: hidden;
   }
   
 .floating-toolbar.animate-toolbar {
