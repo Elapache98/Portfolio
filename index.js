@@ -773,57 +773,38 @@ document.addEventListener('DOMContentLoaded', function() {
     if (tocLinks.length > 0 && tocSections.length > 0) {
       console.log('TOC Scroll Spy initialized with', tocSections.length, 'sections');
       
-      function updateActiveLink() {
-        let currentSection = '';
-        
-        // Only start highlighting after user scrolls past the first section
-        if (window.scrollY > 200) {
-          // Simple approach: find which section header is closest to the center of viewport
-          const viewportCenter = window.scrollY + (window.innerHeight / 2);
-          
-          let closestSection = null;
-          let closestDistance = Infinity;
-          
-          tocSections.forEach(section => {
-            const sectionCenter = section.offsetTop + (section.offsetHeight / 2);
-            const distance = Math.abs(viewportCenter - sectionCenter);
+      let currentActiveId = '';
+      
+      // Create intersection observer for TOC sections
+      const tocObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Section is coming into view
+            const sectionId = entry.target.id;
             
-            if (distance < closestDistance) {
-              closestDistance = distance;
-              closestSection = section;
+            // Only update if this is different from current active
+            if (sectionId !== currentActiveId) {
+              currentActiveId = sectionId;
+              
+              // Update TOC links
+              tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + sectionId) {
+                  link.classList.add('active');
+                }
+              });
             }
-          });
-          
-          if (closestSection) {
-            currentSection = closestSection.id;
-          }
-        }
-        
-        // Update active states
-        tocLinks.forEach(link => {
-          link.classList.remove('active');
-          if (currentSection && link.getAttribute('href') === '#' + currentSection) {
-            link.classList.add('active');
           }
         });
-      }
+      }, {
+        threshold: 0.2, // Trigger when 20% of section is visible
+        rootMargin: '-200px 0px -60% 0px' // Only trigger when section is well into view
+      });
       
-      // Throttled scroll listener for performance
-      let tocTicking = false;
-      function handleTocScroll() {
-        if (!tocTicking) {
-          requestAnimationFrame(() => {
-            updateActiveLink();
-            tocTicking = false;
-          });
-          tocTicking = true;
-        }
-      }
-      
-      window.addEventListener('scroll', handleTocScroll, { passive: true });
-      
-      // Initial call - no active state on page load, let user scroll first
-      // updateActiveLink(); // Commented out - no initial active state
+      // Observe all TOC sections
+      tocSections.forEach(section => {
+        tocObserver.observe(section);
+      });
     }
   }
 
