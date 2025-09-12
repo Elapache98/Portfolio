@@ -624,6 +624,26 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
       
+      // Ensure slider handle height matches image after load
+      function adjustSliderHeight() {
+        const containerHeight = slider.getBoundingClientRect().height;
+        if (containerHeight > 0) {
+          handle.style.height = containerHeight + 'px';
+        }
+      }
+      
+      // Adjust height after images load
+      beforeImage.addEventListener('load', adjustSliderHeight);
+      afterImage.addEventListener('load', adjustSliderHeight);
+      
+      // Also adjust on window resize
+      window.addEventListener('resize', adjustSliderHeight);
+      
+      // Initial adjustment
+      if (beforeImage.complete && afterImage.complete) {
+        adjustSliderHeight();
+      }
+      
       let isDragging = false;
       
              function updateSlider(x) {
@@ -667,16 +687,32 @@ document.addEventListener('DOMContentLoaded', function() {
       document.addEventListener('mousemove', handleMove);
       document.addEventListener('mouseup', stopDrag);
       
-      // Touch events for mobile
-      handle.addEventListener('touchstart', startDrag, { passive: false });
+      // Touch events for mobile - optimized for responsiveness
+      handle.addEventListener('touchstart', (e) => {
+        e.preventDefault(); // Prevent scroll
+        startDrag(e);
+      }, { passive: false });
+      
       slider.addEventListener('touchstart', (e) => {
+        e.preventDefault(); // Prevent scroll
         startDrag(e);
         const clientX = e.touches[0].clientX;
         updateSlider(clientX);
       }, { passive: false });
       
-      document.addEventListener('touchmove', handleMove, { passive: false });
-      document.addEventListener('touchend', stopDrag);
+      document.addEventListener('touchmove', (e) => {
+        if (isDragging) {
+          e.preventDefault(); // Only prevent default when dragging
+          handleMove(e);
+        }
+      }, { passive: false });
+      
+      document.addEventListener('touchend', (e) => {
+        if (isDragging) {
+          e.preventDefault();
+          stopDrag();
+        }
+      }, { passive: false });
     });
   }
 
