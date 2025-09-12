@@ -519,14 +519,15 @@ img.preloaded {
   
 .floating-toolbar.animate-toolbar {
   animation: floatIn 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+  animation-fill-mode: both; /* Ensures consistent state before and after animation */
 }
 
 @keyframes floatIn {
-  from {
+  0% {
     opacity: 0;
     transform: translateX(-50%) translateY(40px) scale(0.98);
   }
-  to {
+  100% {
     opacity: 1;
     transform: translateX(-50%) translateY(0) scale(1);
   }
