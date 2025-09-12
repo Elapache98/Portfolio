@@ -1490,6 +1490,7 @@ img[src*=".gif"] {
   cursor: grab;
   user-select: none;
   background: transparent;
+  touch-action: none; /* Prevent default touch behaviors for better drag performance */
 }
 
 .image-slider:active {
@@ -1586,18 +1587,16 @@ img[src*=".gif"] {
 @media (max-width: 768px) {
   .image-slider-container {
     width: 100%;
-    min-height: 200px;
   }
   
   .image-slider {
-    min-height: 200px;
     width: 100%;
+    height: auto;
   }
   
   .slider-image {
     width: 100% !important;
     height: auto !important;
-    min-height: 200px;
     object-fit: contain !important;
     display: block !important;
   }
@@ -1605,12 +1604,32 @@ img[src*=".gif"] {
   .slider-before,
   .slider-after {
     width: 100% !important;
-    min-height: 200px;
+    height: auto !important;
+  }
+  
+  .slider-after {
+    object-fit: cover !important;
+    object-position: center !important;
+  }
+  
+  /* Ensure slider handle matches the actual image height */
+  .slider-handle {
+    height: 100% !important;
   }
   
   .slider-button {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
+  }
+  
+  /* Increase touch target for slider handle on mobile */
+  .slider-handle {
+    width: 4px; /* Slightly wider for easier touch */
+    transition: left 0.05s ease; /* Faster transition for mobile responsiveness */
+  }
+  
+  .slider-after {
+    transition: clip-path 0.05s ease; /* Faster transition for mobile responsiveness */
   }
   
   .slider-labels {
