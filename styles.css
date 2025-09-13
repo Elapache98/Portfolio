@@ -514,8 +514,7 @@ img.preloaded {
     0 2px 8px 0 rgba(31, 38, 135, 0.06),  /* even lighter main shadow */
     0 1px 2px 0 rgba(80, 80, 120, 0.03),   /* very subtle secondary shadow */
     0 0.5px 1px 0 rgba(255,255,255,0.05); /* faint highlight */
-  /* Prevent layout shift during font loading */
-  visibility: hidden;
+
   }
   
 .floating-toolbar.animate-toolbar {
@@ -2320,7 +2319,7 @@ html {
   border-bottom: .25px solid rgba(148, 123, 87, 0.25);
   border-right: .25px solid rgba(148, 123, 87, 0.25);  
   padding: 24px;
-  border-radius: 3px 8px 8px 3px;
+  border-radius: 0px 24px 24px 0px;
 }
 
 .highlight-box h4 {
@@ -2420,12 +2419,12 @@ html {
   background: #fff;
   
   
-  border-left: 3px solid #947b57;
-  border-right: 1px solid #e9ecef;
-   border-top: 1px solid #e9ecef;
-   border-bottom: 1px solid #e9ecef;
+  border-left: 2px solid #947b57;
+  border-right: 2px solid #e9ecef;
+   border-top: 2px solid #e9ecef;
+   border-bottom: 2px solid #e9ecef;
  
-  border-radius: 4px 12px 12px 4px;
+  border-radius: 4px 24px 24px 4px;
   padding: 24px;
   margin: 40px 0;
   text-align: left;
