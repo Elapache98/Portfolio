@@ -22,39 +22,26 @@ document.addEventListener('DOMContentLoaded', function() {
   const buttons = options.querySelectorAll('.toolbar-btn');
   const toolbarOptions = document.querySelector('.toolbar-options');
 
-  // Function to show toolbar after fonts load
-  function showToolbar() {
-    toolbar.style.visibility = 'visible';
-    
-    // Only add animation if not coming from another internal page
-    const currentPage = window.location.pathname;
-    const referrer = document.referrer;
-    const isInternalNavigation = sessionStorage.getItem('lastPage') && 
-                                sessionStorage.getItem('lastPage') !== currentPage &&
-                                (sessionStorage.getItem('lastPage').includes('.html') || 
-                                 referrer.includes(window.location.hostname));
-    
-    // Check if this is a fresh visit (no referrer or external referrer)
-    const isFreshVisit = !referrer || !referrer.includes(window.location.hostname);
-    
-    if (!isInternalNavigation && isFreshVisit) {
-      toolbar.classList.add('animate-toolbar');
-      toolbar.addEventListener('animationend', function() {
-        toolbar.classList.remove('animate-toolbar');
-      }, { once: true });
-    }
-    
-    // Store current page for next navigation
-    sessionStorage.setItem('lastPage', currentPage);
+   // Only add animation if not coming from another internal page
+  const currentPage = window.location.pathname;
+  const referrer = document.referrer;
+  const isInternalNavigation = sessionStorage.getItem('lastPage') && 
+                              sessionStorage.getItem('lastPage') !== currentPage &&
+                              (sessionStorage.getItem('lastPage').includes('.html') || 
+                               referrer.includes(window.location.hostname));
+  
+  // Check if this is a fresh visit (no referrer or external referrer)
+  const isFreshVisit = !referrer || !referrer.includes(window.location.hostname);
+  
+  if (!isInternalNavigation && isFreshVisit) {
+    toolbar.classList.add('animate-toolbar');
+    toolbar.addEventListener('animationend', function() {
+      toolbar.classList.remove('animate-toolbar');
+    }, { once: true });
   }
-
-  // Wait for fonts to load before showing toolbar
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(showToolbar);
-  } else {
-    // Fallback for browsers without Font Loading API
-    setTimeout(showToolbar, 100);
-  }
+  
+  // Store current page for next navigation
+  sessionStorage.setItem('lastPage', currentPage);
 
   // Hamburger menu toggle for mobile
   hamburger.addEventListener('click', function() {
