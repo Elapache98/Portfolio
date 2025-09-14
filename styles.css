@@ -158,17 +158,17 @@ transition: box-shadow .25s;
 
 
 .project-grid {
-  margin-top: 24px;
+  margin-top: 32px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 24px;
   justify-content: start;
   align-items: start;
-  max-width: 85vw;
+  max-width: 75vw;
   height: auto;
-  padding: 16px;
+  padding: 24px;
   animation: fadeInUp 1.0s cubic-bezier(0.23, 1, 0.32, 1);
-  margin-bottom: 32px;
+  margin-bottom: 48px;
 }
 
 /* Smaller desktop: 2 columns for project grid */
@@ -186,13 +186,13 @@ transition: box-shadow .25s;
   box-sizing: border-box;
   text-align: center;
   text-align: left;
-  background-color: #fafafa;
+  background-color: #fff;
   padding:24px;
-  border-radius:32px;
+  border-radius:24px;
   height: 100%;
   border-style: solid;
   border-color: rgba(74, 60, 47, 0.095);
-  border-width: 1px;
+  border-width: 1.5px;
 transition: box-shadow .25s;
   box-shadow:75px var(--card-box-shadow-1-y) var(--card-box-shadow-1-blur) var(--card-box-shadow-1), 0px var(--card-box-shadow-2-y) var(--card-box-shadow-2-blur) var(--card-box-shadow-2), 0 0 0 1px var(--card-border-color);
  
@@ -367,30 +367,7 @@ img.preloaded {
     transform: translateY(0);
   }
   
-  /* Photo row entrance animations - DISABLED, using universal system instead */
-  /*
-  .photo-row {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  }
-  
-  .photo-row.in-view {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
-  }
-  
-  .photo-row {
-    animation: showPhotoRowFallback 0.1s ease-out 2s forwards;
-  }
-  
-  @keyframes showPhotoRowFallback {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  */
+ 
   
 
 }
@@ -1050,8 +1027,8 @@ img[src*=".gif"] {
   height: auto;
   aspect-ratio: 16 / 10;
   object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 4px 4px rgba(31, 38, 135, 0.15);
+  border-radius: 12px;
+  box-shadow: 0 2px 2px rgba(31, 38, 135, 0.15);
   display: block;
   box-sizing: border-box;
 }
@@ -2946,7 +2923,7 @@ html {
   }
 
   .project-grid {
-    margin-top: 24px;
+    margin-top: 32px;
     gap: 24px;
     justify-content: start;
     align-items: start;
@@ -2954,7 +2931,7 @@ html {
     height: auto;
     padding: 16px;
     animation: fadeInUp 1.0s cubic-bezier(0.23, 1, 0.32, 1);
-    margin-bottom: 16px;
+    margin-bottom: 32px;
   }
 
 }
