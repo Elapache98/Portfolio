@@ -361,14 +361,14 @@ img.preloaded {
 }
 
 /* Universal image animations - works on all devices and pages */
-.image-item, .content-image, .photo-row {
+.image-item, .content-image, .photo-row, .gif-container {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
   will-change: opacity, transform;
 }
 
-.image-item.in-view, .content-image.in-view, .photo-row.in-view {
+.image-item.in-view, .content-image.in-view, .photo-row.in-view, .gif-container.in-view {
   opacity: 1;
   transform: translateY(0);
 }

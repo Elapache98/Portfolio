@@ -381,7 +381,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Universal image animations for all pages
   function initImageAnimations() {
-    const imageElements = document.querySelectorAll('.image-item, .content-image, .photo-row');
+    const imageElements = document.querySelectorAll('.image-item, .content-image, .photo-row, .gif-container');
     
     if (imageElements.length === 0) return;
 
@@ -398,9 +398,23 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     imageElements.forEach(element => {
-      // Skip preloaded images
-      if (!element.classList.contains('preloaded') && 
-          !element.closest('.preloaded')) {
+      // Skip preloaded images (they show immediately without animation)
+      if (element.classList.contains('preloaded') || 
+          element.closest('.preloaded')) {
+        return;
+      }
+      
+      // Check if element is already visible on page load
+      const rect = element.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+      
+      if (isVisible) {
+        // Add a small delay for visible elements to ensure smooth animation
+        setTimeout(() => {
+          element.classList.add('in-view');
+        }, 100);
+      } else {
+        // Use intersection observer for elements that need scrolling
         observer.observe(element);
       }
     });
