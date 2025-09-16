@@ -1038,19 +1038,7 @@ img[src*=".gif"] {
   box-sizing: border-box;
 }
 
-/* Mobile-specific GIF fixes */
-@media (max-width: 768px) {
-  img[src$=".gif"], 
-  img[src*=".gif"] {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0;
-    flex-shrink: 1;
-    height: auto;
-    object-fit: cover;
-    overflow: hidden;
-  }
-}
+/* Mobile-specific GIF fixes removed - mobile uses static images only */
 
 /* Floating Toolbar */
 .floating-logo {
