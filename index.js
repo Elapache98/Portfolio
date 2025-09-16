@@ -381,20 +381,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Universal image animations for all pages
   function initImageAnimations() {
-    const imageElements = document.querySelectorAll('.image-item, .content-image, .photo-row, .gif-container');
+    const imageElements = document.querySelectorAll('.image-item, .content-image, .photo-row');
     
     if (imageElements.length === 0) return;
 
+    // Mobile-optimized intersection observer
+    const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
+          // Add slight delay on mobile for better performance
+          const delay = isMobile ? 50 : 0;
+          setTimeout(() => {
+            entry.target.classList.add('in-view');
+          }, delay);
           observer.unobserve(entry.target); // Stop observing once animated
         }
       });
     }, {
-      threshold: 0.1,
-      rootMargin: '50px 0px -10% 0px'
+      threshold: isMobile ? 0.05 : 0.1,
+      rootMargin: isMobile ? '100px 0px 0px 0px' : '50px 0px -10% 0px'
     });
 
     imageElements.forEach(element => {
@@ -406,18 +413,70 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Check if element is already visible on page load
       const rect = element.getBoundingClientRect();
-      const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const isVisible = rect.top < viewportHeight && rect.bottom > 0;
       
       if (isVisible) {
         // Add a small delay for visible elements to ensure smooth animation
+        // Longer delay on mobile for better performance
+        // Extra delay for work.html project images that appear on page load
+        const isWorkPage = window.location.pathname.includes('work.html');
+        let delay = isMobile ? 200 : 100;
+        
+        if (isWorkPage && element.classList.contains('image-item')) {
+          // Find the index of this project image for staggered animation
+          const projectImages = document.querySelectorAll('.project-content .image-item');
+          const imageIndex = Array.from(projectImages).indexOf(element);
+          const baseDelay = isMobile ? 400 : 300;
+          const staggerDelay = imageIndex * (isMobile ? 150 : 100);
+          delay = baseDelay + staggerDelay;
+        }
+        
         setTimeout(() => {
           element.classList.add('in-view');
-        }, 100);
+        }, delay);
       } else {
         // Use intersection observer for elements that need scrolling
         observer.observe(element);
       }
     });
+    
+    // Fallback for mobile browsers with intersection observer issues
+    if (isMobile) {
+      let ticking = false;
+      
+      function checkVisibility() {
+        const elements = document.querySelectorAll('.image-item:not(.in-view), .content-image:not(.in-view), .photo-row:not(.in-view)');
+        
+        elements.forEach(element => {
+          if (element.classList.contains('preloaded') || element.closest('.preloaded')) {
+            return;
+          }
+          
+          const rect = element.getBoundingClientRect();
+          const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+          
+          if (rect.top < viewportHeight * 0.9 && rect.bottom > 0) {
+            element.classList.add('in-view');
+          }
+        });
+        
+        ticking = false;
+      }
+      
+      function onScroll() {
+        if (!ticking) {
+          requestAnimationFrame(checkVisibility);
+          ticking = true;
+        }
+      }
+      
+      // Add scroll listener as fallback
+      window.addEventListener('scroll', onScroll, { passive: true });
+      
+      // Initial check after a delay
+      setTimeout(checkVisibility, 300);
+    }
   }
 
   function optimizeGifs() {
