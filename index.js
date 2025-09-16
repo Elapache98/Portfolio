@@ -409,8 +409,15 @@ document.addEventListener('DOMContentLoaded', function() {
   function optimizeGifs() {
     const gifs = document.querySelectorAll('img[src$=".gif"], img[src*=".gif"]');
     
-    // Check if we're on mobile - if so, skip the complex optimizations
+    // Check if we're on mobile - if so, skip GIF optimizations entirely for work.html
     const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isWorkPage = window.location.pathname.includes('work.html');
+    
+    // Skip all GIF processing on mobile work page since we use static images
+    if (isMobile && isWorkPage) {
+      console.log('Mobile work page detected - skipping all GIF optimizations, using static images only');
+      return;
+    }
     
     gifs.forEach(gif => {
       // Always add loading="lazy" if not already present
@@ -537,6 +544,13 @@ document.addEventListener('DOMContentLoaded', function() {
   function initInteractiveGifs() {
     const interactiveGifs = document.querySelectorAll('.gif-interactive');
     const isMobile = window.innerWidth <= 768;
+    const isWorkPage = window.location.pathname.includes('work.html');
+    
+    // Skip interactive GIF processing on mobile work page since we use static images
+    if (isMobile && isWorkPage) {
+      console.log('Mobile work page detected - skipping interactive GIF processing, using static images only');
+      return;
+    }
     
     interactiveGifs.forEach(gif => {
       const gifSrc = gif.getAttribute('data-gif-src');
