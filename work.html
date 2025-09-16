@@ -73,9 +73,29 @@
 
   <div class="project-grid">
     <main class="project-content">
-        <div class="gif-container">
+        <div class="gif-container interactive-gif desktop-only">
           <div class="gif-loader"></div>
-          <img src="xplore.gif" alt="A photo of a building that looks like Iron." loading="lazy" class="gif-loading">
+          <img src="xplore.gif" 
+               alt="User interface for Forbes: Explore." 
+               loading="eager" 
+               class="gif-loading gif-interactive"
+               data-gif-src="xplore.gif"
+               data-static-src="Feature intro Thumbnail.png">
+          <div class="gif-play-indicator">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" fill="rgba(255,255,255,0.9)"/>
+              <path d="M10 8l6 4-6 4V8z" fill="black"/>
+            </svg>
+          </div>
+          <p class="gif-annotation">
+            <span class="desktop-text">Hover to play</span>
+          </p>
+        </div>
+        <div class="mobile-static-image mobile-only">
+          <img src="Feature intro Thumbnail.png" 
+               alt="User interface for Forbes: Explore." 
+               loading="eager" 
+               class="mobile-project-image">
         </div>
         <div id="tagdiv">
           <span class="context-tag">0→1 Product Design</span>
@@ -86,20 +106,19 @@
       <p>Rethinking news & information consumption habits amidst the proliferation of AI.</p>
     </main>
     <div class="project-content">
-      <div class="gif-container">
-        <div class="gif-loader"></div>
-        <img src="Clvye.gif" alt="A photo of a building that looks like Iron." loading="lazy" class="gif-loading">
+      <div class="image-item preloaded">
+        <img src="Bertie Publish.png" alt="User interface for Bertie Publish." loading="eager" class="loaded">
       </div>
       <div id="tagdiv">
-        <span class="context-tag">Side Project</span>
-        <span class="context-tag">AI</span>
-        <span class="context-tag">Software Development</span>
+        <span class="context-tag">CMS</span>
+        <span class="context-tag">Writing UX</span>
+        <span class="context-tag">Workflow Automation</span>
       </div>
-    <h3>Clyve: Compliance Automation</h3>
-    <p>I spend a lot of time thinking about how to make compliance easier for businesses. 
-      I'm currently working on a side project that automates compliance for businesses.</p>
+    <h3>Bertie: SEO Sidekick & Assistant</h3>
+    <p>Every superhero needs a sidekick; Making SEO tasks more engaging and educational for Forbes' journalists.
+     </p>
     </div>
- 
+
   </div>
 
  <!-- <div class="content-divider">end of content</div> -->
