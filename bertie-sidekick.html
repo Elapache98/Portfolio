@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bertie Sidekick: Automating SEO Tasks for Forbes' Journalists</title>
+  <link rel="icon" type="image/png" href="Notionme.png">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
+  <!-- Preload critical images -->
+  <link rel="preload" as="image" href="Feature Intro Thumbnail.png" fetchpriority="high">
+  <link rel="preload" as="image" href="taskforce.png">
+</head>
+<body>
+  <!-- WebGL Canvas for particles -->
+<!-- <canvas id="particleCanvas"></canvas> -->
+
+  <div class="floating-logo">
+    <!-- Add your logo here -->
+    <img src="Notionme.png" alt="Logo" class="logo-image">
+  </div>
+
+  <nav class="floating-toolbar">
+    <button class="toolbar-hamburger" aria-label="Open menu">
+      <span class="icon-hamburger">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(180 0 0)">
+            <path d="M3.25 6C3.25 5.58579 3.58579 5.25 4 5.25H20C20.4142 5.25 20.75 5.58579 20.75 6C20.75 6.41421 20.4142 6.75 20 6.75L4 6.75C3.58579 6.75 3.25 6.41422 3.25 6Z" fill="#947b57"/>
+            <path d="M3.25 18C3.25 17.5858 3.58579 17.25 4 17.25L20 17.25C20.4142 17.25 20.75 17.5858 20.75 18C20.75 18.4142 20.4142 18.75 20 18.75L4 18.75C3.58579 18.75 3.25 18.4142 3.25 18Z" fill="#947b57"/>
+            <path opacity="0.4" d="M4 11.25C3.58579 11.25 3.25 11.5858 3.25 12C3.25 12.4142 3.58579 12.75 4 12.75L20 12.75C20.4142 12.75 20.75 12.4142 20.75 12C20.75 11.5858 20.4142 11.25 20 11.25L4 11.25Z" fill="#947b57"/>
+            </svg>
+            
+            
+            
+            
+      </span>
+      <span class="icon-close">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+            <path opacity="0.4" d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM3.5 12C3.5 7.30558 7.30558 3.5 12 3.5C16.6944 3.5 20.5 7.30558 20.5 12C20.5 16.6944 16.6944 20.5 12 20.5C7.30558 20.5 3.5 16.6944 3.5 12Z" fill="#947b57"/>
+            <path d="M8.55811 11.25C8.14389 11.25 7.80811 11.5858 7.80811 12C7.80811 12.4142 8.14389 12.75 8.55811 12.75H15.4418C15.856 12.75 16.1918 12.4142 16.1918 12C16.1918 11.5858 15.856 11.25 15.4418 11.25H8.55811Z" fill="#947b57"/>
+            </svg>
+            
+      </span>
+    </button>
+    <div class="toolbar-options">
+      <a href="index.html" class="toolbar-btn">
+        <svg width="82" height="82" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+          <path opacity="0.4" d="M13.85 3.70391C13.05 3.10391 11.95 3.10391 11.15 3.70391L4.65 8.57891C4.08344 9.00383 3.75 9.6707 3.75 10.3789V18.5003C3.75 19.743 4.75736 20.7503 6 20.7503H11V17.0003C11 16.1719 11.6716 15.5003 12.5 15.5003C13.3284 15.5003 14 16.1719 14 17.0003V20.7503H19C20.2426 20.7503 21.25 19.743 21.25 18.5003V10.3789C21.25 9.6707 20.9166 9.00383 20.35 8.57891L13.85 3.70391Z" fill="#947b57"/>
+          <path d="M11 17.0005V20.7505H14V17.0005C14 16.1721 13.3284 15.5005 12.5 15.5005C11.6716 15.5005 11 16.1721 11 17.0005Z" fill="#947b57"/>
+        </svg>Home</a>
+      <a href="work.html" class="toolbar-btn">
+        <svg width="80" height="80" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+          <path opacity="0.4" d="M4.25 4.25C3.00736 4.25 2 5.25736 2 6.5V18.5C2 19.7426 3.00736 20.75 4.25 20.75H19.75C20.9926 20.75 22 19.7426 22 18.5V9.5C22 8.25736 20.9926 7.25 19.75 7.25H12.25C12.0139 7.25 11.7916 7.13885 11.65 6.95L10.3 5.15C9.87508 4.58344 9.2082 4.25 8.5 4.25H4.25Z" fill="#947b57"/>
+          <path d="M2 6.5C2 5.25736 3.00736 4.25 4.25 4.25H8.5C9.2082 4.25 9.87508 4.58344 10.3 5.15L11.65 6.95C11.7916 7.13885 12.0139 7.25 12.25 7.25H19.75C20.9926 7.25 22 8.25736 22 9.5V18.5C22 19.7426 20.9926 20.75 19.75 20.75H4.25C3.00736 20.75 2 19.7426 2 18.5V6.5ZM4.25 5.75C3.83579 5.75 3.5 6.08579 3.5 6.5V18.5C3.5 18.9142 3.83579 19.25 4.25 19.25H19.75C20.1642 19.25 20.5 18.9142 20.5 18.5V9.5C20.5 9.08579 20.1642 8.75 19.75 8.75H12.25C11.5418 8.75 10.8749 8.41656 10.45 7.85L9.1 6.05C8.95836 5.86115 8.73607 5.75 8.5 5.75H4.25Z" fill="#947b57"/>
+        </svg>Work</a>
+      <a href="thoughts.html" class="toolbar-btn">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+          <path d="M7.635 18.7988H2.5V21.7187C2.5 22.0145 2.67391 22.2827 2.94401 22.4034C3.21411 22.5241 3.52993 22.4748 3.75032 22.2774L7.635 18.7988Z" fill="#947b57"/>
+          <path opacity="0.4" d="M4.75 3.75C3.50736 3.75 2.5 4.75736 2.5 6V18.7984H7.635H19.25C20.4926 18.7984 21.5 17.791 21.5 16.5484V6C21.5 4.75736 20.4926 3.75 19.25 3.75H4.75Z" fill="#947b57"/>
+        </svg>Thoughts</a>
+      <a href="about.html" class="toolbar-btn">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+          <path d="M20.25 19.453C20.2421 19.8615 19.9087 20.1895 19.5001 20.1895H4.50013C4.09157 20.1895 3.75818 19.8624 3.75027 19.454L3.75023 19.452L3.75019 19.4493L3.7501 19.4423L3.75 19.4211C3.74999 19.404 3.75015 19.3807 3.75072 19.3516C3.75187 19.2937 3.75468 19.2127 3.76117 19.1119C3.77413 18.9107 3.80189 18.6292 3.86099 18.2937C3.97867 17.6258 4.22374 16.7262 4.73808 15.8194C5.79641 13.9537 7.92408 12.1895 12.0001 12.1895C16.0762 12.1895 18.2038 13.9537 19.2622 15.8194C19.7765 16.7262 20.0216 17.6258 20.1393 18.2937C20.1984 18.6292 20.2261 18.9107 20.2391 19.1119C20.2456 19.2127 20.2484 19.2937 20.2495 19.3516C20.2501 19.3807 20.2503 19.404 20.2503 19.4211L20.2502 19.4423L20.2501 19.4493L20.25 19.452L20.25 19.453Z" fill="#947b57"/>
+          <path opacity="0.4" d="M12.0672 2C9.6678 2 7.72266 3.94514 7.72266 6.34459C7.72266 8.74404 9.6678 10.6892 12.0672 10.6892C14.4667 10.6892 16.4118 8.74404 16.4118 6.34459C16.4118 3.94514 14.4667 2 12.0672 2Z" fill="#947b57"/>
+        </svg>About</a>
+    </div>
+  </nav>
+
+    <!-- Password Gate -->
+  <div id="password-gate" class="password-gate">
+    <div class="password-modal">
+      <div class="password-header">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+          <path opacity="0.4" d="M12 2C9.10051 2 6.75 4.3505 6.75 7.25V9.125H5.5C4.25736 9.125 3.25 10.1324 3.25 11.375V17.2495C3.25 19.8729 5.37665 21.9995 8 21.9995H16C18.6234 21.9995 20.75 19.8729 20.75 17.2495V11.375C20.75 10.1324 19.7426 9.125 18.5 9.125H17.25V7.25C17.25 4.35051 14.8995 2 12 2ZM12 3.5C14.0711 3.5 15.75 5.17893 15.75 7.25V9.125H8.25V7.25C8.25 5.17893 9.92893 3.5 12 3.5ZM12 14.5C12.8284 14.5 13.5 15.1716 13.5 16V17.5C13.5 18.3284 12.8284 19 12 19C11.1716 19 10.5 18.3284 10.5 17.5V16C10.5 15.1716 11.1716 14.5 12 14.5Z" fill="#947b57"/>
+          <path d="M10.5 16C10.5 15.1716 11.1716 14.5 12 14.5C12.8284 14.5 13.5 15.1716 13.5 16V17.5C13.5 18.3284 12.8284 19 12 19C11.1716 19 10.5 18.3284 10.5 17.5V16Z" fill="#947b57"/>
+          </svg>
+          
+        <h2>Protected Case Study</h2>
+        <p class="email-access-text" style="font-size: 16px;">Reach out for access code: 
+          <span class="email-address">adeobayomi@gmail.com
+            <button type="button" class="email-copy-btn" id="email-copy-btn" aria-label="Copy email address">
+              <svg class="copy-icon" width="16" height="16" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+                <path opacity="0.4" d="M7.19447 4.625C7.16931 4.78798 7.15625 4.95497 7.15625 5.125C7.15625 6.91992 8.61132 8.375 10.4062 8.375H13.5937C15.3887 8.375 16.8438 6.91992 16.8437 5.12499C16.8437 4.95496 16.8307 4.78798 16.8055 4.625H17.25C18.4926 4.625 19.5 5.63236 19.5 6.875L19.5 20.625C19.5 21.8676 18.4926 22.875 17.25 22.875H6.75C5.50736 22.875 4.5 21.8676 4.5 20.625V6.875C4.5 5.63236 5.50736 4.625 6.75 4.625H7.19447Z" fill="#947b57"/>
+                <path d="M10.4063 2.875C9.16361 2.875 8.15625 3.88236 8.15625 5.125C8.15625 6.36764 9.16361 7.375 10.4062 7.375H13.5937C14.8364 7.375 15.8438 6.36764 15.8437 5.125C15.8437 3.88236 14.8364 2.875 13.5937 2.875H10.4063Z" fill="#947b57"/>
+              </svg>
+              <svg class="copy-success-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+                <path d="M19.5455 6.4965C19.9848 6.93584 19.9848 7.64815 19.5455 8.08749L10.1286 17.5043C9.6893 17.9437 8.97699 17.9437 8.53765 17.5043L4.45451 13.4212C4.01517 12.9819 4.01516 12.2695 4.4545 11.8302C4.89384 11.3909 5.60616 11.3909 6.0455 11.8302L9.33315 15.1179L17.9545 6.4965C18.3938 6.05716 19.1062 6.05716 19.5455 6.4965Z" fill="#947b57"/>
+              </svg>
+            </button>
+          </span>
+        </p>
+      </div>
+      
+      <form id="password-form" class="password-form">
+        <div class="input-group">
+          <label for="password-input">Access Code</label>
+          <div class="password-input-wrapper">
+            <input 
+              type="password" 
+              id="password-input" 
+              placeholder="Enter access code"
+              autocomplete="off"
+              required
+            >
+            <button type="button" class="password-toggle" id="password-toggle" aria-label="Toggle password visibility">
+              <svg class="password-toggle-icon" width="20" height="20" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+                <g opacity="0.4">
+                  <path d="M9.125 12.875C9.125 11.2872 10.4122 10 12 10C13.5878 10 14.875 11.2872 14.875 12.875C14.875 14.4628 13.5878 15.75 12 15.75C10.4122 15.75 9.125 14.4628 9.125 12.875Z" fill="#947b57"/>
+                  <path d="M2.27757 11.6101C3.97429 7.93132 7.68801 5.375 11.9999 5.375C16.3119 5.375 20.0256 7.93133 21.7223 11.6101C22.0924 12.4125 22.0924 13.3377 21.7223 14.1402C20.0256 17.8189 16.3119 20.3752 11.9999 20.3752C7.68801 20.3752 3.97428 17.8189 2.27757 14.1402C1.90748 13.3377 1.90748 12.4125 2.27757 11.6101ZM7.625 12.875C7.625 15.2912 9.58375 17.25 12 17.25C14.4162 17.25 16.375 15.2912 16.375 12.875C16.375 10.4588 14.4162 8.5 12 8.5C9.58375 8.5 7.625 10.4588 7.625 12.875Z" fill="#947b57"/>
+                </g>
+                <path d="M12 8.5C9.58375 8.5 7.625 10.4588 7.625 12.875C7.625 15.2912 9.58375 17.25 12 17.25C14.4162 17.25 16.375 15.2912 16.375 12.875C16.375 10.4588 14.4162 8.5 12 8.5ZM9.125 12.875C9.125 11.2872 10.4122 10 12 10C13.5878 10 14.875 11.2872 14.875 12.875C14.875 14.4628 13.5878 15.75 12 15.75C10.4122 15.75 9.125 14.4628 9.125 12.875Z" fill="#947b57"/>
+              </svg>
+              <span class="password-toggle-text" style="display: none;">Hide</span>
+            </button>
+          </div>
+        </div>
+        
+        <button type="submit" class="password-submit">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Access Case Study
+        </button>
+        
+        <div id="password-error" class="password-error" style="display: none;">
+          Incorrect access code. Please try again.
+        </div>
+      </form>
+
+    
+
+    </div>
+    
+   
+  </div>
+
+  <!-- Article Content -->
+  <div id="article-content" class="article-layout" style="display: none;">
+    <!-- Table of Contents - Desktop Only -->
+    <aside class="table-of-contents">
+      <div class="toc-header">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+          <path opacity="0.4" d="M6.75 2C5.50736 2 4.5 3.00736 4.5 4.25V19C4.5 20.6569 5.84315 22 7.5 22H18.75C19.1642 22 19.5 21.6642 19.5 21.25C19.5 20.8358 19.1642 20.5 18.75 20.5H18V17.5H18.75C19.1642 17.5 19.5 17.1642 19.5 16.75V4.25C19.5 3.00736 18.4926 2 17.25 2H6.75ZM7.5 20.5C6.67157 20.5 6 19.8284 6 19C6 18.1716 6.67157 17.5 7.5 17.5H16.5V20.5H7.5ZM8.625 5.375H15.375C15.7892 5.375 16.125 5.71079 16.125 6.125V9.375C16.125 9.78921 15.7892 10.125 15.375 10.125H8.625C8.21079 10.125 7.875 9.78921 7.875 9.375V6.125C7.875 5.71079 8.21079 5.375 8.625 5.375Z" fill="#947b57"/>
+          <path d="M7.875 6.125C7.875 5.71079 8.21079 5.375 8.625 5.375H15.375C15.7892 5.375 16.125 5.71079 16.125 6.125V9.375C16.125 9.78921 15.7892 10.125 15.375 10.125H8.625C8.21079 10.125 7.875 9.78921 7.875 9.375V6.125Z" fill="#947b57"/>
+        </svg>
+        On This Page
+      </div>
+      <nav class="toc-nav">
+        <a href="#introduction" class="toc-link">Introduction</a>
+        <a href="#challenge" class="toc-link">Challenge & Opportunity</a>
+        <a href="#results" class="toc-link">Results & Impact</a>
+        <a href="#process" class="toc-link">Process</a>
+        <a href="#insights" class="toc-link">Insights</a>
+        <a href="#solution" class="toc-link">Solution</a>
+        <a href="#lessons" class="toc-link">Lessons Learned</a>
+      </nav>
+    </aside>
+
+    <main class="article-container">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb">
+        <a href="work.html">Work</a>
+        <span class="breadcrumb-separator">›</span>
+        <span>Bertie Sidekick</span>
+      </nav>
+
+    <!-- Article Header -->
+    <header class="article-header">
+      <h1>Bertie Sidekick: Automating SEO Tasks for Forbes' Journalists</h1>
+      
+      <!-- Feature Info Box -->
+      <div class="feature-info">
+
+        <div class="feature-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+            <path d="M8.80437 4.10156C6.7626 4.10156 5.10742 5.75674 5.10742 7.79851C5.10742 9.84027 6.7626 11.4955 8.80437 11.4955C10.8461 11.4955 12.5013 9.84027 12.5013 7.79851C12.5013 5.75674 10.8461 4.10156 8.80437 4.10156Z" fill="#947b57"/>
+            <path d="M1.85175 19.16L1.85172 19.1577L1.85165 19.1513L1.85156 19.1321C1.85156 19.1164 1.85169 19.0952 1.85215 19.0688C1.85309 19.016 1.85538 18.9421 1.86069 18.8502C1.8713 18.6666 1.89402 18.4095 1.94242 18.1031C2.03866 17.4938 2.23948 16.6698 2.66304 15.837C3.08862 15.0001 3.74414 14.1453 4.74743 13.5023C5.75344 12.8576 7.06383 12.4551 8.75032 12.4551C10.4368 12.4551 11.7472 12.8576 12.7532 13.5023C13.7565 14.1453 14.412 15.0001 14.8376 15.837C15.2612 16.6698 15.462 17.4938 15.5582 18.1031C15.6066 18.4095 15.6293 18.6666 15.6399 18.8502C15.6453 18.9421 15.6476 19.016 15.6485 19.0688C15.649 19.0952 15.6491 19.1164 15.6491 19.1321L15.649 19.1513L15.6489 19.1577L15.6489 19.161C15.6418 19.5701 15.3081 19.8988 14.899 19.8988H2.60167C2.19253 19.8988 1.85888 19.5709 1.85178 19.1618C1.85178 19.1618 1.85179 19.1625 1.85175 19.16Z" fill="#947b57"/>
+            <g opacity="0.4">
+            <path d="M17.0209 19.8988C17.0999 19.6756 17.1446 19.4363 17.149 19.187L17.1491 19.1799L17.1493 19.1676L17.1494 19.1387L17.1494 19.1327C17.1494 19.1083 17.1492 19.078 17.1486 19.0422C17.1473 18.9708 17.1443 18.8769 17.1378 18.7637C17.1247 18.538 17.0974 18.2312 17.0402 17.8691C17.0103 17.6801 16.9717 17.472 16.9215 17.2494C16.9165 17.2261 16.9113 17.2028 16.9058 17.1794C16.6448 16.0607 16.0667 14.4931 14.7497 13.189C14.515 12.9567 14.2627 12.7384 13.9924 12.5363C14.3865 12.4831 14.8056 12.4551 15.2509 12.4551C16.9373 12.4551 18.2477 12.8576 19.2537 13.5023C20.257 14.1453 20.9126 15.0001 21.3381 15.837C21.7617 16.6698 21.9625 17.4938 22.0588 18.1031C22.1072 18.4095 22.1299 18.6666 22.1405 18.8502C22.1458 18.9421 22.1481 19.016 22.149 19.0688C22.1495 19.0952 22.1496 19.1164 22.1496 19.1321L22.1495 19.1513L22.1495 19.1577L22.1494 19.161C22.1423 19.5701 21.8086 19.8988 21.3995 19.8988H17.0209Z" fill="#947b57"/>
+            <path d="M14.0028 7.79851C14.0028 8.89595 13.6627 9.91394 13.082 10.7528C13.7007 11.219 14.4705 11.4955 15.3049 11.4955C17.3467 11.4955 19.0018 9.84027 19.0018 7.79851C19.0018 5.75674 17.3467 4.10156 15.3049 4.10156C14.4705 4.10156 13.7007 4.37797 13.082 4.84422C13.6627 5.68307 14.0028 6.70106 14.0028 7.79851Z" fill="#947b57"/>
+            </g>
+            </svg>
+            
+            
+            <span><strong>Stakeholders:</strong>SEO Team, Chief Executive Editor, and the Journalists</span>
+            </div>
+
+        <div class="feature-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+            <path d="M18.9239 15.919C19.6048 14.6389 19.3548 13.0593 18.308 12.0513L15.5553 9.39089L15.7076 9.27135C15.9461 9.08408 15.9643 8.7293 15.7463 8.51855C15.5667 8.34496 15.2865 8.33056 15.09 8.48481L14.0355 9.31274L10.2562 12.2799C9.65789 12.7497 8.80291 12.6984 8.26499 12.1605C7.6791 11.5746 7.67778 10.6251 8.26204 10.0376L11.8248 6.45494C13.2178 5.12934 15.3979 5.07101 16.8614 6.3359L18.5483 7.79392C18.6846 7.91169 18.8587 7.97649 19.0388 7.97649H21.25C21.6642 7.97649 22 8.31228 22 8.72649V15.169C22 15.5832 21.6642 15.919 21.25 15.919H18.9239Z" fill="#947b57"/>
+            <path opacity="0.4" d="M17.6153 12.7724L14.7613 10.014L10.8738 13.0663C9.87738 13.8485 8.45364 13.7632 7.55789 12.8674C6.58224 11.8918 6.58004 10.3106 7.55296 9.33223L10.9792 5.88687C9.86571 5.16585 8.40768 5.26131 7.39716 6.12703L5.44921 7.79585C5.3133 7.91229 5.14023 7.97629 4.96126 7.97629H2.75C2.33579 7.97629 2 8.31207 2 8.72629V14.7558C2 15.17 2.33579 15.5058 2.75 15.5058H4.83766C5.05324 15.5058 5.2584 15.5986 5.40079 15.7604L7.74003 18.4197C8.49372 19.2765 9.76945 19.4335 10.7083 18.7849L11.3925 18.3122L12.1263 18.5611C13.0569 18.8769 14.0847 18.5522 14.665 17.7591L15.135 17.1168L15.4611 17.1608C16.3853 17.2854 17.2905 16.827 17.7371 16.0084L18.0297 15.4702C18.5153 14.58 18.3459 13.4755 17.6153 12.7724Z" fill="#947b57"/>
+            </svg>
+            
+            
+            
+          <span><strong>Team:</strong> 2 Engineers, 1 Product Manager, & myself</span>
+        </div>
+        <div class="feature-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+            <g opacity="0.4">
+            <path d="M8.75 2.75C8.75 2.33579 8.41421 2 8 2C7.58579 2 7.25 2.33579 7.25 2.75V3.75H5.5C4.25736 3.75 3.25 4.75736 3.25 6V8.25H20.75V6C20.75 4.75736 19.7426 3.75 18.5 3.75H16.75V2.75C16.75 2.33579 16.4142 2 16 2C15.5858 2 15.25 2.33579 15.25 2.75V3.75H8.75V2.75Z" fill="#947b57"/>
+            <path d="M3.25 19V9.75H20.75V19C20.75 20.2426 19.7426 21.25 18.5 21.25H5.5C4.25736 21.25 3.25 20.2426 3.25 19ZM7.98438 11.95C7.54255 11.95 7.18438 12.3082 7.18438 12.75C7.18438 13.1918 7.54255 13.55 7.98438 13.55H7.99438C8.4362 13.55 8.79437 13.1918 8.79437 12.75C8.79437 12.3082 8.4362 11.95 7.99438 11.95H7.98438ZM11.9941 11.95C11.5523 11.95 11.1941 12.3082 11.1941 12.75C11.1941 13.1918 11.5523 13.55 11.9941 13.55H12.0041C12.446 13.55 12.8041 13.1918 12.8041 12.75C12.8041 12.3082 12.446 11.95 12.0041 11.95H11.9941ZM16.0039 11.95C15.5621 11.95 15.2039 12.3082 15.2039 12.75C15.2039 13.1918 15.5621 13.55 16.0039 13.55H16.0139C16.4557 13.55 16.8139 13.1918 16.8139 12.75C16.8139 12.3082 16.4557 11.95 16.0139 11.95H16.0039ZM7.98438 15.95C7.54255 15.95 7.18438 16.3082 7.18438 16.75C7.18438 17.1918 7.54255 17.55 7.98438 17.55H7.99438C8.4362 17.55 8.79437 17.1918 8.79437 16.75C8.79437 16.3082 8.4362 15.95 7.99438 15.95H7.98438ZM11.9941 15.95C11.5523 15.95 11.1941 16.3082 11.1941 16.75C11.1941 17.1918 11.5523 17.55 11.9941 17.55H12.0041C12.446 17.55 12.8041 17.1918 12.8041 16.75C12.8041 16.3082 12.446 15.95 12.0041 15.95H11.9941ZM16.0039 15.95C15.5621 15.95 15.2039 16.3082 15.2039 16.75C15.2039 17.1918 15.5621 17.55 16.0039 17.55H16.0139C16.4557 17.55 16.8139 17.1918 16.8139 16.75C16.8139 16.3082 16.4557 15.95 16.0139 15.95H16.0039Z" fill="#947b57"/>
+            </g>
+            <path d="M7.18457 12.7492C7.18457 12.3074 7.54274 11.9492 7.98457 11.9492H7.99457C8.4364 11.9492 8.79457 12.3074 8.79457 12.7492C8.79457 13.191 8.4364 13.5492 7.99457 13.5492H7.98457C7.54274 13.5492 7.18457 13.191 7.18457 12.7492Z" fill="#947b57"/>
+            <path d="M11.1943 12.7492C11.1943 12.3074 11.5525 11.9492 11.9943 11.9492H12.0043C12.4462 11.9492 12.8043 12.3074 12.8043 12.7492C12.8043 13.191 12.4462 13.5492 12.0043 13.5492H11.9943C11.5525 13.5492 11.1943 13.191 11.1943 12.7492Z" fill="#947b57"/>
+            <path d="M15.2041 12.7492C15.2041 12.3074 15.5623 11.9492 16.0041 11.9492H16.0141C16.4559 11.9492 16.8141 12.3074 16.8141 12.7492C16.8141 13.191 16.4559 13.5492 16.0141 13.5492H16.0041C15.5623 13.5492 15.2041 13.191 15.2041 12.7492Z" fill="#947b57"/>
+            <path d="M15.2041 16.7492C15.2041 16.3074 15.5623 15.9492 16.0041 15.9492H16.0141C16.4559 15.9492 16.8141 16.3074 16.8141 16.7492C16.8141 17.191 16.4559 17.5492 16.0141 17.5492H16.0041C15.5623 17.5492 15.2041 17.191 15.2041 16.7492Z" fill="#947b57"/>
+            <path d="M11.1943 16.7492C11.1943 16.3074 11.5525 15.9492 11.9943 15.9492H12.0043C12.4462 15.9492 12.8043 16.3074 12.8043 16.7492C12.8043 17.191 12.4462 17.5492 12.0043 17.5492H11.9943C11.5525 17.5492 11.1943 17.191 11.1943 16.7492Z" fill="#947b57"/>
+            <path d="M7.18457 16.7492C7.18457 16.3074 7.54274 15.9492 7.98457 15.9492H7.99457C8.4364 15.9492 8.79457 16.3074 8.79457 16.7492C8.79457 17.191 8.4364 17.5492 7.99457 17.5492H7.98457C7.54274 17.5492 7.18457 17.191 7.18457 16.7492Z" fill="#947b57"/>
+            </svg>
+            
+            <span><strong>Project Timeline:</strong> February 2024 - August 2024</span>  (Project launched in October 2024)
+            </div>
+      </div>
+    </header>
+
+    <!-- Article Content -->
+    <article class="article-content">
+      <h2 id="introduction" class="explore-animate">Introduction: SEO and Forbes</h2>
+     
+
+      <p class="lead-paragraph">
+        At Forbes, writers are to us what LeBron James is to the Lakers: <b>absolutely pivotal to our success</b>.
+        <br></p>
+       <p> Our responsibility on the digital side is to amplify their talent making sure every story is optimized to shine online. 
+        That means following SEO best practices so Forbes articles consistently rank high on Google, driving visibility, 
+        readership, and ultimately revenue.
+      </p>
+
+      <p> Not long ago, SEO at Forbes was straightforward. But with Google’s AI 
+        Overviews and Search Generative Experiences reshaping the search landscape, competition for 
+        visibility has intensified and to stay ahead, we needed to raise our average SEO performance 
+        across all stories.
+      </p>
+
+  
+
+     
+<!-- Hero Image -->
+
+      <h2 id="challenge">The Problem: Low Usage of Bertie's SEO Tools</h2>
+    <h3>The Challenge</h3>
+      <p class="lead-paragraph">
+        Bertie, our in-house writing platform, already featured an SEO assistant. 
+        But internal data showed an open rate of only ~29%, with 
+        feedback revealing that most of its features fell short of writers’ needs.</p>
+        <p>
+            As a result, most writers avoided the assistant altogether. Since many stories 
+            never go through the SEO team, this gap likely dragged down our overall SEO performance.
+
+      </p>
+
+
+      <h3>The Opportunity</h3>
+      <p class="lead-paragraph">
+        We saw this as a chance to reimagine our SEO assistant—designing it to be both more powerful and more intuitive for writers.</p>
+
+    <p class="lead-paragraph"> The mission statement we set out for this tool to achieve was:</p>
+
+
+      <div class="highlight-box" style="margin-bottom:24px;">
+        <h3>By giving writers a more effective and user-friendly tool, we can raise the 
+            baseline for SEO across all stories with the pay off being clear: stronger rankings, more pageviews,
+            and ultimately, more revenue for Fores.
+        </h3>
+        
+      </div>
+
+      <br>
+
+
+<!-- Results -->
+<div class="results-section">
+  <h2 id="results">Results & Impact</h2>
+  <ul class="results-list">
+    <li>
+      Bertie Sidekick launched October 2024, and one month after its launch, <b>adoption jumped from 29% to 53%.</b></li>
+    <li>3 month after launch, open rate was retained with engaged users more than doubling their clicks/session.</li>
+    <li>December 2024, Forbes recieved its highest comScore for site ranking & visitation in over 12 months.</li>
+  </ul>
+  <div class="results-divider"></div>
+
+  <div class="image-grid">
+    <div class="image-item">
+      <img src="Pre Launch.PNG" alt="Assitant metrics 1 month before launch" loading="lazy">
+      <p class="image-caption">Assistant metrics 1 month before launch.</p>
+    </div>
+    <div class="image-item">
+      <img src="1 Month Post Launch.PNG" alt="Assistant metrics 1 month after launch" loading="lazy">
+      <p class="image-caption">Assistant metrics 1 month after launch.</p>
+    </div>
+  </div>
+  <div class="image-item">
+    <img src="3 months After Launch.PNG" alt="Assistant metrics 3 months after launch" loading="lazy">
+    <p class="image-caption">Assistant metrics 3 months after launch.</p>
+  </div>
+ 
+
+
+</div>
+
+
+
+<br>
+      <h2 id="process">Process: How We Got Here</h2>
+      
+      <h3>Research & Discovery</h3>
+      <p>
+        At the time, I was still relatively new to the company and was shocked that a feature serving 500+ 
+        writers had an <b>open rate below 30%</b>.</p>
+
+        <p class="lead-paragraph">
+            This provided the perfect impetus to get to the root 
+            of why writers felt the SEO assistant fell short of their needs. With oversight from our managers, 
+            Matt (PM), and I kicked off the initiative by creating a questionnaire to uncover the key pain 
+            points within the existing SEO tool.
+         
+</p>
+
+      <!-- Process Images -->
+      <div class="image-item">
+        <img src="UX Bertie.PNG" alt="Slab doc for our UX research.">
+        <p class="image-caption">Slab doc for our UX research.</p>
+      </div>
+
+
+      <h3>Highlighted Quotes</h3>
+      <p>
+        Across both user types, a common sentiment was inferred by way of these two quotes:</p>
+<div class="code-blocks-grid">
+        <div class="highlight-box">
+          <p style="font-size: 14px;">User 1 in relation to how they interact with articles.</p>
+          <h3 style="font-size:21.8px;">" It's a normal reaction of mine to go to the comment section and see what people are saying. 
+          Sometimes it's meaningless but sometimes it brings another 
+          perspective or <span style="text-decoration:underline;">
+          summary</span>. "</h3>
+
+
+          </div>
+
+         <div class="highlight-box">
+
+          <p style="font-size: 14px;">User 2 in relation to what makes Instagram an ideal platform 
+            for news consumption.</p>
+          <h3>" Like with Instagram, I like the idea of getting various pieces of <span style="text-decoration:underline;">information quickly</span>. "</h3>
+  </div>
+  
+</div>
+
+<br>   
+
+     
+      <h2 id="insights">Insights</h2>
+      
+      <p>
+        These insights informed our design decisions and helped us create a more relevant and engaging experience.
+      </p>
+
+      <!-- Code/Technical Example -->
+      <div class="code-blocks-grid">
+       
+      <div class="code-block">
+          <p style="font-size: 12px; text-transform: uppercase; color: #947b57;">Insight 1</p>
+          <h4 class="code-block-title">
+            <span class="code-block-icon">  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+              <path d="M8.80437 4.10156C6.7626 4.10156 5.10742 5.75674 5.10742 7.79851C5.10742 9.84027 6.7626 11.4955 8.80437 11.4955C10.8461 11.4955 12.5013 9.84027 12.5013 7.79851C12.5013 5.75674 10.8461 4.10156 8.80437 4.10156Z" fill="#947b57"/>
+              <path d="M1.85175 19.16L1.85172 19.1577L1.85165 19.1513L1.85156 19.1321C1.85156 19.1164 1.85169 19.0952 1.85215 19.0688C1.85309 19.016 1.85538 18.9421 1.86069 18.8502C1.8713 18.6666 1.89402 18.4095 1.94242 18.1031C2.03866 17.4938 2.23948 16.6698 2.66304 15.837C3.08862 15.0001 3.74414 14.1453 4.74743 13.5023C5.75344 12.8576 7.06383 12.4551 8.75032 12.4551C10.4368 12.4551 11.7472 12.8576 12.7532 13.5023C13.7565 14.1453 14.412 15.0001 14.8376 15.837C15.2612 16.6698 15.462 17.4938 15.5582 18.1031C15.6066 18.4095 15.6293 18.6666 15.6399 18.8502C15.6453 18.9421 15.6476 19.016 15.6485 19.0688C15.649 19.0952 15.6491 19.1164 15.6491 19.1321L15.649 19.1513L15.6489 19.1577L15.6489 19.161C15.6418 19.5701 15.3081 19.8988 14.899 19.8988H2.60167C2.19253 19.8988 1.85888 19.5709 1.85178 19.1618C1.85178 19.1618 1.85179 19.1625 1.85175 19.16Z" fill="#947b57"/>
+              <g opacity="0.4">
+              <path d="M17.0209 19.8988C17.0999 19.6756 17.1446 19.4363 17.149 19.187L17.1491 19.1799L17.1493 19.1676L17.1494 19.1387L17.1494 19.1327C17.1494 19.1083 17.1492 19.078 17.1486 19.0422C17.1473 18.9708 17.1443 18.8769 17.1378 18.7637C17.1247 18.538 17.0974 18.2312 17.0402 17.8691C17.0103 17.6801 16.9717 17.472 16.9215 17.2494C16.9165 17.2261 16.9113 17.2028 16.9058 17.1794C16.6448 16.0607 16.0667 14.4931 14.7497 13.189C14.515 12.9567 14.2627 12.7384 13.9924 12.5363C14.3865 12.4831 14.8056 12.4551 15.2509 12.4551C16.9373 12.4551 18.2477 12.8576 19.2537 13.5023C20.257 14.1453 20.9126 15.0001 21.3381 15.837C21.7617 16.6698 21.9625 17.4938 22.0588 18.1031C22.1072 18.4095 22.1299 18.6666 22.1405 18.8502C22.1458 18.9421 22.1481 19.016 22.149 19.0688C22.1495 19.0952 22.1496 19.1164 22.1496 19.1321L22.1495 19.1513L22.1495 19.1577L22.1494 19.161C22.1423 19.5701 21.8086 19.8988 21.3995 19.8988H17.0209Z" fill="#947b57"/>
+              <path d="M14.0028 7.79851C14.0028 8.89595 13.6627 9.91394 13.082 10.7528C13.7007 11.219 14.4705 11.4955 15.3049 11.4955C17.3467 11.4955 19.0018 9.84027 19.0018 7.79851C19.0018 5.75674 17.3467 4.10156 15.3049 4.10156C14.4705 4.10156 13.7007 4.37797 13.082 4.84422C13.6627 5.68307 14.0028 6.70106 14.0028 7.79851Z" fill="#947b57"/>
+              </g>
+              </svg>
+              
+              </span>
+              Reader to Reader Perspectives
+          </h4>
+          <p>
+            User 1 valued the comment section as a social layer; using other readers' takes for context, 
+            a new perspective, and even a quick summary that extended beyond the article itself.</p>
+        </div>
+
+        <div class="code-block">
+          <p style="font-size: 12px; text-transform: uppercase; color: #947b57;">Insight 2</p>
+          <h4 class="code-block-title">
+            <span class="code-block-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+              <path opacity="0.4" d="M7.41016 2C7.05632 2 6.75061 2.24731 6.6767 2.59336L4.4267 13.1285C4.37942 13.3499 4.43468 13.5809 4.57707 13.7569C4.71947 13.9329 4.93376 14.0352 5.16016 14.0352H10.6842L10.0637 21.1852C10.0338 21.5302 10.244 21.8509 10.5724 21.9611C10.9008 22.0712 11.2619 21.9422 11.4461 21.6489L19.4749 8.86368C19.6201 8.63255 19.6282 8.34081 19.4962 8.10195C19.3641 7.86309 19.1127 7.71482 18.8398 7.71482L13.1876 7.71482L15.368 3.06863C15.477 2.83632 15.4597 2.5644 15.3221 2.3478C15.1845 2.1312 14.9457 2 14.6891 2H7.41016Z" fill="#947b57"/>
+              <path d="M6.6767 2.59336C6.75061 2.24731 7.05632 2 7.41016 2H14.6891C14.9457 2 15.1845 2.1312 15.3221 2.3478C15.4597 2.5644 15.477 2.83632 15.368 3.06863L13.1876 7.71482L18.8398 7.71482C19.1127 7.71482 19.3641 7.86309 19.4962 8.10195C19.6282 8.34081 19.6201 8.63255 19.4749 8.86368L11.4461 21.6489C11.2619 21.9422 10.9008 22.0712 10.5724 21.9611C10.244 21.8509 10.0338 21.5302 10.0637 21.1852L10.6842 14.0352H5.16016C4.93376 14.0352 4.71947 13.9329 4.57707 13.7569C4.43468 13.5809 4.37942 13.3499 4.4267 13.1285L6.6767 2.59336ZM8.0169 3.5L6.08725 12.5352H11.5021C11.7123 12.5352 11.9128 12.6234 12.0549 12.7783C12.1969 12.9332 12.2675 13.1406 12.2493 13.35L11.8264 18.2226L17.4832 9.21482L12.0071 9.21482C11.7505 9.21482 11.5117 9.08362 11.3741 8.86702C11.2365 8.65042 11.2192 8.3785 11.3282 8.14619L13.5086 3.5H8.0169Z" fill="#947b57"/>
+              </svg>
+              </span>
+           Bite Size, Quick Delivery News
+          </h4>
+          <p>User 2's reference to Instagram suggested they valued speed and brevity over 
+            today's model of digital publishing which supports long-form reading by way of dense articles.</p>
+        </div>
+
+      </div>
+
+      <div class="code-block">
+        <p style="font-size: 12px; text-transform: uppercase; color: #947b57;">Insight 3</p>
+        <h4 class="code-block-title">
+          <span style="margin-bottom: -8px;"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+            <g opacity="0.4">
+            <path d="M11.9985 2.50098C9.90741 2.50098 7.8747 3.19099 6.21568 4.464C4.55666 5.737 3.36406 7.52186 2.82283 9.54175C2.71563 9.94185 2.95306 10.3531 3.35316 10.4603C3.75326 10.5675 4.16451 10.3301 4.27172 9.92998C4.72749 8.22904 5.73177 6.72602 7.12882 5.65403C8.52587 4.58203 10.2376 4.00098 11.9985 4.00098C13.7595 4.00098 15.4712 4.58203 16.8683 5.65403C17.6571 6.25932 18.3207 7.00205 18.8311 7.84024L17.2784 8.27435C16.9863 8.35603 16.7721 8.60564 16.7358 8.90679C16.6994 9.20794 16.8481 9.50134 17.1124 9.65017L20.1931 11.3849C20.3664 11.4825 20.5714 11.5072 20.763 11.4537C20.9546 11.4001 21.117 11.2727 21.2146 11.0993L22.9492 8.01828C23.0981 7.75395 23.073 7.426 22.8857 7.18735C22.6985 6.9487 22.3859 6.84636 22.0938 6.92804L20.3225 7.42325C19.6932 6.27881 18.8306 5.26905 17.7814 4.464C16.1224 3.19099 14.0897 2.50098 11.9985 2.50098Z" fill="#947b57"/>
+            <path d="M3.79695 12.6155C3.62362 12.5179 3.41862 12.4932 3.22704 12.5467C3.03547 12.6003 2.87301 12.7278 2.77542 12.9011L1.0408 15.9821C0.891979 16.2465 0.917043 16.5744 1.1043 16.8131C1.29157 17.0517 1.60414 17.1541 1.89629 17.0724L3.67618 16.5747C4.30559 17.72 5.16861 18.7305 6.21839 19.536C7.87741 20.809 9.91012 21.499 12.0013 21.499C14.0924 21.499 16.1251 20.809 17.7841 19.536C19.4431 18.263 20.6358 16.4781 21.177 14.4582C21.2842 14.0581 21.0468 13.6469 20.6467 13.5397C20.2466 13.4325 19.8353 13.6699 19.7281 14.07C19.2723 15.7709 18.268 17.274 16.871 18.346C15.4739 19.418 13.7622 19.999 12.0013 19.999C10.2403 19.999 8.52859 19.418 7.13154 18.346C6.34208 17.7402 5.67803 16.9968 5.16752 16.1578L6.71162 15.7261C7.00375 15.6444 7.21793 15.3948 7.25427 15.0936C7.29061 14.7925 7.14198 14.4991 6.87766 14.3502L3.79695 12.6155Z" fill="#947b57"/>
+            </g>
+            <path d="M10.7857 12.0876C9.54951 12.0876 8.54736 13.0898 8.54736 14.326V15.2562C8.54736 15.6704 8.88315 16.0062 9.29736 16.0062H14.7024C15.1166 16.0062 15.4524 15.6704 15.4524 15.2562V14.326C15.4524 13.0898 14.4503 12.0876 13.214 12.0876H10.7857Z" fill="#947b57"/>
+            <path d="M10.385 9.86061C10.385 8.96867 11.1081 8.24561 12 8.24561H12.0054C12.8973 8.24561 13.6204 8.96867 13.6204 9.86061C13.6204 10.7525 12.8973 11.4756 12.0054 11.4756H12C11.1081 11.4756 10.385 10.7525 10.385 9.86061Z" fill="#947b57"/>
+            </svg>
+            </span>
+            Low Friction Engagement
+        </h4>
+        <p>
+          Both users gravitated towards <b>effortless information consumption</b>: User 2 by quickly scanning 
+          multiple bite-sized pieces, and User 1 by scrolling through comments instead of the article itself; 
+          seeking a "<i>cleaner reading experience</i>" free from the visual noise of ads and content recirculation units.
+        </p>
+      </div>
+<br>
+<h3>From Here, We Created This How Might We Statement:</h3> 
+  <p class="'lead-paragraph" style="font-size:18px;">How might we design a quick, snackable news
+     experience that leverages peer commentary and <b>empowers users to grasp the essence of multiple stories more
+      easily than reading a single dense article?</b></p>  <br>    
+
+
+
+
+<h2 id="solution">The Solution</h2>
+
+<p></p>
+
+<h3>Features</h3>
+
+<p>
+  The key features that emerged from our research insights and user needs.
+</p>
+
+<div class="feature-gallery">
+  <div class="feature-card">
+    <div class="feature-content">
+      <p></p>
+      <h3 class="feature-headline">Article Digest: AI-Curated Summaries</h3>
+      <p class="feature-description">
+        Digests were designed to save users time in the exploration phase. 
+        Readers got 3 contextual summaries directly from the source article. A <b>bread-and-butter summary</b>, a <b>grounding quote</b>, and a <b>“why it matters”</b> lens that ties the story back to broader <i>social, historical, & even cultural</i> trends, making news consumption more relatable and meaningful.
+        <br>
+        <br>
+        This quick, digestible format allows users to grasp not just what happened, but <b>why 
+        it’s significant in a larger context</b>, without committing to a full read. At the same time, 
+        it provides a clear pathway to the full article for those who want to go deeper.
+      </p>
+    </div>
+         <div class="feature-image image-item">
+       <img src="A Digest.png" alt="AI-powered content discovery interface" loading="lazy">
+     </div>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-content">
+      <p>
+      <h3 class="feature-headline">Social Commentary Layer: Reader Reactions</h3>
+      <p class="feature-description">
+At its core,<b> news is social and reactionary.</b> Reader Reactions were inspired by the nudge theory; surfacing 
+lightweight social cues; such as: '<i>Readers found this: Insightful, Surprising, etc.</i>'</p> <br> <p class="feature-description">This was to signal value, and <b>extrinsincially encourage engagement</b> with content 
+that another reader might otherwise have overlooked.</p><br> <p class="feature-description"> By using social proof as a peer-to-peer recommendation signal, Reader Reactions encouraged more engagement with Digests, leading to a 
+higher rate of Digests opened per user session.
+      </p>
+    </div>
+    <div class="feature-image image-item">
+      <div class="image-slider-container">
+        <div class="image-slider">
+          <img src="RR Light Mode.png" alt="Reader Reactions Light Mode" class="slider-image slider-before" loading="eager">
+          <img src="RR Dark Mode.png" alt="Reader Reactions Dark Mode" class="slider-image slider-after" loading="eager">
+          <div class="slider-handle">
+            <div class="slider-button">
+              <svg width="38" height="38" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M16.9628 7.30804C17.2432 7.19198 17.5658 7.25625 17.7803 7.47085L21.7451 11.4385C21.9008 11.5759 21.999 11.777 21.999 12.001C21.999 12.2239 21.9018 12.4241 21.7474 12.5615L17.7802 16.5312C17.5658 16.7458 17.2431 16.81 16.9628 16.694C16.6825 16.5779 16.4997 16.3044 16.4997 16.001L16.4997 12.751V11.251L16.4997 8.001C16.4997 7.6976 16.6825 7.42409 16.9628 7.30804ZM7.49928 11.251L7.49928 8.001C7.49928 7.69761 7.3165 7.4241 7.03618 7.30804C6.75586 7.19199 6.43324 7.25625 6.21878 7.47085L2.22145 11.4708C1.92879 11.7637 1.92879 12.2383 2.22144 12.5311L6.21877 16.5312C6.43323 16.7458 6.75586 16.81 7.03618 16.694C7.31649 16.5779 7.49928 16.3044 7.49928 16.001L7.49928 12.751V11.251Z" fill="#947b57"/>
+                <path opacity="0.4" d="M16.4995 11.251L7.49902 11.251V12.751L16.4995 12.751V11.251Z" fill="#947b57"/>
+                </svg>
+                
+            </div>
+          </div>
+        </div>
+                 <div class="slider-labels">
+           <span class="slider-label-left">Dark Mode</span>
+           <span class="slider-label-right">Light Mode</span>
+         </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="feature-card">
+    <div class="feature-content">
+      <p>
+      <h3 class="feature-headline">Social Commentary Layer: Polls</h3>
+      <p class="feature-description">
+        Polls were generated from article content and added a low-effort social layer that let users quickly share their 
+        take on a topic and instantly see how it aligned with, or stacked against, the public's perspective. 
+        It was a subtle but effective way to break people out of their echo chambers and spark curiosity beyond 
+        their usual point of view. </p>
+    </div>
+    <div class="feature-image image-item">
+      <img src="AI polls flow.png" alt="AI Polls Phases" loading="lazy">
+    </div>
+  </div>
+
+
+
+
+  <div class="feature-card">
+    <div class="feature-content">
+      <p>
+      <h3 class="feature-headline">Low Friction Engagement: Next Read</h3>
+      <p class="feature-description">
+        Not a feature per se, but a core interaction design principle was inspired 
+        by the effortless swipe behavior seen in TikToks, Shorts, et al. 
+        While the constraint was the media type—not the platform—we still aimed to 
+        recreate that same sense of flow and lightness.</p>
+
+        <p></p>
+
+        <p class="feature-description">Instead of traditional page-to-page loads, users could scroll within a Digest panel, 
+          click “Next Read,” and instantly transition to the next story within that topic. We leveraged a scroll-to-top interaction to achieve this;
+          interpolating swipeable, snackable behavior into a fast, text-based, web-native experience.</p>
+    </div>
+    <div class="feature-image image-item">
+      <div class="gif-container interactive-gif">
+        <div class="gif-loader"></div>
+        <img src="Next Read.gif" 
+             alt="Next Read Interaction" 
+             loading="eager" 
+             class="gif-loading gif-interactive"
+             data-gif-src="Next Read.gif"
+             data-static-src="Next Read Preview.png">
+        <div class="gif-play-indicator">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" fill="rgba(255,255,255,0.9)"/>
+            <path d="M10 8l6 4-6 4V8z" fill="black"/>
+          </svg>
+        </div>
+        <p class="gif-annotation">
+          <span class="desktop-text">Hover to play <I>(Focus on the Next Read Interaction)</I> </span>
+          <span class="mobile-text">Click to play</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<br>
+
+<div></div>
+
+<h2 id="lessons">Lessons Learned: Why This Experience Mattered</h2>
+      
+       <!-- Hero Image -->
+       <div class="content-image">
+        <img src="Feature Intro Thumbnail.png" alt="Forbes Explore interface showing personalized content recommendations" class="preloaded">
+      </div>
+
+      <p>
+        This project reinforced the importance of user-centered design in content platforms. By focusing on how people 
+        naturally discover and consume information, we created a more relevant and engaging experience that met readers'
+         current information consumption needs.
+      </p>
+
+      <p class="lead-paragraph">
+        This was my first time working on a 0-to-1 product while shipping to an established brand's user base, albeit a fractional one. 
+        The initiative provided me with invaluable opportunities such as, <b>frequently checking in with C-level stakeholders, presenting Explore to the company, 
+        and lastly making bets and experimenting with design decisions</b>; the latter of which directly drove measurable improvements in real user behavior.</p>
+        
+        
+        <p class="lead-paragraph">With a high level of autonomy and responsibility, I grew significantly as a designer and professional, 
+          gaining clarity on the types of problems I enjoy solving. Working with the Explore 
+          team was a rewarding experience, and I’m grateful to have collaborated with such a small but talented group.
+       </p>
+     
+        <p class="lead-paragraph">Though Explore no longer exists today as its standalone product, the experiment’s success has influenced other product initiatives, 
+        with features from Explore being interpolated or scaled into core Forbes' products. </p>
+        
+     
+
+     
+    </article>
+  </main>
+  </div>
+
+  <div class="last-row">
+    <h4>Get In Touch</h4>
+    <div class="social-row">
+      <button class="sec-btn" id="linkedinBtn" aria-label="LinkedIn">
+          <!-- LinkedIn SVG -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+            <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/>
+          </svg>
+        </button>
+
+        <button class="sec-btn" id="mailBtn" aria-label="Mail">
+          <!-- Email SVG -->
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+              <path d="M3.73586 4.5C2.7772 4.5 2.00008 5.27724 2.00025 6.2359L2.00024 6.26829C2.01058 6.81904 2.28193 7.33272 2.73193 7.65165L2.7428 7.65929L10.713 13.2171C11.3896 13.689 12.2608 13.7479 12.9861 13.3941C13.0897 13.3435 13.1903 13.2845 13.287 13.2171L21.2569 7.65949C21.7224 7.33485 21.9998 6.8031 21.9998 6.23554C21.9996 5.27702 21.2229 4.5 20.2644 4.5H3.73586Z" fill="#737373"/>
+              <path opacity="0.4" d="M22.0001 8.96973L14.145 14.4473C12.8562 15.346 11.1438 15.346 9.85507 14.4473L2.00023 8.96991L2 17.2498C2 18.4924 3.00736 19.4998 4.25 19.4998H19.75C20.9926 19.4998 22 18.4924 22 17.2498L22.0001 8.96973Z" fill="#737373"/>
+              </svg>
+              
+        </button>
+
+
+      <button class="sec-btn" id="githubBtn" aria-label="GitHub">
+        <!-- GitHub SVG -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
+          </svg>
+      </button>
+  
+    </div>
+    <p style="color: #737373; font-size: 12px;">© 2025 | Adé Obayomi</p>
+
+  </div>
+  <div id="lightbox" class="lightbox" tabindex="-1" aria-modal="true" role="dialog" style="display:none;">
+    <div class="lightbox-content">
+        <div class="lightbox-image-container">
+          <img id="lightbox-img" src="" alt="">
+          <p id="lightbox-desc"></p>
+        </div>
+        <div class="lightbox-nav">
+          <button id="lightbox-prev"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+            <path opacity="0.4" d="M2 11.9991C2 6.47668 6.47729 2 11.9996 2C17.5218 2 21.9991 6.47668 21.9991 11.9991C21.9991 17.5214 17.5218 21.9981 11.9996 21.9981C6.47729 21.9981 2 17.5214 2 11.9991ZM11.9996 3.5C7.30561 3.5 3.5 7.30521 3.5 11.9991C3.5 16.6929 7.30561 20.4981 11.9996 20.4981C16.6935 20.4981 20.4991 16.6929 20.4991 11.9991C20.4991 7.30521 16.6935 3.5 11.9996 3.5Z" fill="#947b57"/>
+            <path d="M10.3698 11.2512L11.7417 9.87834C12.0345 9.58535 12.0344 9.11048 11.7414 8.81768C11.4484 8.52488 10.9736 8.52503 10.6808 8.81801L8.0426 11.4578C7.89905 11.5945 7.80957 11.7874 7.80957 12.0012C7.80957 12.2277 7.90996 12.4307 8.06867 12.5682L10.6807 15.1821C10.9735 15.4751 11.4484 15.4753 11.7414 15.1825C12.0344 14.8897 12.0346 14.4148 11.7418 14.1219L10.3721 12.7512L15.4402 12.7512C15.8544 12.7512 16.1902 12.4154 16.1902 12.0012C16.1902 11.587 15.8544 11.2512 15.4402 11.2512L10.3698 11.2512Z" fill="#947b57"/>
+            </svg>
+            </button>
+          <button id="lightbox-next"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+            <path opacity="0.4" d="M2 11.9991C2 6.47668 6.47729 2 11.9996 2C17.5218 2 21.9991 6.47668 21.9991 11.9991C21.9991 17.5214 17.5218 21.9981 11.9996 21.9981C6.47729 21.9981 2 17.5214 2 11.9991ZM11.9996 3.5C7.30561 3.5 3.5 7.30521 3.5 11.9991C3.5 16.6929 7.30561 20.4981 11.9996 20.4981C16.6935 20.4981 20.4991 16.6929 20.4991 11.9991C20.4991 7.30521 16.6935 3.5 11.9996 3.5Z" fill="#947b57"/>
+            <path d="M13.6279 11.2488H8.55981C8.1456 11.2488 7.80981 11.5846 7.80981 11.9988C7.80981 12.413 8.1456 12.7488 8.55981 12.7488H13.6303L12.2583 14.1217C11.9655 14.4146 11.9656 14.8895 12.2586 15.1823C12.5516 15.4751 13.0265 15.475 13.3193 15.182L15.9574 12.5422C16.101 12.4055 16.1904 12.2126 16.1904 11.9988C16.1904 11.7723 16.0901 11.5693 15.9313 11.4317L13.3193 8.81785C13.0265 8.52485 12.5516 8.52469 12.2586 8.81748C11.9656 9.11027 11.9655 9.58514 12.2583 9.87814L13.6279 11.2488Z" fill="#947b57"/>
+            </svg>
+            </button>
+        </div>
+        <button id="lightbox-close"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+            <path opacity="0.4" d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM3.5 12C3.5 7.30558 7.30558 3.5 12 3.5C16.6944 3.5 20.5 7.30558 20.5 12C20.5 16.6944 16.6944 20.5 12 20.5C7.30558 20.5 3.5 16.6944 3.5 12Z" fill="#947b57"/>
+            <path d="M8.55811 11.25C8.14389 11.25 7.80811 11.5858 7.80811 12C7.80811 12.4142 8.14389 12.75 8.55811 12.75H15.4418C15.856 12.75 16.1918 12.4142 16.1918 12C16.1918 11.5858 15.856 11.25 15.4418 11.25H8.55811Z" fill="#947b57"/>
+            </svg></button>
+      </div>
+  </div>
+  <div class="toolbar-scrim"></div>
+  <script src="index.js"></script>
+  <script src="particles.js"></script>
+  <script src="image-optimizer.js"></script>
+</body>
+</html>

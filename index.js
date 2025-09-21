@@ -94,7 +94,9 @@ document.addEventListener('DOMContentLoaded', function() {
                      // Netlify clean URL matching
                      currentPath === '/' + cleanHref ||
                      currentPath === cleanHref ||
-                     (currentPath === '/' && cleanHref === 'index');
+                     (currentPath === '/' && cleanHref === 'index') ||
+                     // Special case: bertie-sidekick.html should activate work.html button
+                     (currentPageFile === 'bertie-sidekick.html' && href === 'work.html');
       
       if (isMatch) {
         console.log('Setting active button:', href);
@@ -881,8 +883,8 @@ document.addEventListener('DOMContentLoaded', function() {
     subtree: true
   });
 
-  // Table of Contents Scroll Spy for explore.html
-  if (window.location.pathname.includes('explore')) {
+  // Table of Contents Scroll Spy for explore.html and bertie-sidekick.html
+  if (window.location.pathname.includes('explore') || window.location.pathname.includes('bertie-sidekick')) {
     const tocLinks = document.querySelectorAll('.toc-link');
     const sections = document.querySelectorAll('[id]'); // All elements with IDs
     
@@ -943,37 +945,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }, 5000);
   }
 
-  // Make Forbes project card clickable on work.html
-  if (window.location.pathname.endsWith('work.html') || 
-      window.location.pathname.endsWith('/work.html') || 
-      window.location.pathname === '/work' || 
-      window.location.pathname.endsWith('/work')) {
-    console.log('On work.html, setting up Forbes card');
-    const projectCards = document.querySelectorAll('.project-content');
-    console.log('Found project cards:', projectCards.length);
-    
-    // Look for the Forbes card specifically by checking for "Forbes" in the text
-    projectCards.forEach((card, index) => {
-      const cardText = card.textContent || card.innerText;
-      console.log(`Card ${index} text:`, cardText.substring(0, 50) + '...');
-      
-      if (cardText.includes('Forbes: Explore') || cardText.includes('Forbes')) {
-        console.log('Found Forbes card at index:', index);
-        card.style.cursor = 'pointer';
-        card.addEventListener('click', function(e) {
-          e.preventDefault();
-          console.log('Forbes card clicked, navigating to explore.html');
-          
-          // Detect if we're on localhost or Netlify and use appropriate URL format
-          const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-          const targetUrl = isLocalhost ? 'explore.html' : '/explore';
-          
-          console.log('Navigating to:', targetUrl);
-          window.location.href = targetUrl;
-        });
-      }
-    });
-  }
+
 
   // Password gate functionality for explore.html
   if (window.location.pathname.endsWith('explore.html') || 
@@ -1001,7 +973,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.classList.add('password-gate-active');
     
     // Set the correct password here
-    const correctPassword = 'forbes2024'; // Change this to your desired password
+    const correctPassword = 'ade1998'; // Change this to your desired password
     
     console.log('Password gate initialized for explore page');
     
@@ -1154,6 +1126,182 @@ document.addEventListener('DOMContentLoaded', function() {
             copySuccessIcon.style.opacity = '1';
             copySuccessIcon.style.transform = 'scale(1)';
             
+            setTimeout(() => {
+              copyIcon.style.opacity = '1';
+              copyIcon.style.transform = 'scale(1)';
+              copySuccessIcon.style.opacity = '0';
+              copySuccessIcon.style.transform = 'scale(0.8)';
+            }, 5000);
+          });
+        });
+      }
+      
+      // Focus on password input when page loads (with delay for mobile)
+      setTimeout(() => {
+        passwordInput.focus();
+      }, 300);
+    } else {
+      console.log('Password form elements not found');
+    }
+  }
+
+  // Password gate functionality for bertie-sidekick.html
+  if (window.location.pathname.endsWith('bertie-sidekick.html') || 
+      window.location.pathname.endsWith('/bertie-sidekick.html') || 
+      window.location.pathname === '/bertie-sidekick' || 
+      window.location.pathname.endsWith('/bertie-sidekick')) {
+    
+    const passwordForm = document.getElementById('password-form');
+    const passwordInput = document.getElementById('password-input');
+    const passwordError = document.getElementById('password-error');
+    const passwordGate = document.getElementById('password-gate');
+    const articleContent = document.getElementById('article-content');
+    
+    // Development bypass - auto-unlock on localhost
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    
+    if (isLocalhost) {
+      console.log('Development mode detected - bypassing password gate');
+      if (passwordGate) passwordGate.style.display = 'none';
+      if (articleContent) articleContent.style.display = 'flex';
+      return; // Skip the rest of the password logic
+    }
+    
+    // Add body class to prevent scrolling while password gate is visible
+    document.body.classList.add('password-gate-active');
+    
+    // Set the correct password here
+    const correctPassword = 'ade1998'; // Same password as explore.html
+    
+    console.log('Password gate initialized for bertie page');
+    
+    // Always show password gate on fresh visits (no persistence)
+    // Password gate is visible by default, content is hidden
+    
+    if (passwordForm && passwordInput) {
+      console.log('Password form elements found');
+      
+      // Handle mobile keyboard hiding on form submission
+      passwordInput.addEventListener('blur', function() {
+        // Reset viewport when keyboard hides
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 300);
+      });
+      
+      // Handle form submission
+      passwordForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        console.log('Form submitted');
+        
+        // Hide mobile keyboard immediately
+        passwordInput.blur();
+        
+        const enteredPassword = passwordInput.value.trim();
+        console.log('Entered password length:', enteredPassword.length);
+        
+        if (enteredPassword === correctPassword) {
+          console.log('Correct password entered');
+          
+          // Reset scroll position to top for mobile compatibility
+          window.scrollTo(0, 0);
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
+          
+          // Force viewport reset for mobile keyboards
+          if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', () => {
+              window.scrollTo(0, 0);
+            }, { once: true });
+          }
+          
+          // Correct password - grant access for this session only
+          passwordGate.style.display = 'none';
+          articleContent.style.display = 'flex';
+          passwordError.style.display = 'none';
+          
+          // Remove body scroll prevention class
+          document.body.classList.remove('password-gate-active');
+          
+          // Additional scroll reset after content loads
+          setTimeout(() => {
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+          }, 100);
+        } else {
+          console.log('Incorrect password entered');
+          // Wrong password - show error
+          passwordError.style.display = 'block';
+          passwordInput.value = '';
+          
+          // Add shake animation to the modal
+          const modal = document.querySelector('.password-modal');
+          if (modal) {
+          modal.style.animation = 'shake 0.5s ease-in-out';
+          setTimeout(() => {
+            modal.style.animation = '';
+          }, 500);
+          }
+          
+          // Re-focus after a short delay (mobile-friendly)
+          setTimeout(() => {
+            passwordInput.focus();
+          }, 100);
+        }
+      });
+      
+      // Handle mobile keyboard "Go" button and Enter key
+      passwordInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          passwordForm.dispatchEvent(new Event('submit'));
+        }
+      });
+      
+      // Password visibility toggle
+      const passwordToggle = document.getElementById('password-toggle');
+      if (passwordToggle) {
+        passwordToggle.addEventListener('click', function() {
+          const toggleText = this.querySelector('.password-toggle-text');
+          const toggleIcon = this.querySelector('.password-toggle-icon');
+          
+          if (passwordInput.type === 'password') {
+            // Show password - hide icon, show "Hide" text
+            passwordInput.type = 'text';
+            toggleIcon.style.display = 'none';
+            toggleText.style.display = 'inline';
+            toggleText.textContent = 'Hide';
+          } else {
+            // Hide password - show icon, hide text
+            passwordInput.type = 'password';
+            toggleIcon.style.display = 'inline';
+            toggleText.style.display = 'none';
+          }
+        });
+      }
+      
+            // Email copy functionality
+      const emailCopyBtn = document.getElementById('email-copy-btn');
+      const emailAddress = document.querySelector('.email-address');
+      
+      if (emailCopyBtn && emailAddress) {
+        emailCopyBtn.addEventListener('click', function() {
+          const copyIcon = this.querySelector('.copy-icon');
+          const copySuccessIcon = this.querySelector('.copy-success-icon');
+          const emailText = emailAddress.textContent.trim();
+          
+          // Copy to clipboard
+          navigator.clipboard.writeText(emailText).then(function() {
+            console.log('Email copied to clipboard');
+            
+            // Show success feedback
+            copyIcon.style.opacity = '0';
+            copyIcon.style.transform = 'scale(0.8)';
+            copySuccessIcon.style.opacity = '1';
+            copySuccessIcon.style.transform = 'scale(1)';
+            
+            // Reset after 5 seconds
             setTimeout(() => {
               copyIcon.style.opacity = '1';
               copyIcon.style.transform = 'scale(1)';
