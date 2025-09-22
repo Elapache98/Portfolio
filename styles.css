@@ -2487,10 +2487,10 @@ html {
   background: #fff;
   
   
-  border-left: 2px solid #947b57;
-  border-right: 1.5px solid #e9ecef;
-   border-top: 1.5px solid #e9ecef;
-   border-bottom: 1.5px solid #e9ecef;
+  border-left: 4px solid #947b57;
+  border-right: 1px solid #e9ecef;
+   border-top: 1px solid #e9ecef;
+   border-bottom: 1px solid #e9ecef;
  
   border-radius: 4px 16px 16px 4px;
   padding: 24px;
