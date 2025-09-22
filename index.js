@@ -188,9 +188,19 @@ document.addEventListener('DOMContentLoaded', function() {
   // Select appropriate images based on current page
   let images;
   
-  if (isExplorePage) {
-    // On explore page, select images from image grids and content images
-    images = Array.from(document.querySelectorAll('.image-item img, .content-image img'));
+  const isBertiePage = currentPageFile === 'bertie-sidekick.html' || 
+                      currentPath.includes('bertie-sidekick') ||
+                      currentPath.endsWith('/bertie-sidekick.html') || 
+                      currentPath === '/bertie-sidekick' || 
+                      currentPath.endsWith('/bertie-sidekick');
+  
+  if (isExplorePage || isBertiePage) {
+    // On explore and bertie pages, select images from image grids and content images
+    // Exclude logo, slider images, and other non-lightbox images
+    images = Array.from(document.querySelectorAll('.image-item img, .content-image img')).filter(img => 
+      !img.classList.contains('logo-image') && 
+      !img.classList.contains('slider-image')
+    );
   } else {
     // Default to photo-row images for other pages
     images = Array.from(document.querySelectorAll('.photo-row img'));
@@ -204,8 +214,8 @@ document.addEventListener('DOMContentLoaded', function() {
     lightboxImg.src = img.src;
     lightboxImg.alt = img.alt;
     
-    // For explore page, try to get caption from image-caption element
-    if (isExplorePage) {
+    // For explore and bertie pages, try to get caption from image-caption element
+    if (isExplorePage || isBertiePage) {
       const imageItem = img.closest('.image-item');
       const caption = imageItem ? imageItem.querySelector('.image-caption') : null;
       lightboxDesc.textContent = caption ? caption.textContent : img.alt;
