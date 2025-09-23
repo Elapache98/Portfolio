@@ -7,8 +7,8 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  font-family: 'lato', Arial, sans-serif;
-  background: #f7f7f4;
+  font-family: 'inter', Arial, sans-serif;
+  background: #f8f8f8;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -194,9 +194,9 @@ transition: box-shadow .25s;
 }
 
 .project-content:hover {
-  box-shadow: 0 8px 12px rgb(122, 101, 72, .092);
+  box-shadow: 0 8px 10px rgb(122, 101, 72, .092);
   border-color: rgb(122, 101, 72, .2);
-  border-width: 1px;
+  border-width: .75px;
   transform: translateY(-2px);
 }
 
@@ -313,11 +313,10 @@ width: 20vw;  }
 
 
 p {
-  font-family: 'lato', Arial, sans-serif;
-  font-family: 'lato', Arial, sans-serif;
+  font-family: 'inter', Arial, sans-serif;
   font-size: 18px;
   color: #605D5D;
-  font-weight: 300;
+  font-weight: 500;
   line-height: 1.65;
   letter-spacing: 0.25px;
   
