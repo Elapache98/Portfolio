@@ -81,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
   buttons.forEach(btn => {
     const href = btn.getAttribute('href');
     console.log('Checking button with href:', href);
+    console.log('Button text:', btn.textContent.trim());
     
     if (href && href !== '#' && href !== '#thoughts') {
       // Handle both .html files and clean URLs (Netlify style)
@@ -96,24 +97,9 @@ document.addEventListener('DOMContentLoaded', function() {
                      currentPath === '/' + cleanHref ||
                      currentPath === cleanHref ||
                      (currentPath === '/' && cleanHref === 'index') ||
-                     // Special case: bertie-sidekick pages should activate work.html button
-                     ((currentPageFile === 'bertie-sidekick.html' || 
-                       currentPageFile === 'bertie-sidekick' || 
-                       currentPath.includes('bertie-sidekick') ||
-                       currentPath.endsWith('/bertie-sidekick')) && (href === 'work.html' || href === '/work.html'));
+                     false; // Removed - now handled in consolidated logic below
       
-      // Debug logging for bertie-sidekick detection
-      if (href === 'work.html') {
-        console.log('Checking work button for bertie detection:', {
-          currentPageFile,
-          currentPath,
-          isBertieFile: currentPageFile === 'bertie-sidekick.html',
-          isBertieClean: currentPageFile === 'bertie-sidekick',
-          pathIncludes: currentPath.includes('bertie-sidekick'),
-          pathEnds: currentPath.endsWith('/bertie-sidekick'),
-          finalMatch: isMatch
-        });
-      }
+
       
       if (isMatch) {
         console.log('Setting active button:', href);
@@ -132,14 +118,26 @@ document.addEventListener('DOMContentLoaded', function() {
                        currentPath.endsWith('/explore') ||
                        window.location.href.includes('explore');
   
-  if (!setByUrl && isExplorePage) {
+  // Also check for bertie-sidekick pages
+  const isBertiePage = currentPageFile === 'bertie-sidekick.html' || 
+                      currentPageFile === 'bertie-sidekick' || 
+                      currentPath.includes('bertie-sidekick') ||
+                      currentPath.endsWith('/bertie-sidekick.html') || 
+                      currentPath === '/bertie-sidekick' || 
+                      currentPath.endsWith('/bertie-sidekick') ||
+                      window.location.href.includes('bertie-sidekick');
+  
+  if (!setByUrl && (isExplorePage || isBertiePage)) {
+    console.log('Setting work as active for special page:', { isExplorePage, isBertiePage, currentPath, currentPageFile });
     buttons.forEach(btn => {
       const btnHref = btn.getAttribute('href');
-      if (btnHref === 'work.html' || btnHref === '/work') {
-      btn.classList.add('active');
-      setByUrl = true;
-    }
-  });
+      console.log('Checking special page button:', btnHref);
+      if (btnHref === 'work.html' || btnHref === '/work' || btnHref === '/work.html') {
+        btn.classList.add('active');
+        console.log('Setting active button for special page:', btnHref);
+        setByUrl = true;
+      }
+    });
   }
   
   // If no match, default to first (Home)
@@ -204,12 +202,6 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Select appropriate images based on current page
   let images;
-  
-  const isBertiePage = currentPageFile === 'bertie-sidekick.html' || 
-                      currentPath.includes('bertie-sidekick') ||
-                      currentPath.endsWith('/bertie-sidekick.html') || 
-                      currentPath === '/bertie-sidekick' || 
-                      currentPath.endsWith('/bertie-sidekick');
   
   if (isExplorePage || isBertiePage) {
     // On explore and bertie pages, select images from image grids and content images
@@ -453,14 +445,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Mobile-optimized intersection observer
     const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           // Add slight delay on mobile for better performance
           const delay = isMobile ? 50 : 0;
           setTimeout(() => {
-            entry.target.classList.add('in-view');
+          entry.target.classList.add('in-view');
           }, delay);
           observer.unobserve(entry.target); // Stop observing once animated
         }
