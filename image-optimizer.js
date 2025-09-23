@@ -45,18 +45,36 @@ class ImageOptimizer {
   }
 
   preloadCriticalImages() {
-    // Preload images that are immediately visible
-    const criticalImages = [
-      'coverimage.png', // Work page hero image
-      // Add other above-the-fold images here
-    ];
-
-    criticalImages.forEach(src => {
-      const link = document.createElement('link');
-      link.rel = 'preload';
-      link.as = 'image';
-      link.href = src;
-      document.head.appendChild(link);
+    // Dynamic preload system - only preload images that exist on current page
+    const criticalImages = ['coverimage.png', 'taskforce.png', 'Feature Intro Thumbnail.png', 'Notionme.png'];
+    
+    const imagesOnPage = Array.from(document.querySelectorAll('img')).map(img => {
+      const src = img.src || img.getAttribute('src') || '';
+      return src.split('/').pop();
+    });
+    
+    // Also check data attributes for GIFs and other dynamic images
+    const dataImages = Array.from(document.querySelectorAll('[data-gif-src], [data-static-src]')).map(el => {
+      const gifSrc = el.getAttribute('data-gif-src');
+      const staticSrc = el.getAttribute('data-static-src');
+      return [gifSrc, staticSrc].filter(Boolean).map(src => src.split('/').pop());
+    }).flat();
+    
+    const allPageImages = [...new Set([...imagesOnPage, ...dataImages])];
+    
+    console.log('Image Optimizer - Images found on page:', allPageImages);
+    
+    criticalImages.forEach(imageName => {
+      if (allPageImages.includes(imageName)) {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = imageName;
+        document.head.appendChild(link);
+        console.log('Image Optimizer - Preloading:', imageName);
+      } else {
+        console.log('Image Optimizer - Skipping preload (not on page):', imageName);
+      }
     });
   }
 

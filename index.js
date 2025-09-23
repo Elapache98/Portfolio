@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
   console.log('Current path:', currentPath);
   console.log('Current page file:', currentPageFile);
   console.log('Available buttons:', buttons.length);
+  console.log('Is bertie page check:', currentPath.includes('bertie-sidekick'));
   
   // Clear all active states first
   buttons.forEach(btn => btn.classList.remove('active'));
@@ -99,7 +100,20 @@ document.addEventListener('DOMContentLoaded', function() {
                      ((currentPageFile === 'bertie-sidekick.html' || 
                        currentPageFile === 'bertie-sidekick' || 
                        currentPath.includes('bertie-sidekick') ||
-                       currentPath.endsWith('/bertie-sidekick')) && href === 'work.html');
+                       currentPath.endsWith('/bertie-sidekick')) && (href === 'work.html' || href === '/work.html'));
+      
+      // Debug logging for bertie-sidekick detection
+      if (href === 'work.html') {
+        console.log('Checking work button for bertie detection:', {
+          currentPageFile,
+          currentPath,
+          isBertieFile: currentPageFile === 'bertie-sidekick.html',
+          isBertieClean: currentPageFile === 'bertie-sidekick',
+          pathIncludes: currentPath.includes('bertie-sidekick'),
+          pathEnds: currentPath.endsWith('/bertie-sidekick'),
+          finalMatch: isMatch
+        });
+      }
       
       if (isMatch) {
         console.log('Setting active button:', href);
@@ -309,7 +323,44 @@ document.addEventListener('DOMContentLoaded', function() {
       if (img.closest('.gif-container')) return;
       
       // Skip preloaded images (they should load immediately)
-      const preloadedImages = ['Feature Intro Thumbnail.png', 'taskforce.png', 'coverimage.png', 'Notionme.png', 'Preview.png'];
+      // Dynamic preload system - only preload images that exist on current page
+  function preloadCriticalImages() {
+    const criticalImages = ['Feature Intro Thumbnail.png', 'taskforce.png', 'coverimage.png', 'Notionme.png', 'Preview.png'];
+    const imagesOnPage = Array.from(document.querySelectorAll('img')).map(img => {
+      // Extract filename from src (handle both relative and absolute paths)
+      const src = img.src || img.getAttribute('src') || '';
+      return src.split('/').pop();
+    });
+    
+    // Also check data attributes for GIFs and other dynamic images
+    const dataImages = Array.from(document.querySelectorAll('[data-gif-src], [data-static-src]')).map(el => {
+      const gifSrc = el.getAttribute('data-gif-src');
+      const staticSrc = el.getAttribute('data-static-src');
+      return [gifSrc, staticSrc].filter(Boolean).map(src => src.split('/').pop());
+    }).flat();
+    
+    const allPageImages = [...new Set([...imagesOnPage, ...dataImages])];
+    
+    console.log('Images found on page:', allPageImages);
+    
+    criticalImages.forEach(imageName => {
+      if (allPageImages.includes(imageName)) {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = imageName;
+        document.head.appendChild(link);
+        console.log('Preloading:', imageName);
+      } else {
+        console.log('Skipping preload (not on page):', imageName);
+      }
+    });
+  }
+  
+  // Run preload logic
+  preloadCriticalImages();
+  
+  const preloadedImages = ['Feature Intro Thumbnail.png', 'taskforce.png', 'coverimage.png', 'Notionme.png', 'Preview.png'];
       if (preloadedImages.some(preloadedImg => img.src.includes(preloadedImg))) {
         img.classList.add('loaded');
         return;
