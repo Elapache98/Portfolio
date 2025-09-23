@@ -2076,3 +2076,38 @@ if (clearBtn) {
     }
   });
 }
+
+// Analogy refresh functionality for bertie-sidekick.html
+if (window.location.pathname.includes('bertie-sidekick')) {
+  const analogyText = document.getElementById('analogy-text');
+  const refreshBtn = document.getElementById('analogy-refresh');
+  
+  if (analogyText && refreshBtn) {
+    const analogies = [
+      "<i><b>LeBron James is to the Lakers</b></i>",
+      "<i><b>Serena Williams is to tennis</b></i>",
+      "<i><b>Messi is to football</b></i>",
+"<i><b>Coco Chanel is to fashion</b></i>",
+"<i><b>Michael Jackson is to pop music</b></i>",
+      
+    ];
+    
+    let currentIndex = 0;
+    
+    refreshBtn.addEventListener('click', function() {
+      // Cycle to next analogy
+      currentIndex = (currentIndex + 1) % analogies.length;
+      
+      // Add fade effect
+      analogyText.style.opacity = '0.5';
+      analogyText.style.transform = 'translateY(-2px)';
+      analogyText.style.transition = 'opacity 0.15s ease, transform 0.15s ease';
+      
+      setTimeout(() => {
+        analogyText.innerHTML = analogies[currentIndex];
+        analogyText.style.opacity = '1';
+        analogyText.style.transform = 'translateY(0)';
+      }, 150);
+    });
+  }
+}
