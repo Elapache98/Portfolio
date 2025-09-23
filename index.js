@@ -95,8 +95,11 @@ document.addEventListener('DOMContentLoaded', function() {
                      currentPath === '/' + cleanHref ||
                      currentPath === cleanHref ||
                      (currentPath === '/' && cleanHref === 'index') ||
-                     // Special case: bertie-sidekick.html should activate work.html button
-                     (currentPageFile === 'bertie-sidekick.html' && href === 'work.html');
+                     // Special case: bertie-sidekick pages should activate work.html button
+                     ((currentPageFile === 'bertie-sidekick.html' || 
+                       currentPageFile === 'bertie-sidekick' || 
+                       currentPath.includes('bertie-sidekick') ||
+                       currentPath.endsWith('/bertie-sidekick')) && href === 'work.html');
       
       if (isMatch) {
         console.log('Setting active button:', href);
