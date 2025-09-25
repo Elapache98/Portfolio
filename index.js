@@ -133,11 +133,11 @@ document.addEventListener('DOMContentLoaded', function() {
       const btnHref = btn.getAttribute('href');
       console.log('Checking special page button:', btnHref);
       if (btnHref === 'work.html' || btnHref === '/work' || btnHref === '/work.html') {
-        btn.classList.add('active');
+      btn.classList.add('active');
         console.log('Setting active button for special page:', btnHref);
-        setByUrl = true;
-      }
-    });
+      setByUrl = true;
+    }
+  });
   }
   
   // If no match, default to first (Home)

@@ -175,15 +175,75 @@ transition: box-shadow .25s;
 
 /* Keep 3 columns for all desktop sizes */
 
+/* Work page layout - desktop only */
+@media (min-width: 769px) {
+  .work-layout {
+    position: relative;
+    margin-top: 140px;
+  }
 
+  .work-title-section {
+    position: fixed;
+    top: 20vh;
+    left: 8vw;
+    width: 280px;
+    z-index: 999;
+  }
+
+  .work-title-section h2 {
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    text-align: left;
+  }
+
+  .project-grid-wrapper {
+    margin-left: calc(8vw + 50px);
+
+  }
+
+  .project-grid {
+    margin-top: 0;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+/* Mobile layout remains the same */
+@media (max-width: 768px) {
+  .work-layout {
+    display: block;
+    margin-top: 140px;
+  }
+
+  .work-title-section {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .work-title-section h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .project-grid-wrapper {
+    width: 100%;
+  }
+}
 
 .project-content {
   width: 100%;
-  max-width: 800px;
+  max-width: 750px;
   box-sizing: border-box;
   text-align: left;
   background-color: #fff;
   padding: 16px;
+  gap: 16px;  
+  justify-content: space-between;
   border-radius: 24px;
   border-style: solid;
   border-color: rgba(74, 60, 47, 0.095);
