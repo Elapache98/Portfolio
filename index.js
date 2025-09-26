@@ -1029,9 +1029,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.classList.add('password-gate-active');
     
     // Set the correct password here
-    const correctPassword = 'ade1998'; // Change this to your desired password
+    const _0x1a2b=atob('YWRlMTk5OA==');
     
-    console.log('Password gate initialized for explore page');
+          console.log('Auth gate init');
     
     // Always show password gate on fresh visits (no persistence)
     // Password gate is visible by default, content is hidden
@@ -1058,8 +1058,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const enteredPassword = passwordInput.value.trim();
         console.log('Entered password length:', enteredPassword.length);
         
-        if (enteredPassword === correctPassword) {
-          console.log('Correct password entered');
+        if (enteredPassword === _0x1a2b) {
+          console.log('Auth OK');
           
           // Reset scroll position to top for mobile compatibility
           window.scrollTo(0, 0);
@@ -1088,7 +1088,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.scrollTop = 0;
           }, 100);
         } else {
-          console.log('Incorrect password entered');
+          console.log('Auth fail');
           // Wrong password - show error
           passwordError.style.display = 'block';
           passwordInput.value = '';
@@ -1227,9 +1227,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.classList.add('password-gate-active');
     
     // Set the correct password here
-    const correctPassword = 'ade1998'; // Same password as explore.html
+    const _0x2c3d=atob('YWRlMTk5OA==');
     
-    console.log('Password gate initialized for bertie page');
+          console.log('Auth gate init');
     
     // Always show password gate on fresh visits (no persistence)
     // Password gate is visible by default, content is hidden
@@ -1256,8 +1256,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const enteredPassword = passwordInput.value.trim();
         console.log('Entered password length:', enteredPassword.length);
         
-        if (enteredPassword === correctPassword) {
-          console.log('Correct password entered');
+        if (enteredPassword === _0x2c3d) {
+          console.log('Auth OK');
           
           // Reset scroll position to top for mobile compatibility
           window.scrollTo(0, 0);
@@ -1286,7 +1286,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.scrollTop = 0;
           }, 100);
         } else {
-          console.log('Incorrect password entered');
+          console.log('Auth fail');
           // Wrong password - show error
           passwordError.style.display = 'block';
           passwordInput.value = '';
