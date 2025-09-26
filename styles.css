@@ -191,7 +191,7 @@ transition: box-shadow .25s;
   }
 
   .work-title-section h2 {
-    font-size: 30px;
+    font-size: 34px;
     font-weight: 600;
     color: var(--text-primary);
     margin: 0;
@@ -248,19 +248,19 @@ transition: box-shadow .25s;
   border-style: solid;
   border-color: rgba(74, 60, 47, 0.095);
   border-width: .25px;
-  transition: box-shadow 0.25s ease, transform 0.25s ease;
   box-shadow: 75px var(--card-box-shadow-1-y) var(--card-box-shadow-1-blur) var(--card-box-shadow-1), 0px var(--card-box-shadow-2-y) var(--card-box-shadow-2-blur) var(--card-box-shadow-2), 0 0 0 1px var(--card-border-color);
+}
+
+.image-link {
   display: block;
   text-decoration: none;
   color: inherit;
+  transition: transform 0.25s ease;
   cursor: pointer;
 }
 
-.project-content:hover {
-  box-shadow: 0 8px 10px rgb(122, 101, 72, .092);
-  border-color: rgb(122, 101, 72, .2);
-  border-width: .75px;
-  transform: translateY(-2px);
+.image-link:hover {
+  transform: scale(1.01);
 }
 
 
@@ -1276,7 +1276,7 @@ img[src*=".gif"] {
   align-items: center;
   padding: 8px 12px;
   background: rgba(148, 123, 87, 0.1);
-  color: #947b57 !important;
+  color: #947b57;
   border: 1px solid rgba(148, 123, 87, 0.2);
   border-radius: 16px;
   font-size: 10px;
@@ -1284,8 +1284,6 @@ img[src*=".gif"] {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   transition: all 0.2s ease;
-  text-decoration: none !important;
-  pointer-events: none;
 }
 
 
