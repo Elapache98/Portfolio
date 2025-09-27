@@ -1598,7 +1598,9 @@ img[src*=".gif"] {
   transition: opacity 0.2s ease;
 }
 
-
+.gif-container:hover .gif-annotation {
+  opacity: 0;
+}
 
 /* Mobile adjustments for gif annotations */
 @media (max-width: 768px) {
