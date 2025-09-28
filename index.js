@@ -22,25 +22,26 @@ document.addEventListener('DOMContentLoaded', function() {
   const buttons = options.querySelectorAll('.toolbar-btn');
   const toolbarOptions = document.querySelector('.toolbar-options');
 
-   // Only add animation if not coming from another internal page
+  // Check if this is the user's first visit to the homepage ever
+  const hasSeenHomepageAnimation = localStorage.getItem('hasSeenHomepageAnimation');
   const currentPage = window.location.pathname;
-  const referrer = document.referrer;
-  const isInternalNavigation = sessionStorage.getItem('lastPage') && 
-                              sessionStorage.getItem('lastPage') !== currentPage &&
-                              (sessionStorage.getItem('lastPage').includes('.html') || 
-                               referrer.includes(window.location.hostname));
+  const isHomepage = currentPage === '/' || currentPage === '/index.html' || currentPage.endsWith('index.html') || currentPage === '';
   
-  // Check if this is a fresh visit (no referrer or external referrer)
-  const isFreshVisit = !referrer || !referrer.includes(window.location.hostname);
-  
-  if (!isInternalNavigation && isFreshVisit) {
+  if (isHomepage && !hasSeenHomepageAnimation) {
+    // First time visiting homepage - show animation and mark as seen
     toolbar.classList.add('animate-toolbar');
     toolbar.addEventListener('animationend', function() {
       toolbar.classList.remove('animate-toolbar');
     }, { once: true });
+    
+    // Mark that user has seen the homepage animation
+    localStorage.setItem('hasSeenHomepageAnimation', 'true');
+  } else {
+    // Remove animation class if it was added in HTML
+    toolbar.classList.remove('animate-toolbar');
   }
   
-  // Store current page for next navigation
+  // Store current page for next navigation (keep existing functionality)
   sessionStorage.setItem('lastPage', currentPage);
 
   // Hamburger menu toggle for mobile
@@ -1690,13 +1691,18 @@ if (radioPills.length > 0) {
   }, 60000); // 60 seconds
 }
 
-// Debug function for localhost development
+// Debug functions for localhost development
 if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
   window.clearDisabledPills = function() {
     disabledPills.clear();
     localStorage.removeItem('disabledPills');
     updatePillStates();
     console.log('All disabled pills cleared for testing');
+  };
+  
+  window.resetHomepageAnimation = function() {
+    localStorage.removeItem('hasSeenHomepageAnimation');
+    console.log('Homepage animation flag reset - refresh to see animation again');
   };
 }
 
