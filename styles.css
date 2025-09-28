@@ -169,7 +169,6 @@ transition: box-shadow .25s;
   max-width: 65vw;
   height: auto;
   padding: 24px;
-  animation: fadeInUp 1.0s cubic-bezier(0.23, 1, 0.32, 1);
   margin-bottom: 48px;
 }
 
@@ -3229,7 +3228,6 @@ html {
     max-width: 85vw;
     height: auto;
     padding: 16px;
-    animation: fadeInUp 1.0s cubic-bezier(0.23, 1, 0.32, 1);
     margin-bottom: 32px;
   }
 
