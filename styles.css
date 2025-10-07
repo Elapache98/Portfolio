@@ -393,6 +393,30 @@ button {
   font-family: 'Bricolage Grotesque', sans-serif;
 }
 
+/* Custom BR tag spacing control */
+br {
+  display: block;
+  margin: 16px 0;
+  line-height: 0;
+}
+
+/* Different BR spacing variations */
+br.small {
+  margin: 8px 0;
+}
+
+br.medium {
+  margin: 16px 0;
+}
+
+br.large {
+  margin: 24px 0;
+}
+
+br.xl {
+  margin: 32px 0;
+}
+
 /* Smooth image loading */
 img[loading="lazy"] {
   opacity: 0;
@@ -2531,7 +2555,7 @@ html {
 }
 
 .article-content {
-  font-size: 16px;
+  font-size: 18px;
   color: #333;
 }
 
@@ -2644,11 +2668,99 @@ html {
   font-family: 'Courier New', monospace;
 }
 
+/* Pros and Cons Component */
+.pros-cons-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin: 32px 0;
+}
+
+.pros-cons-block {
+  background: #fff;
+  border-radius: 2px 16px 2px 4px;
+  padding: 16px;
+  border: 1px solid #e9ecef;
+  position: relative;
+  overflow: hidden;
+}
+
+
+
+.cons-block {
+  border-left: 4px solid #947b57;
+}
+
+.pros-cons-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f3f4;
+}
+
+
+
+.pros-cons-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pros-cons-item {
+  position: relative;
+}
+
+
+
+
+
+/* Add subtle dividers between items */
+.pros-cons-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #e9ecef 20%, #e9ecef 80%, transparent 100%);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .pros-cons-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin: 24px 0;
+  }
+  
+  .pros-cons-block {
+    padding: 20px;
+  }
+  
+  .pros-cons-header {
+    margin-bottom: 16px;
+  }
+  
+
+  
+ 
+  
+  .pros-cons-item p {
+    font-size: 14px;
+  }
+}
+
 .code-blocks-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
   margin: 24px 0;
+}
+
+/* Make the last code block full width when there are 3 items */
+.code-blocks-grid .code-block:nth-child(3):last-child {
+  grid-column: 1 / -1;
 }
 
 @media (max-width: 768px) {
@@ -2667,7 +2779,7 @@ html {
 .code-block-title {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 @media (max-width: 768px) {
