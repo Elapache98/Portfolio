@@ -14,6 +14,11 @@ function optimizeScroll() {
 // Throttle scroll events for performance
 window.addEventListener('scroll', optimizeScroll, { passive: true });
 
+// Portfolio JavaScript - Debug Test
+console.log('🚀 Portfolio JavaScript loaded successfully');
+console.log('Current URL:', window.location.href);
+console.log('Pathname:', window.location.pathname);
+
 document.addEventListener('DOMContentLoaded', function() {
   const toolbar = document.querySelector('.floating-toolbar');
   const hamburger = toolbar.querySelector('.toolbar-hamburger');
@@ -1010,11 +1015,22 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.pathname === '/explore' || 
       window.location.pathname.endsWith('/explore')) {
     
+    console.log('🔐 Password gate logic started for explore.html');
+    console.log('Current pathname:', window.location.pathname);
+    
     const passwordForm = document.getElementById('password-form');
     const passwordInput = document.getElementById('password-input');
     const passwordError = document.getElementById('password-error');
     const passwordGate = document.getElementById('password-gate');
     const articleContent = document.getElementById('article-content');
+    
+    console.log('Elements found:', {
+      passwordForm: !!passwordForm,
+      passwordInput: !!passwordInput,
+      passwordError: !!passwordError,
+      passwordGate: !!passwordGate,
+      articleContent: !!articleContent
+    });
     
     // Development bypass - auto-unlock on localhost
     const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
@@ -1030,10 +1046,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const SESSION_DURATION = 90 * 60 * 1000; // 90 minutes in milliseconds
     const sessionData = localStorage.getItem('portfolioAuthSession');
     
+    console.log('Checking for existing session (explore.html)...', sessionData);
+    
     if (sessionData) {
       try {
         const { timestamp, authenticated } = JSON.parse(sessionData);
         const now = Date.now();
+        const timeElapsed = now - timestamp;
+        const minutesElapsed = Math.floor(timeElapsed / (1000 * 60));
+        
+        console.log(`Session found. Minutes elapsed: ${minutesElapsed}/90. Authenticated: ${authenticated}`);
         
         if (authenticated && (now - timestamp) < SESSION_DURATION) {
           console.log('Valid session found - bypassing password gate');
@@ -1041,13 +1063,17 @@ document.addEventListener('DOMContentLoaded', function() {
           if (articleContent) articleContent.style.display = 'flex';
           return; // Skip password gate
         } else {
+          console.log('Session expired, removing...');
           // Session expired, remove it
           localStorage.removeItem('portfolioAuthSession');
         }
       } catch (e) {
+        console.log('Error parsing session data:', e);
         // Invalid session data, remove it
         localStorage.removeItem('portfolioAuthSession');
       }
+    } else {
+      console.log('No existing session found');
     }
     
     // Add body class to prevent scrolling while password gate is visible
@@ -1239,11 +1265,22 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.pathname === '/bertie-sidekick' || 
       window.location.pathname.endsWith('/bertie-sidekick')) {
     
+    console.log('🔐 Password gate logic started for bertie-sidekick.html');
+    console.log('Current pathname:', window.location.pathname);
+    
     const passwordForm = document.getElementById('password-form');
     const passwordInput = document.getElementById('password-input');
     const passwordError = document.getElementById('password-error');
     const passwordGate = document.getElementById('password-gate');
     const articleContent = document.getElementById('article-content');
+    
+    console.log('Elements found:', {
+      passwordForm: !!passwordForm,
+      passwordInput: !!passwordInput,
+      passwordError: !!passwordError,
+      passwordGate: !!passwordGate,
+      articleContent: !!articleContent
+    });
     
     // Development bypass - auto-unlock on localhost
     const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
@@ -1259,10 +1296,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const SESSION_DURATION = 90 * 60 * 1000; // 90 minutes in milliseconds
     const sessionData = localStorage.getItem('portfolioAuthSession');
     
+    console.log('Checking for existing session (bertie-sidekick.html)...', sessionData);
+    
     if (sessionData) {
       try {
         const { timestamp, authenticated } = JSON.parse(sessionData);
         const now = Date.now();
+        const timeElapsed = now - timestamp;
+        const minutesElapsed = Math.floor(timeElapsed / (1000 * 60));
+        
+        console.log(`Session found. Minutes elapsed: ${minutesElapsed}/90. Authenticated: ${authenticated}`);
         
         if (authenticated && (now - timestamp) < SESSION_DURATION) {
           console.log('Valid session found - bypassing password gate');
@@ -1270,13 +1313,17 @@ document.addEventListener('DOMContentLoaded', function() {
           if (articleContent) articleContent.style.display = 'flex';
           return; // Skip password gate
         } else {
+          console.log('Session expired, removing...');
           // Session expired, remove it
           localStorage.removeItem('portfolioAuthSession');
         }
       } catch (e) {
+        console.log('Error parsing session data:', e);
         // Invalid session data, remove it
         localStorage.removeItem('portfolioAuthSession');
       }
+    } else {
+      console.log('No existing session found');
     }
     
     // Add body class to prevent scrolling while password gate is visible
