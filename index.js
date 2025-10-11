@@ -1026,6 +1026,30 @@ document.addEventListener('DOMContentLoaded', function() {
       return; // Skip the rest of the password logic
     }
     
+    // Check for existing valid session (90 minutes = 5400000 milliseconds)
+    const SESSION_DURATION = 90 * 60 * 1000; // 90 minutes in milliseconds
+    const sessionData = localStorage.getItem('portfolioAuthSession');
+    
+    if (sessionData) {
+      try {
+        const { timestamp, authenticated } = JSON.parse(sessionData);
+        const now = Date.now();
+        
+        if (authenticated && (now - timestamp) < SESSION_DURATION) {
+          console.log('Valid session found - bypassing password gate');
+          if (passwordGate) passwordGate.style.display = 'none';
+          if (articleContent) articleContent.style.display = 'flex';
+          return; // Skip password gate
+        } else {
+          // Session expired, remove it
+          localStorage.removeItem('portfolioAuthSession');
+        }
+      } catch (e) {
+        // Invalid session data, remove it
+        localStorage.removeItem('portfolioAuthSession');
+      }
+    }
+    
     // Add body class to prevent scrolling while password gate is visible
     document.body.classList.add('password-gate-active');
     
@@ -1061,6 +1085,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (enteredPassword === _0x1a2b) {
           console.log('Auth OK');
+          
+          // Store authentication session with timestamp
+          const sessionData = {
+            timestamp: Date.now(),
+            authenticated: true
+          };
+          localStorage.setItem('portfolioAuthSession', JSON.stringify(sessionData));
           
           // Reset scroll position to top for mobile compatibility
           window.scrollTo(0, 0);
@@ -1224,6 +1255,30 @@ document.addEventListener('DOMContentLoaded', function() {
       return; // Skip the rest of the password logic
     }
     
+    // Check for existing valid session (90 minutes = 5400000 milliseconds)
+    const SESSION_DURATION = 90 * 60 * 1000; // 90 minutes in milliseconds
+    const sessionData = localStorage.getItem('portfolioAuthSession');
+    
+    if (sessionData) {
+      try {
+        const { timestamp, authenticated } = JSON.parse(sessionData);
+        const now = Date.now();
+        
+        if (authenticated && (now - timestamp) < SESSION_DURATION) {
+          console.log('Valid session found - bypassing password gate');
+          if (passwordGate) passwordGate.style.display = 'none';
+          if (articleContent) articleContent.style.display = 'flex';
+          return; // Skip password gate
+        } else {
+          // Session expired, remove it
+          localStorage.removeItem('portfolioAuthSession');
+        }
+      } catch (e) {
+        // Invalid session data, remove it
+        localStorage.removeItem('portfolioAuthSession');
+      }
+    }
+    
     // Add body class to prevent scrolling while password gate is visible
     document.body.classList.add('password-gate-active');
     
@@ -1259,6 +1314,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (enteredPassword === _0x2c3d) {
           console.log('Auth OK');
+          
+          // Store authentication session with timestamp
+          const sessionData = {
+            timestamp: Date.now(),
+            authenticated: true
+          };
+          localStorage.setItem('portfolioAuthSession', JSON.stringify(sessionData));
           
           // Reset scroll position to top for mobile compatibility
           window.scrollTo(0, 0);
