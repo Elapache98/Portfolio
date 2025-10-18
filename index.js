@@ -42,9 +42,10 @@ function optimizeScroll() {
           toolbar.style.transform = `translateX(-50%) translateY(${slideAmount}px)`;
         }
       } else if (toolbar && window.innerWidth <= 768) {
-        // Always visible on mobile - remove transition and reset transform
+        // Always visible on mobile - remove any conflicting styles
         toolbar.style.transition = '';
         toolbar.style.transform = '';
+        toolbar.style.opacity = '';
       }
       
       ticking = false;
