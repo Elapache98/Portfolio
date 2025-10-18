@@ -638,6 +638,19 @@ img.preloaded {
   }
 }
 
+/* Remove blue hyperlink styling from toolbar */
+.toolbar-btn,
+.toolbar-btn:link,
+.toolbar-btn:visited,
+.toolbar-btn:hover,
+.toolbar-btn:active,
+.toolbar-btn:focus {
+  color: inherit !important;
+  text-decoration: none !important;
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
 .floating-toolbar {
   position: fixed;
   left: 50%;
@@ -665,7 +678,7 @@ img.preloaded {
 /* Smooth toolbar transitions for explore/bertie pages - desktop only */
 @media (min-width: 769px) {
   .floating-toolbar {
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Transitions now handled by JavaScript for better control */
   }
 
   .floating-toolbar.toolbar-hidden {
