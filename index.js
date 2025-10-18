@@ -1,10 +1,52 @@
 // Performance optimizations for smooth scrolling
 let ticking = false;
+let lastScrollY = 0;
+let scrollDirection = 'down';
 
 function optimizeScroll() {
   if (!ticking) {
     requestAnimationFrame(() => {
-      // Batch DOM operations here if needed
+      // Toolbar slide logic (desktop only)
+      const toolbar = document.querySelector('.floating-toolbar');
+      if (toolbar && window.innerWidth > 768) { // Desktop only
+        const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Determine scroll direction
+        if (scrollY > lastScrollY) {
+          scrollDirection = 'down';
+        } else if (scrollY < lastScrollY) {
+          scrollDirection = 'up';
+        }
+        lastScrollY = scrollY;
+        
+        const fadeStart = 100; // Start sliding after 100px
+        const fadeEnd = 300;   // Fully hidden by 300px
+        
+        // Add smooth transition with custom bezier curve (same as mobile)
+        toolbar.style.transition = 'transform 0.4s cubic-bezier(.87, 0, .13, 1)';
+        
+        if (scrollY <= fadeStart) {
+          // Always visible at top
+          toolbar.style.transform = 'translateX(-50%) translateY(0)';
+        } else if (scrollDirection === 'up') {
+          // Slide in when scrolling up
+          toolbar.style.transform = 'translateX(-50%) translateY(0)';
+        } else if (scrollY >= fadeEnd && scrollDirection === 'down') {
+          // Slide out when scrolling down past fadeEnd
+          toolbar.style.transform = 'translateX(-50%) translateY(-100px)';
+        } else if (scrollDirection === 'down' && scrollY > fadeStart && scrollY < fadeEnd) {
+          // Gradual slide when scrolling down between fadeStart and fadeEnd
+          const fadeRange = fadeEnd - fadeStart;
+          const scrollRange = scrollY - fadeStart;
+          const slideAmount = (scrollRange / fadeRange) * -100; // -100px max
+          toolbar.style.transform = `translateX(-50%) translateY(${slideAmount}px)`;
+        }
+      } else if (toolbar && window.innerWidth <= 768) {
+        // Always visible on mobile - remove transition and reset transform
+        toolbar.style.transition = '';
+        toolbar.style.transform = '';
+      }
+      
       ticking = false;
     });
     ticking = true;
