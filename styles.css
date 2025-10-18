@@ -639,12 +639,25 @@ img.preloaded {
 }
 
 /* Remove blue hyperlink styling from toolbar */
-.toolbar-btn,
-.toolbar-btn:link,
-.toolbar-btn:visited,
-.toolbar-btn:hover,
-.toolbar-btn:active,
-.toolbar-btn:focus {
+.toolbar-options .toolbar-btn,
+.toolbar-options .toolbar-btn:link,
+.toolbar-options .toolbar-btn:visited,
+.toolbar-options .toolbar-btn:hover,
+.toolbar-options .toolbar-btn:active,
+.toolbar-options .toolbar-btn:focus {
+  color: inherit !important;
+  text-decoration: none !important;
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+/* Additional specificity for mobile */
+.floating-toolbar .toolbar-options .toolbar-btn,
+.floating-toolbar .toolbar-options .toolbar-btn:link,
+.floating-toolbar .toolbar-options .toolbar-btn:visited,
+.floating-toolbar .toolbar-options .toolbar-btn:hover,
+.floating-toolbar .toolbar-options .toolbar-btn:active,
+.floating-toolbar .toolbar-options .toolbar-btn:focus {
   color: inherit !important;
   text-decoration: none !important;
   outline: none !important;

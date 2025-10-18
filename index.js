@@ -42,10 +42,15 @@ function optimizeScroll() {
           toolbar.style.transform = `translateX(-50%) translateY(${slideAmount}px)`;
         }
       } else if (toolbar && window.innerWidth <= 768) {
-        // Always visible on mobile - remove any conflicting styles
+        // On mobile, don't interfere with .toolbar-options animations
+        // Only clear desktop-specific styles from the main toolbar
         toolbar.style.transition = '';
-        toolbar.style.transform = '';
-        toolbar.style.opacity = '';
+        // Preserve the centering transform but remove any Y translation
+        if (toolbar.style.transform && !toolbar.style.transform.includes('translateX(-50%)')) {
+          toolbar.style.transform = 'translateX(-50%)';
+        } else if (!toolbar.style.transform) {
+          toolbar.style.transform = 'translateX(-50%)';
+        }
       }
       
       ticking = false;
