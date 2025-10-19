@@ -73,6 +73,25 @@ document.addEventListener('DOMContentLoaded', function() {
   const options = toolbar.querySelector('.toolbar-options');
   const scrim = document.querySelector('.toolbar-scrim');
   const buttons = options.querySelectorAll('.toolbar-btn');
+
+  // Ensure menu is closed on page load
+  if (toolbar) {
+    toolbar.classList.remove('open');
+  }
+
+  // Close menu before page unload to prevent flash on next page
+  window.addEventListener('beforeunload', function() {
+    if (toolbar) {
+      toolbar.classList.remove('open');
+    }
+  });
+
+  // Close menu when page becomes visible (for back/forward navigation)
+  document.addEventListener('visibilitychange', function() {
+    if (!document.hidden && toolbar) {
+      toolbar.classList.remove('open');
+    }
+  });
   const toolbarOptions = document.querySelector('.toolbar-options');
 
   // Check if this is the user's first visit to the homepage ever

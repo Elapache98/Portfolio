@@ -1010,9 +1010,16 @@ border: 1px solid rgba(13, 11, 70, 0.05);
     align-items: stretch;
   }
   
+  /* Only animate when explicitly opened via hamburger click */
   .floating-toolbar.open .toolbar-options {
     transform: translateY(0);
     transition: transform 0.4s cubic-bezier(.87, 0, .13, 1);
+  }
+  
+  /* Force menu to stay hidden during page transitions */
+  .floating-toolbar:not(.open) .toolbar-options {
+    transform: translateY(100%) !important;
+    transition: none !important;
   }
   .toolbar-options::before {
     content: "";
