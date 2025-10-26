@@ -8,7 +8,11 @@ function optimizeScroll() {
     requestAnimationFrame(() => {
       // Toolbar slide logic (desktop only)
       const toolbar = document.querySelector('.floating-toolbar');
-      if (toolbar && window.innerWidth > 768) { // Desktop only
+      // Only apply toolbar animation on explore and bertie pages
+      const currentPage = window.location.pathname;
+      const shouldAnimateToolbar = currentPage.includes('explore.html') || currentPage.includes('bertie-sidekick.html');
+      
+      if (toolbar && window.innerWidth > 768 && shouldAnimateToolbar) { // Desktop only
         const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
         
         // Determine scroll direction
@@ -1717,15 +1721,15 @@ function showThinkingState(callback) {
     // Add golden pulsing border to avatar
     aiAvatar.classList.add('thinking');
     
-    // Small delay then fade in thinking text
+    // Small delay then fade in thinking text with spinner
     setTimeout(() => {
-      typedTextElement.innerHTML = 'Thinking...';
+      typedTextElement.innerHTML = '<span class="thinking-spinner"></span><span class="thinking-text">Thinking...</span>';
       typedTextElement.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
       typedTextElement.style.opacity = '1';
       typedTextElement.style.transform = 'translateY(0)';
     }, 100);
     
-    // Wait 4 seconds, then execute callback
+    // Wait 2 seconds, then execute callback
     thinkingTimeout = setTimeout(() => {
       // Remove thinking state
       aiAvatar.classList.remove('thinking');
@@ -1737,7 +1741,7 @@ function showThinkingState(callback) {
       thinkingTimeout = null;
       // Execute the callback (usually typeWriter)
       callback();
-    }, 4000);
+    }, 2000);
   } else {
     // Fallback if elements don't exist
     callback();
@@ -1747,6 +1751,7 @@ function showThinkingState(callback) {
 function typeWriter(text, element, baseSpeed = 35, callback = null) {
   let i = 0;
   element.innerHTML = '';
+  element.classList.add('typing-active');
   
   // Parse HTML into tokens (text and tags)
   const tokens = [];
@@ -1838,7 +1843,10 @@ function typeWriter(text, element, baseSpeed = 35, callback = null) {
       const delay = getVariableSpeed(token, nextToken);
       setTimeout(type, delay);
     } else {
-      // Typing completed, call callback if provided and not disabled
+      // Remove typing class after completion
+      element.classList.remove('typing-active');
+      
+      // Call callback if provided and not disabled
       if (callback && !element.dataset.disabled) {
         setTimeout(callback, 300); // Small delay before showing redo button
       }
