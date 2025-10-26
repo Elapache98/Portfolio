@@ -33,7 +33,7 @@ function initParticles() {
   console.log('Renderer created, canvas size:', window.innerWidth, window.innerHeight);
   
   // Create particles in a sphere formation
-  const particleCount = 4000;
+  const particleCount = 6000;
   const positions = new Float32Array(particleCount * 3);
   const colors = new Float32Array(particleCount * 3);
   

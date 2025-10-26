@@ -1,11 +1,11 @@
 # Hide original JavaScript files (keep minified/obfuscated versions)
-index.js
+index-original.js
 particles.js
 image-optimizer.js
 test-deploy.js
 
 # Hide build files and development artifacts
-*.min.js
+# *.min.js (commented out to allow minified files)
 build.js
 node_modules/
 webpack.config.js

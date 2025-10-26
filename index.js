@@ -1,10 +1,62 @@
 // Performance optimizations for smooth scrolling
 let ticking = false;
+let lastScrollY = 0;
+let scrollDirection = 'down';
 
 function optimizeScroll() {
   if (!ticking) {
     requestAnimationFrame(() => {
-      // Batch DOM operations here if needed
+      // Toolbar slide logic (desktop only)
+      const toolbar = document.querySelector('.floating-toolbar');
+      // Only apply toolbar animation on explore and bertie pages
+      const currentPage = window.location.pathname;
+      const shouldAnimateToolbar = currentPage.includes('explore.html') || currentPage.includes('bertie-sidekick.html');
+      
+      if (toolbar && window.innerWidth > 768 && shouldAnimateToolbar) { // Desktop only
+        const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Determine scroll direction
+        if (scrollY > lastScrollY) {
+          scrollDirection = 'down';
+        } else if (scrollY < lastScrollY) {
+          scrollDirection = 'up';
+        }
+        lastScrollY = scrollY;
+        
+        const fadeStart = 100; // Start sliding after 100px
+        const fadeEnd = 300;   // Fully hidden by 300px
+        
+        // Add smooth transition with custom bezier curve (same as mobile)
+        toolbar.style.transition = 'transform 0.4s cubic-bezier(.87, 0, .13, 1)';
+        
+        if (scrollY <= fadeStart) {
+          // Always visible at top
+          toolbar.style.transform = 'translateX(-50%) translateY(0)';
+        } else if (scrollDirection === 'up') {
+          // Slide in when scrolling up
+          toolbar.style.transform = 'translateX(-50%) translateY(0)';
+        } else if (scrollY >= fadeEnd && scrollDirection === 'down') {
+          // Slide out when scrolling down past fadeEnd
+          toolbar.style.transform = 'translateX(-50%) translateY(-100px)';
+        } else if (scrollDirection === 'down' && scrollY > fadeStart && scrollY < fadeEnd) {
+          // Gradual slide when scrolling down between fadeStart and fadeEnd
+          const fadeRange = fadeEnd - fadeStart;
+          const scrollRange = scrollY - fadeStart;
+          const slideAmount = (scrollRange / fadeRange) * -100; // -100px max
+          toolbar.style.transform = `translateX(-50%) translateY(${slideAmount}px)`;
+        }
+      } else if (toolbar && window.innerWidth <= 768) {
+        // On mobile, don't interfere with .toolbar-options animations
+        // Only clear desktop-specific styles from the main toolbar
+        toolbar.style.transition = '';
+        // Preserve the centering transform but remove any Y translation
+        if (toolbar.style.transform && !toolbar.style.transform.includes('translateX(-50%)')) {
+          toolbar.style.transform = 'translateX(-50%)';
+        } else if (!toolbar.style.transform) {
+          toolbar.style.transform = 'translateX(-50%)';
+        }
+      }
+      
       ticking = false;
     });
     ticking = true;
@@ -14,33 +66,58 @@ function optimizeScroll() {
 // Throttle scroll events for performance
 window.addEventListener('scroll', optimizeScroll, { passive: true });
 
+// Portfolio JavaScript - Debug Test
+console.log('🚀 Portfolio JavaScript loaded successfully');
+console.log('Current URL:', window.location.href);
+console.log('Pathname:', window.location.pathname);
+
 document.addEventListener('DOMContentLoaded', function() {
   const toolbar = document.querySelector('.floating-toolbar');
   const hamburger = toolbar.querySelector('.toolbar-hamburger');
   const options = toolbar.querySelector('.toolbar-options');
   const scrim = document.querySelector('.toolbar-scrim');
   const buttons = options.querySelectorAll('.toolbar-btn');
+
+  // Ensure menu is closed on page load
+  if (toolbar) {
+    toolbar.classList.remove('open');
+  }
+
+  // Close menu before page unload to prevent flash on next page
+  window.addEventListener('beforeunload', function() {
+    if (toolbar) {
+      toolbar.classList.remove('open');
+    }
+  });
+
+  // Close menu when page becomes visible (for back/forward navigation)
+  document.addEventListener('visibilitychange', function() {
+    if (!document.hidden && toolbar) {
+      toolbar.classList.remove('open');
+    }
+  });
   const toolbarOptions = document.querySelector('.toolbar-options');
 
-   // Only add animation if not coming from another internal page
+  // Check if this is the user's first visit to the homepage ever
+  const hasSeenHomepageAnimation = localStorage.getItem('hasSeenHomepageAnimation');
   const currentPage = window.location.pathname;
-  const referrer = document.referrer;
-  const isInternalNavigation = sessionStorage.getItem('lastPage') && 
-                              sessionStorage.getItem('lastPage') !== currentPage &&
-                              (sessionStorage.getItem('lastPage').includes('.html') || 
-                               referrer.includes(window.location.hostname));
+  const isHomepage = currentPage === '/' || currentPage === '/index.html' || currentPage.endsWith('index.html') || currentPage === '';
   
-  // Check if this is a fresh visit (no referrer or external referrer)
-  const isFreshVisit = !referrer || !referrer.includes(window.location.hostname);
-  
-  if (!isInternalNavigation && isFreshVisit) {
+  if (isHomepage && !hasSeenHomepageAnimation) {
+    // First time visiting homepage - show animation and mark as seen
     toolbar.classList.add('animate-toolbar');
     toolbar.addEventListener('animationend', function() {
       toolbar.classList.remove('animate-toolbar');
     }, { once: true });
+    
+    // Mark that user has seen the homepage animation
+    localStorage.setItem('hasSeenHomepageAnimation', 'true');
+  } else {
+    // Remove animation class if it was added in HTML
+    toolbar.classList.remove('animate-toolbar');
   }
   
-  // Store current page for next navigation
+  // Store current page for next navigation (keep existing functionality)
   sessionStorage.setItem('lastPage', currentPage);
 
   // Hamburger menu toggle for mobile
@@ -73,6 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
   console.log('Current path:', currentPath);
   console.log('Current page file:', currentPageFile);
   console.log('Available buttons:', buttons.length);
+  console.log('Is bertie page check:', currentPath.includes('bertie-sidekick'));
   
   // Clear all active states first
   buttons.forEach(btn => btn.classList.remove('active'));
@@ -80,6 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
   buttons.forEach(btn => {
     const href = btn.getAttribute('href');
     console.log('Checking button with href:', href);
+    console.log('Button text:', btn.textContent.trim());
     
     if (href && href !== '#' && href !== '#thoughts') {
       // Handle both .html files and clean URLs (Netlify style)
@@ -94,7 +173,10 @@ document.addEventListener('DOMContentLoaded', function() {
                      // Netlify clean URL matching
                      currentPath === '/' + cleanHref ||
                      currentPath === cleanHref ||
-                     (currentPath === '/' && cleanHref === 'index');
+                     (currentPath === '/' && cleanHref === 'index') ||
+                     false; // Removed - now handled in consolidated logic below
+      
+
       
       if (isMatch) {
         console.log('Setting active button:', href);
@@ -113,11 +195,23 @@ document.addEventListener('DOMContentLoaded', function() {
                        currentPath.endsWith('/explore') ||
                        window.location.href.includes('explore');
   
-  if (!setByUrl && isExplorePage) {
+  // Also check for bertie-sidekick pages
+  const isBertiePage = currentPageFile === 'bertie-sidekick.html' || 
+                      currentPageFile === 'bertie-sidekick' || 
+                      currentPath.includes('bertie-sidekick') ||
+                      currentPath.endsWith('/bertie-sidekick.html') || 
+                      currentPath === '/bertie-sidekick' || 
+                      currentPath.endsWith('/bertie-sidekick') ||
+                      window.location.href.includes('bertie-sidekick');
+  
+  if (!setByUrl && (isExplorePage || isBertiePage)) {
+    console.log('Setting work as active for special page:', { isExplorePage, isBertiePage, currentPath, currentPageFile });
     buttons.forEach(btn => {
       const btnHref = btn.getAttribute('href');
-      if (btnHref === 'work.html' || btnHref === '/work') {
+      console.log('Checking special page button:', btnHref);
+      if (btnHref === 'work.html' || btnHref === '/work' || btnHref === '/work.html') {
       btn.classList.add('active');
+        console.log('Setting active button for special page:', btnHref);
       setByUrl = true;
     }
   });
@@ -186,9 +280,13 @@ document.addEventListener('DOMContentLoaded', function() {
   // Select appropriate images based on current page
   let images;
   
-  if (isExplorePage) {
-    // On explore page, select images from image grids and content images
-    images = Array.from(document.querySelectorAll('.image-item img, .content-image img'));
+  if (isExplorePage || isBertiePage) {
+    // On explore and bertie pages, select images from image grids and content images
+    // Exclude logo, slider images, and other non-lightbox images
+    images = Array.from(document.querySelectorAll('.image-item img, .content-image img')).filter(img => 
+      !img.classList.contains('logo-image') && 
+      !img.classList.contains('slider-image')
+    );
   } else {
     // Default to photo-row images for other pages
     images = Array.from(document.querySelectorAll('.photo-row img'));
@@ -202,8 +300,8 @@ document.addEventListener('DOMContentLoaded', function() {
     lightboxImg.src = img.src;
     lightboxImg.alt = img.alt;
     
-    // For explore page, try to get caption from image-caption element
-    if (isExplorePage) {
+    // For explore and bertie pages, try to get caption from image-caption element
+    if (isExplorePage || isBertiePage) {
       const imageItem = img.closest('.image-item');
       const caption = imageItem ? imageItem.querySelector('.image-caption') : null;
       lightboxDesc.textContent = caption ? caption.textContent : img.alt;
@@ -220,7 +318,16 @@ document.addEventListener('DOMContentLoaded', function() {
   if (lightbox && lightboxImg && images.length > 0) {
   images.forEach((img, idx) => {
     img.style.cursor = 'pointer';
-    img.addEventListener('click', function() {
+    img.addEventListener('click', function(e) {
+      // Check if this is an interactive GIF on mobile
+      const isMobile = window.innerWidth <= 768;
+      const isInteractiveGif = img.classList.contains('gif-interactive');
+      
+      // If it's mobile and an interactive GIF, don't open lightbox
+      if (isMobile && isInteractiveGif) {
+        return;
+      }
+      
       showLightbox(idx);
     });
   });
@@ -285,7 +392,44 @@ document.addEventListener('DOMContentLoaded', function() {
       if (img.closest('.gif-container')) return;
       
       // Skip preloaded images (they should load immediately)
-      const preloadedImages = ['Feature Intro Thumbnail.png', 'taskforce.png', 'coverimage.png', 'Notionme.png'];
+      // Dynamic preload system - only preload images that exist on current page
+  function preloadCriticalImages() {
+    const criticalImages = ['Feature Intro Thumbnail.png', 'taskforce.png', 'coverimage.png', 'Notionme.png', 'Preview.png'];
+    const imagesOnPage = Array.from(document.querySelectorAll('img')).map(img => {
+      // Extract filename from src (handle both relative and absolute paths)
+      const src = img.src || img.getAttribute('src') || '';
+      return src.split('/').pop();
+    });
+    
+    // Also check data attributes for GIFs and other dynamic images
+    const dataImages = Array.from(document.querySelectorAll('[data-gif-src], [data-static-src]')).map(el => {
+      const gifSrc = el.getAttribute('data-gif-src');
+      const staticSrc = el.getAttribute('data-static-src');
+      return [gifSrc, staticSrc].filter(Boolean).map(src => src.split('/').pop());
+    }).flat();
+    
+    const allPageImages = [...new Set([...imagesOnPage, ...dataImages])];
+    
+    console.log('Images found on page:', allPageImages);
+    
+    criticalImages.forEach(imageName => {
+      if (allPageImages.includes(imageName)) {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = imageName;
+        document.head.appendChild(link);
+        console.log('Preloading:', imageName);
+      } else {
+        console.log('Skipping preload (not on page):', imageName);
+      }
+    });
+  }
+  
+  // Run preload logic
+  preloadCriticalImages();
+  
+  const preloadedImages = ['Feature Intro Thumbnail.png', 'taskforce.png', 'coverimage.png', 'Notionme.png', 'Preview.png'];
       if (preloadedImages.some(preloadedImg => img.src.includes(preloadedImg))) {
         img.classList.add('loaded');
         return;
@@ -376,32 +520,112 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (imageElements.length === 0) return;
 
+    // Mobile-optimized intersection observer
+    const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
+          // Add slight delay on mobile for better performance
+          const delay = isMobile ? 50 : 0;
+          setTimeout(() => {
           entry.target.classList.add('in-view');
+          }, delay);
           observer.unobserve(entry.target); // Stop observing once animated
         }
       });
     }, {
-      threshold: 0.1,
-      rootMargin: '50px 0px -10% 0px'
+      threshold: isMobile ? 0.05 : 0.1,
+      rootMargin: isMobile ? '100px 0px 0px 0px' : '50px 0px -10% 0px'
     });
 
     imageElements.forEach(element => {
-      // Skip preloaded images
-      if (!element.classList.contains('preloaded') && 
-          !element.closest('.preloaded')) {
+      // Skip preloaded images (they show immediately without animation)
+      if (element.classList.contains('preloaded') || 
+          element.closest('.preloaded')) {
+        return;
+      }
+      
+      // Check if element is already visible on page load
+      const rect = element.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const isVisible = rect.top < viewportHeight && rect.bottom > 0;
+      
+      if (isVisible) {
+        // Add a small delay for visible elements to ensure smooth animation
+        // Longer delay on mobile for better performance
+        // Extra delay for work.html project images that appear on page load
+        const isWorkPage = window.location.pathname.includes('work.html');
+        let delay = isMobile ? 200 : 100;
+        
+        if (isWorkPage && element.classList.contains('image-item')) {
+          // Find the index of this project image for staggered animation
+          const projectImages = document.querySelectorAll('.project-content .image-item');
+          const imageIndex = Array.from(projectImages).indexOf(element);
+          const baseDelay = isMobile ? 400 : 300;
+          const staggerDelay = imageIndex * (isMobile ? 150 : 100);
+          delay = baseDelay + staggerDelay;
+        }
+        
+        setTimeout(() => {
+          element.classList.add('in-view');
+        }, delay);
+      } else {
+        // Use intersection observer for elements that need scrolling
         observer.observe(element);
       }
     });
+    
+    // Fallback for mobile browsers with intersection observer issues
+    if (isMobile) {
+      let ticking = false;
+      
+      function checkVisibility() {
+        const elements = document.querySelectorAll('.image-item:not(.in-view), .content-image:not(.in-view), .photo-row:not(.in-view)');
+        
+        elements.forEach(element => {
+          if (element.classList.contains('preloaded') || element.closest('.preloaded')) {
+            return;
+          }
+          
+          const rect = element.getBoundingClientRect();
+          const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+          
+          if (rect.top < viewportHeight * 0.9 && rect.bottom > 0) {
+            element.classList.add('in-view');
+          }
+        });
+        
+        ticking = false;
+      }
+      
+      function onScroll() {
+        if (!ticking) {
+          requestAnimationFrame(checkVisibility);
+          ticking = true;
+        }
+      }
+      
+      // Add scroll listener as fallback
+      window.addEventListener('scroll', onScroll, { passive: true });
+      
+      // Initial check after a delay
+      setTimeout(checkVisibility, 300);
+    }
   }
 
   function optimizeGifs() {
     const gifs = document.querySelectorAll('img[src$=".gif"], img[src*=".gif"]');
     
-    // Check if we're on mobile - if so, skip the complex optimizations
+    // Check if we're on mobile - if so, skip GIF optimizations entirely for work.html
     const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isWorkPage = window.location.pathname.includes('work.html');
+    
+    // Skip all GIF processing on mobile work page since we use static images
+    if (isMobile && isWorkPage) {
+      console.log('Mobile work page detected - skipping all GIF optimizations, using static images only');
+      return;
+    }
     
     gifs.forEach(gif => {
       // Always add loading="lazy" if not already present
@@ -524,8 +748,246 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
+  // Interactive GIF functionality
+  function initInteractiveGifs() {
+    const interactiveGifs = document.querySelectorAll('.gif-interactive');
+    const isMobile = window.innerWidth <= 768;
+    const isWorkPage = window.location.pathname.includes('work.html');
+    
+    // Skip interactive GIF processing on mobile work page since we use static images
+    if (isMobile && isWorkPage) {
+      console.log('Mobile work page detected - skipping interactive GIF processing, using static images only');
+      return;
+    }
+    
+    interactiveGifs.forEach(gif => {
+      const gifSrc = gif.getAttribute('data-gif-src');
+      const staticSrc = gif.getAttribute('data-static-src');
+      const playIndicator = gif.parentElement.querySelector('.gif-play-indicator');
+      
+      // Start with static image if available
+      if (staticSrc) {
+        gif.src = staticSrc;
+      }
+      
+      let isPlaying = false;
+      
+      // Store initial height to prevent jumping
+      let containerHeight = null;
+      
+      function playGif() {
+        if (!isPlaying && gifSrc) {
+          // Store container height before switching to prevent jumping
+          if (!containerHeight) {
+            containerHeight = gif.offsetHeight;
+            gif.style.height = containerHeight + 'px';
+          }
+          gif.src = gifSrc;
+          if (playIndicator) playIndicator.style.display = 'none';
+          isPlaying = true;
+        }
+      }
+      
+      function pauseGif() {
+        if (isPlaying && staticSrc) {
+          gif.src = staticSrc;
+          if (playIndicator) playIndicator.style.display = 'block';
+          isPlaying = false;
+        }
+      }
+      
+      if (isMobile) {
+        // Mobile: click to play/pause
+        gif.parentElement.addEventListener('click', () => {
+          if (isPlaying) {
+            pauseGif();
+          } else {
+            playGif();
+          }
+        });
+      } else {
+        // Desktop: hover to play
+        gif.parentElement.addEventListener('mouseenter', playGif);
+        gif.parentElement.addEventListener('mouseleave', pauseGif);
+      }
+    });
+  }
+  
+  // Image slider functionality
+  function initImageSliders() {
+    const sliders = document.querySelectorAll('.image-slider');
+    
+    sliders.forEach(slider => {
+      const handle = slider.querySelector('.slider-handle');
+      const afterImage = slider.querySelector('.slider-after');
+      const beforeImage = slider.querySelector('.slider-before');
+      
+      // Debug logging for mobile
+      console.log('Initializing slider:', slider);
+      console.log('Handle found:', !!handle);
+      console.log('After image found:', !!afterImage);
+      console.log('Before image found:', !!beforeImage);
+      
+      if (!handle || !afterImage || !beforeImage) {
+        console.error('Missing slider elements');
+        return;
+      }
+      
+      // Ensure slider handle height matches image after load
+      function adjustSliderHeight() {
+        const containerHeight = slider.getBoundingClientRect().height;
+        if (containerHeight > 0) {
+          handle.style.height = containerHeight + 'px';
+        }
+      }
+      
+      // Adjust height after images load
+      beforeImage.addEventListener('load', adjustSliderHeight);
+      afterImage.addEventListener('load', adjustSliderHeight);
+      
+      // Also adjust on window resize
+      window.addEventListener('resize', adjustSliderHeight);
+      
+      // Initial adjustment
+      if (beforeImage.complete && afterImage.complete) {
+        adjustSliderHeight();
+      }
+      
+      let isDragging = false;
+      
+             function updateSlider(x) {
+         const rect = slider.getBoundingClientRect();
+         const percentage = Math.max(0, Math.min(100, ((x - rect.left) / rect.width) * 100));
+         
+         handle.style.left = percentage + '%';
+         afterImage.style.clipPath = `polygon(${percentage}% 0%, 100% 0%, 100% 100%, ${percentage}% 100%)`;
+         
+         // Debug logging
+         console.log('Slider percentage:', percentage);
+         console.log('Clip path:', `polygon(${percentage}% 0%, 100% 0%, 100% 100%, ${percentage}% 100%)`);
+       }
+      
+      function startDrag(e) {
+        isDragging = true;
+        slider.style.cursor = 'grabbing';
+        e.preventDefault();
+      }
+      
+      function stopDrag() {
+        isDragging = false;
+        slider.style.cursor = 'grab';
+      }
+      
+      function handleMove(e) {
+        if (!isDragging) return;
+        
+        const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+        updateSlider(clientX);
+      }
+      
+      // Mouse events
+      handle.addEventListener('mousedown', startDrag);
+      slider.addEventListener('mousedown', (e) => {
+        startDrag(e);
+        const clientX = e.clientX;
+        updateSlider(clientX);
+      });
+      
+      document.addEventListener('mousemove', handleMove);
+      document.addEventListener('mouseup', stopDrag);
+      
+      // Touch events for mobile - optimized for responsiveness
+      handle.addEventListener('touchstart', (e) => {
+        e.preventDefault(); // Prevent scroll
+        startDrag(e);
+      }, { passive: false });
+      
+      slider.addEventListener('touchstart', (e) => {
+        e.preventDefault(); // Prevent scroll
+        startDrag(e);
+        const clientX = e.touches[0].clientX;
+        updateSlider(clientX);
+      }, { passive: false });
+      
+      document.addEventListener('touchmove', (e) => {
+        if (isDragging) {
+          e.preventDefault(); // Only prevent default when dragging
+          handleMove(e);
+        }
+      }, { passive: false });
+      
+      document.addEventListener('touchend', (e) => {
+        if (isDragging) {
+          e.preventDefault();
+          stopDrag();
+        }
+      }, { passive: false });
+    });
+  }
+
+  // Mobile GIF visibility observer - pause GIFs when out of view
+  function initMobileGifVisibilityObserver() {
+    const isMobile = window.innerWidth <= 768;
+    
+    if (!isMobile) return; // Only run on mobile
+    
+    const interactiveGifs = document.querySelectorAll('.gif-interactive');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const gif = entry.target;
+        const gifSrc = gif.getAttribute('data-gif-src');
+        const staticSrc = gif.getAttribute('data-static-src');
+        const playIndicator = gif.parentElement.querySelector('.gif-play-indicator');
+        
+        // If GIF goes out of view and is currently playing (detected by comparing src)
+        if (!entry.isIntersecting && staticSrc) {
+          // Check if currently showing the GIF (not the static preview)
+          const isCurrentlyPlayingGif = gif.src.includes(gifSrc) || gif.src.endsWith('.gif');
+          
+          if (isCurrentlyPlayingGif) {
+            // Return to preview image
+            gif.src = staticSrc;
+            if (playIndicator) playIndicator.style.display = 'block';
+            
+            console.log('GIF paused - out of view:', gif.alt || 'Unnamed GIF');
+          }
+        }
+      });
+    }, {
+      threshold: 0.1, // Trigger when 10% or less is visible
+      rootMargin: '-20px' // Add some buffer but not too much
+    });
+    
+    interactiveGifs.forEach(gif => {
+      observer.observe(gif);
+    });
+  }
+
   // Initialize GIF optimizations when page loads
   optimizeGifs();
+  
+  // Initialize interactive GIFs
+  initInteractiveGifs();
+  
+  // Initialize mobile GIF visibility observer
+  initMobileGifVisibilityObserver();
+  
+  // Reinitialize mobile GIF observer on resize
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      initMobileGifVisibilityObserver();
+    }, 250);
+  });
+  
+  // Initialize image sliders after images load
+  if (document.readyState === 'loading') {
+    window.addEventListener('load', initImageSliders);
+  } else {
+    initImageSliders();
+  }
   
   // Initialize smooth image loading
   initSmoothImageLoading();
@@ -537,7 +999,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initImageAnimations();
   
   // Ensure preloaded images are immediately visible
-  const preloadedImages = document.querySelectorAll('img.preloaded, img[src*="Feature Intro Thumbnail"], img[src*="taskforce"], img[src*="coverimage"], img[src*="Notionme"]');
+  const preloadedImages = document.querySelectorAll('img.preloaded, img[src*="Feature Intro Thumbnail"], img[src*="taskforce"], img[src*="coverimage"], img[src*="Notionme"], img[src*="Preview"]');
   preloadedImages.forEach(img => {
     img.style.opacity = '1';
     img.style.transform = 'none';
@@ -554,8 +1016,8 @@ document.addEventListener('DOMContentLoaded', function() {
     subtree: true
   });
 
-  // Table of Contents Scroll Spy for explore.html
-  if (window.location.pathname.includes('explore')) {
+  // Table of Contents Scroll Spy for explore.html and bertie-sidekick.html
+  if (window.location.pathname.includes('explore') || window.location.pathname.includes('bertie-sidekick')) {
     const tocLinks = document.querySelectorAll('.toc-link');
     const sections = document.querySelectorAll('[id]'); // All elements with IDs
     
@@ -569,57 +1031,38 @@ document.addEventListener('DOMContentLoaded', function() {
     if (tocLinks.length > 0 && tocSections.length > 0) {
       console.log('TOC Scroll Spy initialized with', tocSections.length, 'sections');
       
-      function updateActiveLink() {
-        let currentSection = '';
-        
-        // Only start highlighting after user scrolls past the first section
-        if (window.scrollY > 200) {
-          // Simple approach: find which section header is closest to the center of viewport
-          const viewportCenter = window.scrollY + (window.innerHeight / 2);
-          
-          let closestSection = null;
-          let closestDistance = Infinity;
-          
-          tocSections.forEach(section => {
-            const sectionCenter = section.offsetTop + (section.offsetHeight / 2);
-            const distance = Math.abs(viewportCenter - sectionCenter);
+      let currentActiveId = '';
+      
+      // Create intersection observer for TOC sections
+      const tocObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Section is coming into view
+            const sectionId = entry.target.id;
             
-            if (distance < closestDistance) {
-              closestDistance = distance;
-              closestSection = section;
+            // Only update if this is different from current active
+            if (sectionId !== currentActiveId) {
+              currentActiveId = sectionId;
+              
+              // Update TOC links
+              tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + sectionId) {
+                  link.classList.add('active');
+                }
+              });
             }
-          });
-          
-          if (closestSection) {
-            currentSection = closestSection.id;
-          }
-        }
-        
-        // Update active states
-        tocLinks.forEach(link => {
-          link.classList.remove('active');
-          if (currentSection && link.getAttribute('href') === '#' + currentSection) {
-            link.classList.add('active');
           }
         });
-      }
+      }, {
+        threshold: 0.2, // Trigger when 20% of section is visible
+        rootMargin: '-200px 0px -60% 0px' // Only trigger when section is well into view
+      });
       
-      // Throttled scroll listener for performance
-      let tocTicking = false;
-      function handleTocScroll() {
-        if (!tocTicking) {
-          requestAnimationFrame(() => {
-            updateActiveLink();
-            tocTicking = false;
-          });
-          tocTicking = true;
-        }
-      }
-      
-      window.addEventListener('scroll', handleTocScroll, { passive: true });
-      
-      // Initial call - no active state on page load, let user scroll first
-      // updateActiveLink(); // Commented out - no initial active state
+      // Observe all TOC sections
+      tocSections.forEach(section => {
+        tocObserver.observe(section);
+      });
     }
   }
 
@@ -635,37 +1078,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }, 5000);
   }
 
-  // Make Forbes project card clickable on work.html
-  if (window.location.pathname.endsWith('work.html') || 
-      window.location.pathname.endsWith('/work.html') || 
-      window.location.pathname === '/work' || 
-      window.location.pathname.endsWith('/work')) {
-    console.log('On work.html, setting up Forbes card');
-    const projectCards = document.querySelectorAll('.project-content');
-    console.log('Found project cards:', projectCards.length);
-    
-    // Look for the Forbes card specifically by checking for "Forbes" in the text
-    projectCards.forEach((card, index) => {
-      const cardText = card.textContent || card.innerText;
-      console.log(`Card ${index} text:`, cardText.substring(0, 50) + '...');
-      
-      if (cardText.includes('Forbes: Explore') || cardText.includes('Forbes')) {
-        console.log('Found Forbes card at index:', index);
-        card.style.cursor = 'pointer';
-        card.addEventListener('click', function(e) {
-          e.preventDefault();
-          console.log('Forbes card clicked, navigating to explore.html');
-          
-          // Detect if we're on localhost or Netlify and use appropriate URL format
-          const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-          const targetUrl = isLocalhost ? 'explore.html' : '/explore';
-          
-          console.log('Navigating to:', targetUrl);
-          window.location.href = targetUrl;
-        });
-      }
-    });
-  }
+
 
   // Password gate functionality for explore.html
   if (window.location.pathname.endsWith('explore.html') || 
@@ -673,11 +1086,22 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.pathname === '/explore' || 
       window.location.pathname.endsWith('/explore')) {
     
+    console.log('🔐 Password gate logic started for explore.html');
+    console.log('Current pathname:', window.location.pathname);
+    
     const passwordForm = document.getElementById('password-form');
     const passwordInput = document.getElementById('password-input');
     const passwordError = document.getElementById('password-error');
     const passwordGate = document.getElementById('password-gate');
     const articleContent = document.getElementById('article-content');
+    
+    console.log('Elements found:', {
+      passwordForm: !!passwordForm,
+      passwordInput: !!passwordInput,
+      passwordError: !!passwordError,
+      passwordGate: !!passwordGate,
+      articleContent: !!articleContent
+    });
     
     // Development bypass - auto-unlock on localhost
     const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
@@ -689,13 +1113,47 @@ document.addEventListener('DOMContentLoaded', function() {
       return; // Skip the rest of the password logic
     }
     
+    // Check for existing valid session (90 minutes = 5400000 milliseconds)
+    const SESSION_DURATION = 90 * 60 * 1000; // 90 minutes in milliseconds
+    const sessionData = localStorage.getItem('portfolioAuthSession');
+    
+    console.log('Checking for existing session (explore.html)...', sessionData);
+    
+    if (sessionData) {
+      try {
+        const { timestamp, authenticated } = JSON.parse(sessionData);
+        const now = Date.now();
+        const timeElapsed = now - timestamp;
+        const minutesElapsed = Math.floor(timeElapsed / (1000 * 60));
+        
+        console.log(`Session found. Minutes elapsed: ${minutesElapsed}/90. Authenticated: ${authenticated}`);
+        
+        if (authenticated && (now - timestamp) < SESSION_DURATION) {
+          console.log('Valid session found - bypassing password gate');
+          if (passwordGate) passwordGate.style.display = 'none';
+          if (articleContent) articleContent.style.display = 'flex';
+          return; // Skip password gate
+        } else {
+          console.log('Session expired, removing...');
+          // Session expired, remove it
+          localStorage.removeItem('portfolioAuthSession');
+        }
+      } catch (e) {
+        console.log('Error parsing session data:', e);
+        // Invalid session data, remove it
+        localStorage.removeItem('portfolioAuthSession');
+      }
+    } else {
+      console.log('No existing session found');
+    }
+    
     // Add body class to prevent scrolling while password gate is visible
     document.body.classList.add('password-gate-active');
     
     // Set the correct password here
-    const correctPassword = 'forbes2024'; // Change this to your desired password
+    const _0x1a2b=atob('YWRlMTk5OA==');
     
-    console.log('Password gate initialized for explore page');
+          console.log('Auth gate init');
     
     // Always show password gate on fresh visits (no persistence)
     // Password gate is visible by default, content is hidden
@@ -722,8 +1180,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const enteredPassword = passwordInput.value.trim();
         console.log('Entered password length:', enteredPassword.length);
         
-        if (enteredPassword === correctPassword) {
-          console.log('Correct password entered');
+        if (enteredPassword === _0x1a2b) {
+          console.log('Auth OK');
+          
+          // Store authentication session with timestamp
+          const sessionData = {
+            timestamp: Date.now(),
+            authenticated: true
+          };
+          localStorage.setItem('portfolioAuthSession', JSON.stringify(sessionData));
           
           // Reset scroll position to top for mobile compatibility
           window.scrollTo(0, 0);
@@ -752,7 +1217,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.scrollTop = 0;
           }, 100);
         } else {
-          console.log('Incorrect password entered');
+          console.log('Auth fail');
           // Wrong password - show error
           passwordError.style.display = 'block';
           passwordInput.value = '';
@@ -846,6 +1311,234 @@ document.addEventListener('DOMContentLoaded', function() {
             copySuccessIcon.style.opacity = '1';
             copySuccessIcon.style.transform = 'scale(1)';
             
+            setTimeout(() => {
+              copyIcon.style.opacity = '1';
+              copyIcon.style.transform = 'scale(1)';
+              copySuccessIcon.style.opacity = '0';
+              copySuccessIcon.style.transform = 'scale(0.8)';
+            }, 5000);
+          });
+        });
+      }
+      
+      // Focus on password input when page loads (with delay for mobile)
+      setTimeout(() => {
+        passwordInput.focus();
+      }, 300);
+    } else {
+      console.log('Password form elements not found');
+    }
+  }
+
+  // Password gate functionality for bertie-sidekick.html
+  if (window.location.pathname.endsWith('bertie-sidekick.html') || 
+      window.location.pathname.endsWith('/bertie-sidekick.html') || 
+      window.location.pathname === '/bertie-sidekick' || 
+      window.location.pathname.endsWith('/bertie-sidekick')) {
+    
+    console.log('🔐 Password gate logic started for bertie-sidekick.html');
+    console.log('Current pathname:', window.location.pathname);
+    
+    const passwordForm = document.getElementById('password-form');
+    const passwordInput = document.getElementById('password-input');
+    const passwordError = document.getElementById('password-error');
+    const passwordGate = document.getElementById('password-gate');
+    const articleContent = document.getElementById('article-content');
+    
+    console.log('Elements found:', {
+      passwordForm: !!passwordForm,
+      passwordInput: !!passwordInput,
+      passwordError: !!passwordError,
+      passwordGate: !!passwordGate,
+      articleContent: !!articleContent
+    });
+    
+    // Development bypass - auto-unlock on localhost
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    
+    if (isLocalhost) {
+      console.log('Development mode detected - bypassing password gate');
+      if (passwordGate) passwordGate.style.display = 'none';
+      if (articleContent) articleContent.style.display = 'flex';
+      return; // Skip the rest of the password logic
+    }
+    
+    // Check for existing valid session (90 minutes = 5400000 milliseconds)
+    const SESSION_DURATION = 90 * 60 * 1000; // 90 minutes in milliseconds
+    const sessionData = localStorage.getItem('portfolioAuthSession');
+    
+    console.log('Checking for existing session (bertie-sidekick.html)...', sessionData);
+    
+    if (sessionData) {
+      try {
+        const { timestamp, authenticated } = JSON.parse(sessionData);
+        const now = Date.now();
+        const timeElapsed = now - timestamp;
+        const minutesElapsed = Math.floor(timeElapsed / (1000 * 60));
+        
+        console.log(`Session found. Minutes elapsed: ${minutesElapsed}/90. Authenticated: ${authenticated}`);
+        
+        if (authenticated && (now - timestamp) < SESSION_DURATION) {
+          console.log('Valid session found - bypassing password gate');
+          if (passwordGate) passwordGate.style.display = 'none';
+          if (articleContent) articleContent.style.display = 'flex';
+          return; // Skip password gate
+        } else {
+          console.log('Session expired, removing...');
+          // Session expired, remove it
+          localStorage.removeItem('portfolioAuthSession');
+        }
+      } catch (e) {
+        console.log('Error parsing session data:', e);
+        // Invalid session data, remove it
+        localStorage.removeItem('portfolioAuthSession');
+      }
+    } else {
+      console.log('No existing session found');
+    }
+    
+    // Add body class to prevent scrolling while password gate is visible
+    document.body.classList.add('password-gate-active');
+    
+    // Set the correct password here
+    const _0x2c3d=atob('YWRlMTk5OA==');
+    
+          console.log('Auth gate init');
+    
+    // Always show password gate on fresh visits (no persistence)
+    // Password gate is visible by default, content is hidden
+    
+    if (passwordForm && passwordInput) {
+      console.log('Password form elements found');
+      
+      // Handle mobile keyboard hiding on form submission
+      passwordInput.addEventListener('blur', function() {
+        // Reset viewport when keyboard hides
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 300);
+      });
+      
+      // Handle form submission
+      passwordForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        console.log('Form submitted');
+        
+        // Hide mobile keyboard immediately
+        passwordInput.blur();
+        
+        const enteredPassword = passwordInput.value.trim();
+        console.log('Entered password length:', enteredPassword.length);
+        
+        if (enteredPassword === _0x2c3d) {
+          console.log('Auth OK');
+          
+          // Store authentication session with timestamp
+          const sessionData = {
+            timestamp: Date.now(),
+            authenticated: true
+          };
+          localStorage.setItem('portfolioAuthSession', JSON.stringify(sessionData));
+          
+          // Reset scroll position to top for mobile compatibility
+          window.scrollTo(0, 0);
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
+          
+          // Force viewport reset for mobile keyboards
+          if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', () => {
+              window.scrollTo(0, 0);
+            }, { once: true });
+          }
+          
+          // Correct password - grant access for this session only
+          passwordGate.style.display = 'none';
+          articleContent.style.display = 'flex';
+          passwordError.style.display = 'none';
+          
+          // Remove body scroll prevention class
+          document.body.classList.remove('password-gate-active');
+          
+          // Additional scroll reset after content loads
+          setTimeout(() => {
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+          }, 100);
+        } else {
+          console.log('Auth fail');
+          // Wrong password - show error
+          passwordError.style.display = 'block';
+          passwordInput.value = '';
+          
+          // Add shake animation to the modal
+          const modal = document.querySelector('.password-modal');
+          if (modal) {
+          modal.style.animation = 'shake 0.5s ease-in-out';
+          setTimeout(() => {
+            modal.style.animation = '';
+          }, 500);
+          }
+          
+          // Re-focus after a short delay (mobile-friendly)
+          setTimeout(() => {
+            passwordInput.focus();
+          }, 100);
+        }
+      });
+      
+      // Handle mobile keyboard "Go" button and Enter key
+      passwordInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          passwordForm.dispatchEvent(new Event('submit'));
+        }
+      });
+      
+      // Password visibility toggle
+      const passwordToggle = document.getElementById('password-toggle');
+      if (passwordToggle) {
+        passwordToggle.addEventListener('click', function() {
+          const toggleText = this.querySelector('.password-toggle-text');
+          const toggleIcon = this.querySelector('.password-toggle-icon');
+          
+          if (passwordInput.type === 'password') {
+            // Show password - hide icon, show "Hide" text
+            passwordInput.type = 'text';
+            toggleIcon.style.display = 'none';
+            toggleText.style.display = 'inline';
+            toggleText.textContent = 'Hide';
+          } else {
+            // Hide password - show icon, hide text
+            passwordInput.type = 'password';
+            toggleIcon.style.display = 'inline';
+            toggleText.style.display = 'none';
+          }
+        });
+      }
+      
+            // Email copy functionality
+      const emailCopyBtn = document.getElementById('email-copy-btn');
+      const emailAddress = document.querySelector('.email-address');
+      
+      if (emailCopyBtn && emailAddress) {
+        emailCopyBtn.addEventListener('click', function() {
+          const copyIcon = this.querySelector('.copy-icon');
+          const copySuccessIcon = this.querySelector('.copy-success-icon');
+          const emailText = emailAddress.textContent.trim();
+          
+          // Copy to clipboard
+          navigator.clipboard.writeText(emailText).then(function() {
+            console.log('Email copied to clipboard');
+            
+            // Show success feedback
+            copyIcon.style.opacity = '0';
+            copyIcon.style.transform = 'scale(0.8)';
+            copySuccessIcon.style.opacity = '1';
+            copySuccessIcon.style.transform = 'scale(1)';
+            
+            // Reset after 5 seconds
             setTimeout(() => {
               copyIcon.style.opacity = '1';
               copyIcon.style.transform = 'scale(1)';
@@ -1028,15 +1721,15 @@ function showThinkingState(callback) {
     // Add golden pulsing border to avatar
     aiAvatar.classList.add('thinking');
     
-    // Small delay then fade in thinking text
+    // Small delay then fade in thinking text with spinner
     setTimeout(() => {
-      typedTextElement.innerHTML = 'Thinking...';
+      typedTextElement.innerHTML = '<span class="thinking-spinner"></span><span class="thinking-text">Thinking...</span>';
       typedTextElement.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
       typedTextElement.style.opacity = '1';
       typedTextElement.style.transform = 'translateY(0)';
     }, 100);
     
-    // Wait 4 seconds, then execute callback
+    // Wait 2 seconds, then execute callback
     thinkingTimeout = setTimeout(() => {
       // Remove thinking state
       aiAvatar.classList.remove('thinking');
@@ -1048,7 +1741,7 @@ function showThinkingState(callback) {
       thinkingTimeout = null;
       // Execute the callback (usually typeWriter)
       callback();
-    }, 4000);
+    }, 2000);
   } else {
     // Fallback if elements don't exist
     callback();
@@ -1058,6 +1751,7 @@ function showThinkingState(callback) {
 function typeWriter(text, element, baseSpeed = 35, callback = null) {
   let i = 0;
   element.innerHTML = '';
+  element.classList.add('typing-active');
   
   // Parse HTML into tokens (text and tags)
   const tokens = [];
@@ -1149,7 +1843,10 @@ function typeWriter(text, element, baseSpeed = 35, callback = null) {
       const delay = getVariableSpeed(token, nextToken);
       setTimeout(type, delay);
     } else {
-      // Typing completed, call callback if provided and not disabled
+      // Remove typing class after completion
+      element.classList.remove('typing-active');
+      
+      // Call callback if provided and not disabled
       if (callback && !element.dataset.disabled) {
         setTimeout(callback, 300); // Small delay before showing redo button
       }
@@ -1178,13 +1875,18 @@ if (radioPills.length > 0) {
   }, 60000); // 60 seconds
 }
 
-// Debug function for localhost development
+// Debug functions for localhost development
 if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
   window.clearDisabledPills = function() {
     disabledPills.clear();
     localStorage.removeItem('disabledPills');
     updatePillStates();
     console.log('All disabled pills cleared for testing');
+  };
+  
+  window.resetHomepageAnimation = function() {
+    localStorage.removeItem('hasSeenHomepageAnimation');
+    console.log('Homepage animation flag reset - refresh to see animation again');
   };
 }
 
@@ -1609,4 +2311,39 @@ if (clearBtn) {
       selectedValue = null;
     }
   });
+}
+
+// Analogy refresh functionality for bertie-sidekick.html
+if (window.location.pathname.includes('bertie-sidekick')) {
+  const analogyText = document.getElementById('analogy-text');
+  const refreshBtn = document.getElementById('analogy-refresh');
+  
+  if (analogyText && refreshBtn) {
+    const analogies = [
+      "<i><b>LeBron James is to the Lakers</b></i>",
+      "<i><b>Serena Williams is to tennis</b></i>",
+      "<i><b>Messi is to football</b></i>",
+"<i><b>Coco Chanel is to fashion</b></i>",
+"<i><b>Michael Jackson is to pop music</b></i>",
+      
+    ];
+    
+    let currentIndex = 0;
+    
+    refreshBtn.addEventListener('click', function() {
+      // Cycle to next analogy
+      currentIndex = (currentIndex + 1) % analogies.length;
+      
+      // Add fade effect
+      analogyText.style.opacity = '0.5';
+      analogyText.style.transform = 'translateY(-2px)';
+      analogyText.style.transition = 'opacity 0.15s ease, transform 0.15s ease';
+      
+      setTimeout(() => {
+        analogyText.innerHTML = analogies[currentIndex];
+        analogyText.style.opacity = '1';
+        analogyText.style.transform = 'translateY(0)';
+      }, 150);
+    });
+  }
 }
