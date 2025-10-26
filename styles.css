@@ -751,22 +751,6 @@ img.preloaded {
 
     }
 
-/* Smooth toolbar transitions for explore/bertie pages - desktop only */
-@media (min-width: 769px) {
-  .floating-toolbar {
-    /* Transitions now handled by JavaScript for better control */
-  }
-
-  .floating-toolbar.toolbar-hidden {
-    transform: translateX(-50%) translateY(-100px);
-    opacity: 0;
-  }
-}
-
-.floating-toolbar.animate-toolbar {
-  animation: floatIn 1.2s cubic-bezier(0.23, 1, 0.32, 1);
-  animation-fill-mode: both;
-}
 
 @keyframes floatIn {
   0% {
