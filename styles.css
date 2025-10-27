@@ -13217,9 +13217,9 @@ html {
 }
 
 .close-thought-btn {
-  position: absolute;
-  top: -16px;
-  right: 16px;
+  position: sticky;
+  float: right;
+  top: 1px;
   background: rgba(255,255,255,0.95);
   border: 1px solid #e0e0e0;
   border-radius: 50%;
@@ -13231,6 +13231,7 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 }
 
 .close-thought-btn:hover {
@@ -13379,6 +13380,18 @@ html {
     padding: 24px;
   }
 
+  /* Disable any unwanted animations on thought cards for mobile */
+  .thought-card,
+  .thought-card * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  
+  .thought-card:hover {
+    transform: none !important;
+  }
+
   .thought-title {
     font-size: 20px;
   }
@@ -13402,7 +13415,7 @@ html {
 
   .close-thought-btn {
     position: sticky;
-    top: 16px;
+    top: 2px;
     float: right;
     z-index: 1;
   }
