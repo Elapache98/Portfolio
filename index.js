@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Checking button with href:', href);
     console.log('Button text:', btn.textContent.trim());
     
-    if (href && href !== '#' && href !== '#thoughts') {
+    if (href && href !== '#' && href !== 'thoughts.html') {
       // Handle both .html files and clean URLs (Netlify style)
       const cleanHref = href.replace('.html', ''); // Remove .html extension
       const cleanPath = currentPath.replace('.html', ''); // Remove .html from current path
