@@ -13100,7 +13100,7 @@ html {
   display: flex;
   flex-direction: column;
   gap: 32px;
-  margin-bottom:auto;
+  margin-bottom:32px;
 }
 
 .thought-card {
@@ -13234,7 +13234,7 @@ html {
 
 .close-thought-btn {
   position: absolute;
-  top: 16px;
+  top: -16px;
   right: 16px;
   background: rgba(255,255,255,0.95);
   border: 1px solid #e0e0e0;
@@ -13404,7 +13404,8 @@ html {
   }
 
   .thought-modal-content {
-    padding: 32px 24px;
+    padding: 24px;
+    padding-top: 32px;
     width: 100%;
     border-radius: 24px 24px 0 0;
     transform: translateY(100%);
@@ -13413,5 +13414,12 @@ html {
 
   .thought-modal.active .thought-modal-content {
     transform: translateY(0);
+  }
+
+  .close-thought-btn {
+    position: sticky;
+    top: 16px;
+    float: right;
+    z-index: 1;
   }
 }
