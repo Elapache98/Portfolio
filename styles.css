@@ -13120,21 +13120,24 @@ html {
 .thought-header {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 12px;
   margin-bottom: 16px;
-  font-size: 14px;
-  color: #737373;
 }
 
-.thought-timestamp {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
+.thought-timestamp,
 .thought-location {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  padding: 8px 12px;
+  background: rgba(148, 123, 87, 0.1);
+  color: #947b57;
+  border: 1px solid rgba(148, 123, 87, 0.2);
+  border-radius: 16px;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
   gap: 4px;
 }
 
@@ -13278,6 +13281,81 @@ html {
   margin-bottom: 0;
 }
 
+/* Thought Signature */
+.thought-signature {
+  font-family: 'Dynalight', cursive;
+  font-size: 32px;
+  font-weight: 400;
+  color: #947b57;
+  text-align: right;
+  margin-top: 32px;
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+}
+
+/* Interpolation Table Component */
+.interpolation-table {
+  width: 100%;
+  margin: 24px 0;
+  font-size: 16px;
+  background-color: white;
+  border:solid;
+  border-style:outset;
+  border-color: rgba(148, 123, 87, 0.2);
+  border-width: 1px;
+  border-radius: 4px;
+  padding: 12px;
+  margin: 12px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.interpolation-table th {
+  text-align: left;
+  padding: 16px;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid rgba(74, 60, 47, 0.15);
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.interpolation-table td {
+  padding: 16px;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(74, 60, 47, 0.08);
+}
+
+.interpolation-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.interpolation-table .original-col {
+  width: 40%;
+  font-weight: 500;
+  color: #555;
+}
+
+.interpolation-table .interpolated-col {
+  width: 60%;
+  color: #555;
+}
+
+.interpolation-table .interpolated-row {
+  padding: 12px 0px;
+  border-bottom: 1px solid rgba(74, 60, 47, 0.05);
+}
+
+.interpolation-table .interpolated-row:last-child {
+  border-bottom: none;
+}
+
+.interpolation-table .interpolated-row:first-child {
+  padding-top: 0;
+}
+
+.interpolation-table .interpolated-row:last-child {
+  padding-bottom: 0;
+}
+
 /* YouTube Link Hovercard Styles */
 .youtube-link-wrapper {
   position: relative;
@@ -13412,6 +13490,11 @@ html {
     font-size: 20px;
   }
 
+  .thought-signature {
+    font-size: 28px;
+    margin-top: 24px;
+  }
+
   .thought-modal {
     align-items: flex-end;
   }
@@ -13434,5 +13517,29 @@ html {
     top: 2px;
     float: right;
     z-index: 1;
+  }
+
+  /* Mobile responsive table */
+  .interpolation-table {
+    font-size: 14px;
+    margin: 16px 0;
+  }
+
+  .interpolation-table th,
+  .interpolation-table td {
+    padding: 12px;
+  }
+
+  .interpolation-table .original-col {
+    width: 35%;
+  }
+
+  .interpolation-table .interpolated-col {
+    width: 65%;
+  }
+
+  .interpolation-table .interpolated-row {
+    padding: 8px 0px;
+    font-size: 13px;
   }
 }
