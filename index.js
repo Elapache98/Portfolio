@@ -116,16 +116,35 @@ document.addEventListener('DOMContentLoaded', function() {
   // Store current page for next navigation (keep existing functionality)
   sessionStorage.setItem('lastPage', currentPage);
 
+  // Helper function to close menu with exit animation
+  function closeMenuWithAnimation() {
+    if (!toolbar.classList.contains('open')) return;
+    
+    // Add closing class to trigger exit animation
+    toolbar.classList.add('closing');
+    toolbar.classList.remove('open');
+    
+    // Remove closing class after animation completes (400ms)
+    setTimeout(() => {
+      toolbar.classList.remove('closing');
+    }, 400);
+  }
+
   // Hamburger menu toggle for mobile
   hamburger.addEventListener('click', function() {
-    toolbar.classList.toggle('open');
+    if (toolbar.classList.contains('open')) {
+      closeMenuWithAnimation();
+    } else {
+      toolbar.classList.remove('closing'); // Clear any pending closing state
+      toolbar.classList.add('open');
+    }
   });
 
   // Close menu when a toolbar option is clicked (on mobile)
   buttons.forEach(btn => {
     btn.addEventListener('click', function() {
       if (window.innerWidth <= 600) {
-        toolbar.classList.remove('open');
+        closeMenuWithAnimation();
       }
     });
   });
@@ -133,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Close menu when scrim is clicked
   if (scrim) {
     scrim.addEventListener('click', function() {
-      toolbar.classList.remove('open');
+      closeMenuWithAnimation();
     });
   }
 
@@ -156,7 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Checking button with href:', href);
     console.log('Button text:', btn.textContent.trim());
     
-    if (href && href !== '#' && href !== 'thoughts.html') {
+    if (href && href !== '#') {
       // Handle both .html files and clean URLs (Netlify style)
       const cleanHref = href.replace('.html', ''); // Remove .html extension
       const cleanPath = currentPath.replace('.html', ''); // Remove .html from current path
@@ -231,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
     toolbarOptions.addEventListener('click', function(e) {
       // Check if click is in the top 24px (where the handle is)
       if (e.target === toolbarOptions && e.offsetY < 24 && window.innerWidth <= 600) {
-        toolbar.classList.remove('open');
+        closeMenuWithAnimation();
       }
     });
   }
@@ -245,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
       !menu.contains(e.target) &&
       !hamburger.contains(e.target)
     ) {
-      toolbar.classList.remove('open');
+      closeMenuWithAnimation();
     }
   });
 
@@ -518,6 +537,43 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Mobile-optimized intersection observer
     const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isWorkPage = document.body.classList.contains('work-page');
+
+    // Work page: continuous scale animation that toggles on scroll
+    if (isWorkPage) {
+      const projectCards = document.querySelectorAll('.project-content');
+      
+      const scaleObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+          } else {
+            entry.target.classList.remove('in-view');
+          }
+        });
+      }, {
+        threshold: 0.3,
+        rootMargin: '-10% 0px -10% 0px'
+      });
+      
+      projectCards.forEach(card => {
+        scaleObserver.observe(card);
+      });
+      
+      // For non-project elements on work page, use standard fade animation
+      const otherElements = document.querySelectorAll('.content-image, .photo-row');
+      otherElements.forEach(element => {
+        if (!element.classList.contains('preloaded')) {
+          const rect = element.getBoundingClientRect();
+          const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+          if (rect.top < viewportHeight && rect.bottom > 0) {
+            element.classList.add('in-view');
+          }
+        }
+      });
+      
+      return;
+    }
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -550,18 +606,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (isVisible) {
         // Add a small delay for visible elements to ensure smooth animation
         // Longer delay on mobile for better performance
-        // Extra delay for work.html project images that appear on page load
-        const isWorkPage = window.location.pathname.includes('work.html');
         let delay = isMobile ? 200 : 100;
-        
-        if (isWorkPage && element.classList.contains('image-item')) {
-          // Find the index of this project image for staggered animation
-          const projectImages = document.querySelectorAll('.project-content .image-item');
-          const imageIndex = Array.from(projectImages).indexOf(element);
-          const baseDelay = isMobile ? 400 : 300;
-          const staggerDelay = imageIndex * (isMobile ? 150 : 100);
-          delay = baseDelay + staggerDelay;
-        }
         
         setTimeout(() => {
           element.classList.add('in-view');
