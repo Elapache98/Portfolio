@@ -2700,7 +2700,6 @@ html {
     padding: 4px 8px;
     font-size: 10px;
     opacity: 0.8;
-    max-width: 85%;
   }
 }
 
@@ -4411,14 +4410,16 @@ html {
   bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
-  text-align: center;
-  color: #737373;
-  font-size: 14px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 11px;
   font-weight: 500;
-  line-height: 1.5;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 8px;
-  border-radius: 4px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -4432,7 +4433,6 @@ html {
     padding: 4px 8px;
     font-size: 10px;
     opacity: 0.8;
-    max-width: 85%;
   }
 }
 
@@ -6143,14 +6143,16 @@ html {
   bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
-  text-align: center;
-  color: #737373;
-  font-size: 14px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 11px;
   font-weight: 500;
-  line-height: 1.5;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 8px;
-  border-radius: 4px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -6164,7 +6166,6 @@ html {
     padding: 4px 8px;
     font-size: 10px;
     opacity: 0.8;
-    max-width: 85%;
   }
 }
 
@@ -7875,14 +7876,16 @@ html {
   bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
-  text-align: center;
-  color: #737373;
-  font-size: 14px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 11px;
   font-weight: 500;
-  line-height: 1.5;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 8px;
-  border-radius: 4px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -7896,7 +7899,6 @@ html {
     padding: 4px 8px;
     font-size: 10px;
     opacity: 0.8;
-    max-width: 85%;
   }
 }
 
@@ -9607,14 +9609,16 @@ html {
   bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
-  text-align: center;
-  color: #737373;
-  font-size: 14px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 11px;
   font-weight: 500;
-  line-height: 1.5;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 8px;
-  border-radius: 4px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -9628,7 +9632,6 @@ html {
     padding: 4px 8px;
     font-size: 10px;
     opacity: 0.8;
-    max-width: 85%;
   }
 }
 
@@ -11339,14 +11342,16 @@ html {
   bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
-  text-align: center;
-  color: #737373;
-  font-size: 14px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 11px;
   font-weight: 500;
-  line-height: 1.5;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 8px;
-  border-radius: 4px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -11360,7 +11365,6 @@ html {
     padding: 4px 8px;
     font-size: 10px;
     opacity: 0.8;
-    max-width: 85%;
   }
 }
 
@@ -13071,14 +13075,16 @@ html {
   bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
-  text-align: center;
-  color: #737373;
-  font-size: 14px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 11px;
   font-weight: 500;
-  line-height: 1.5;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 8px;
-  border-radius: 4px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
