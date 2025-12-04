@@ -575,25 +575,6 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
     
-    // About page: scale animation for answer-content box
-    const answerContent = document.querySelector('.answer-content');
-    if (answerContent) {
-      const answerObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-          } else {
-            entry.target.classList.remove('in-view');
-          }
-        });
-      }, {
-        threshold: 0.3,
-        rootMargin: '-5% 0px -5% 0px'
-      });
-      
-      answerObserver.observe(answerContent);
-    }
-
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
