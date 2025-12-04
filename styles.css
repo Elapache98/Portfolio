@@ -116,7 +116,15 @@ margin-top: calc(100vh * .25);
     align-items: stretch;
     max-width: 900px;
     padding:  16px;
+    /* Scale animation on hover */
+    transform: scale(1) translateZ(0);
+    transition: transform 0.5s cubic-bezier(.87, 0, .13, 1);
+    transform-origin: center center;
   }
+
+.about-grid:hover {
+  transform: scale(1.03) translateZ(0);
+}
 
 
 
@@ -148,6 +156,14 @@ transition: box-shadow .25s;
   padding:24px;
   border-radius:32px;
   height: 100%;
+  /* Scale animation on scroll */
+  transform: scale(1) translateZ(0);
+  transition: transform 0.5s cubic-bezier(.87, 0, .13, 1);
+  transform-origin: center center;
+}
+
+.answer-content.in-view {
+  transform: scale(1.03) translateZ(0);
   border-style: solid;
   border-color: rgba(74, 60, 47, 0.095);
   border-width: 1px;
@@ -457,7 +473,8 @@ img.preloaded {
 }
 
 /* Universal image animations - works on all devices and pages */
-.image-item, .content-image, .photo-row {
+/* Note: .photo-row excluded - only its child images animate */
+.image-item, .content-image {
   position: relative;
   opacity: 0;
   transform: translateY(30px) translateZ(0);
@@ -467,7 +484,7 @@ img.preloaded {
   -webkit-backface-visibility: hidden;
 }
 
-.image-item.in-view, .content-image.in-view, .photo-row.in-view {
+.image-item.in-view, .content-image.in-view {
   opacity: 1;
   transform: translateY(0) translateZ(0);
 }
@@ -494,12 +511,12 @@ img.preloaded {
 
 /* Mobile-specific animation optimizations */
 @media (max-width: 768px) {
-  .image-item, .content-image, .photo-row {
+  .image-item, .content-image {
     transform: translateY(20px) translateZ(0);
     transition: opacity 0.4s ease-out, transform 0.4s ease-out;
   }
   
-  .image-item.in-view, .content-image.in-view, .photo-row.in-view {
+  .image-item.in-view, .content-image.in-view {
     transform: translateY(0) translateZ(0);
   }
 }
@@ -510,7 +527,7 @@ img.preloaded {
 .image-grid .image-item:nth-child(3) { transition-delay: 300ms; }
 
 /* Special handling for preloaded images */
-.image-item.preloaded, .content-image.preloaded, .photo-row.preloaded {
+.image-item.preloaded, .content-image.preloaded {
   opacity: 1;
   transform: none;
   transition: none;
@@ -1053,6 +1070,15 @@ border: 1px solid rgba(13, 11, 70, 0.05);
   overflow-x: auto;          /* Enable horizontal scroll */
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
   scrollbar-width: thin;     /* Optional: thinner scrollbar for Firefox */
+  /* Container slide-up animation */
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.photo-row.in-view {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .photo-row img {
@@ -1061,10 +1087,19 @@ border: 1px solid rgba(13, 11, 70, 0.05);
   object-fit: cover;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(31, 38, 135, 0.08);
-  transition: transform 0.15s;
-  flex: 0 0 auto;     
-  gap:48px;       /* Prevent shrinking/growing */
+  flex: 0 0 auto;
+  /* Start hidden, fade in after container slides up */
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
 }
+
+/* Cascading fade delays - starts after container slide (500ms) + load buffer (300ms) = 800ms base */
+.photo-row.in-view img:nth-child(1) { opacity: 1; transition-delay: 800ms; }
+.photo-row.in-view img:nth-child(2) { opacity: 1; transition-delay: 900ms; }
+.photo-row.in-view img:nth-child(3) { opacity: 1; transition-delay: 1000ms; }
+.photo-row.in-view img:nth-child(4) { opacity: 1; transition-delay: 1100ms; }
+.photo-row.in-view img:nth-child(5) { opacity: 1; transition-delay: 1200ms; }
+.photo-row.in-view img:nth-child(6) { opacity: 1; transition-delay: 1300ms; }
 
 .photo-row img:hover {
 filter: blur(.5px);}
@@ -3291,7 +3326,16 @@ html {
     width: 250px;
     height: 250px;
     flex: 0 0 auto;
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
   }
+  
+  .photo-row.in-view img:nth-child(1) { opacity: 1; transition-delay: 800ms; }
+  .photo-row.in-view img:nth-child(2) { opacity: 1; transition-delay: 900ms; }
+  .photo-row.in-view img:nth-child(3) { opacity: 1; transition-delay: 1000ms; }
+  .photo-row.in-view img:nth-child(4) { opacity: 1; transition-delay: 1100ms; }
+  .photo-row.in-view img:nth-child(5) { opacity: 1; transition-delay: 1200ms; }
+  .photo-row.in-view img:nth-child(6) { opacity: 1; transition-delay: 1300ms; }
   
   /* Lightbox mobile adjustments */
   .lightbox-content {
@@ -5024,7 +5068,16 @@ html {
     width: 250px;
     height: 250px;
     flex: 0 0 auto;
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
   }
+  
+  .photo-row.in-view img:nth-child(1) { opacity: 1; transition-delay: 800ms; }
+  .photo-row.in-view img:nth-child(2) { opacity: 1; transition-delay: 900ms; }
+  .photo-row.in-view img:nth-child(3) { opacity: 1; transition-delay: 1000ms; }
+  .photo-row.in-view img:nth-child(4) { opacity: 1; transition-delay: 1100ms; }
+  .photo-row.in-view img:nth-child(5) { opacity: 1; transition-delay: 1200ms; }
+  .photo-row.in-view img:nth-child(6) { opacity: 1; transition-delay: 1300ms; }
   
   /* Lightbox mobile adjustments */
   .lightbox-content {
@@ -6757,7 +6810,16 @@ html {
     width: 250px;
     height: 250px;
     flex: 0 0 auto;
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
   }
+  
+  .photo-row.in-view img:nth-child(1) { opacity: 1; transition-delay: 800ms; }
+  .photo-row.in-view img:nth-child(2) { opacity: 1; transition-delay: 900ms; }
+  .photo-row.in-view img:nth-child(3) { opacity: 1; transition-delay: 1000ms; }
+  .photo-row.in-view img:nth-child(4) { opacity: 1; transition-delay: 1100ms; }
+  .photo-row.in-view img:nth-child(5) { opacity: 1; transition-delay: 1200ms; }
+  .photo-row.in-view img:nth-child(6) { opacity: 1; transition-delay: 1300ms; }
   
   /* Lightbox mobile adjustments */
   .lightbox-content {
@@ -8490,7 +8552,16 @@ html {
     width: 250px;
     height: 250px;
     flex: 0 0 auto;
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
   }
+  
+  .photo-row.in-view img:nth-child(1) { opacity: 1; transition-delay: 800ms; }
+  .photo-row.in-view img:nth-child(2) { opacity: 1; transition-delay: 900ms; }
+  .photo-row.in-view img:nth-child(3) { opacity: 1; transition-delay: 1000ms; }
+  .photo-row.in-view img:nth-child(4) { opacity: 1; transition-delay: 1100ms; }
+  .photo-row.in-view img:nth-child(5) { opacity: 1; transition-delay: 1200ms; }
+  .photo-row.in-view img:nth-child(6) { opacity: 1; transition-delay: 1300ms; }
   
   /* Lightbox mobile adjustments */
   .lightbox-content {
@@ -10223,7 +10294,16 @@ html {
     width: 250px;
     height: 250px;
     flex: 0 0 auto;
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
   }
+  
+  .photo-row.in-view img:nth-child(1) { opacity: 1; transition-delay: 800ms; }
+  .photo-row.in-view img:nth-child(2) { opacity: 1; transition-delay: 900ms; }
+  .photo-row.in-view img:nth-child(3) { opacity: 1; transition-delay: 1000ms; }
+  .photo-row.in-view img:nth-child(4) { opacity: 1; transition-delay: 1100ms; }
+  .photo-row.in-view img:nth-child(5) { opacity: 1; transition-delay: 1200ms; }
+  .photo-row.in-view img:nth-child(6) { opacity: 1; transition-delay: 1300ms; }
   
   /* Lightbox mobile adjustments */
   .lightbox-content {
@@ -11956,7 +12036,16 @@ html {
     width: 250px;
     height: 250px;
     flex: 0 0 auto;
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
   }
+  
+  .photo-row.in-view img:nth-child(1) { opacity: 1; transition-delay: 800ms; }
+  .photo-row.in-view img:nth-child(2) { opacity: 1; transition-delay: 900ms; }
+  .photo-row.in-view img:nth-child(3) { opacity: 1; transition-delay: 1000ms; }
+  .photo-row.in-view img:nth-child(4) { opacity: 1; transition-delay: 1100ms; }
+  .photo-row.in-view img:nth-child(5) { opacity: 1; transition-delay: 1200ms; }
+  .photo-row.in-view img:nth-child(6) { opacity: 1; transition-delay: 1300ms; }
   
   /* Lightbox mobile adjustments */
   .lightbox-content {
