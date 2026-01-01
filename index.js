@@ -68,6 +68,11 @@ console.log('Current URL:', window.location.href);
 console.log('Pathname:', window.location.pathname);
 
 document.addEventListener('DOMContentLoaded', function() {
+  // Set dynamic copyright year
+  const yearElements = document.querySelectorAll('.current-year');
+  const currentYear = new Date().getFullYear();
+  yearElements.forEach(el => el.textContent = currentYear);
+
   const toolbar = document.querySelector('.floating-toolbar');
   const hamburger = toolbar.querySelector('.toolbar-hamburger');
   const options = toolbar.querySelector('.toolbar-options');
