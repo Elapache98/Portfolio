@@ -70,6 +70,9 @@
     
     <div class="thoughts-grid-wrapper">
       <div class="thoughts-grid">
+
+
+        
         <!-- Thought Card 1 -->
         <div class="thought-card">
           <div class="thought-header">
@@ -147,6 +150,7 @@
           <button class="see-more-btn" onclick="openThoughtModal(this)">See more</button>
         </div>
 
+
       
 
        
@@ -200,7 +204,7 @@
       </button>
   
     </div>
-    <p style="color: #737373; font-size: 12px;">© 2025 | Adé Obayomi</p>
+    <p style="color: #737373; font-size: 12px;">© <span class="current-year"></span> | Adé Obayomi</p>
 
   </div>
   <div class="toolbar-scrim"></div>
@@ -221,6 +225,11 @@
       document.getElementById('modalBody').innerHTML = bodyContent;
       
       const modal = document.getElementById('thoughtModal');
+      const modalContent = modal.querySelector('.thought-modal-content');
+      
+      // Reset scroll position to top
+      modalContent.scrollTop = 0;
+      
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
     }
