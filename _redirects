@@ -1,0 +1,7 @@
+# Clean URLs for case study pages
+/explore          /explore.html          200
+/bertie-sidekick  /bertie-sidekick.html  200
+/ai-notifications /ai-notifications.html 200
+/work             /work.html             200
+/about            /about.html            200
+/thoughts         /thoughts.html         200
