@@ -224,8 +224,17 @@ document.addEventListener('DOMContentLoaded', function() {
                       currentPath.endsWith('/bertie-sidekick') ||
                       window.location.href.includes('bertie-sidekick');
   
-  if (!setByUrl && (isExplorePage || isBertiePage)) {
-    console.log('Setting work as active for special page:', { isExplorePage, isBertiePage, currentPath, currentPageFile });
+  // Also check for ai-notifications pages
+  const isAiNotificationsPage = currentPageFile === 'ai-notifications.html' || 
+                      currentPageFile === 'ai-notifications' || 
+                      currentPath.includes('ai-notifications') ||
+                      currentPath.endsWith('/ai-notifications.html') || 
+                      currentPath === '/ai-notifications' || 
+                      currentPath.endsWith('/ai-notifications') ||
+                      window.location.href.includes('ai-notifications');
+  
+  if (!setByUrl && (isExplorePage || isBertiePage || isAiNotificationsPage)) {
+    console.log('Setting work as active for special page:', { isExplorePage, isBertiePage, isAiNotificationsPage, currentPath, currentPageFile });
     buttons.forEach(btn => {
       const btnHref = btn.getAttribute('href');
       console.log('Checking special page button:', btnHref);
@@ -1062,8 +1071,8 @@ document.addEventListener('DOMContentLoaded', function() {
     subtree: true
   });
 
-  // Table of Contents Scroll Spy for explore.html and bertie-sidekick.html
-  if (window.location.pathname.includes('explore') || window.location.pathname.includes('bertie-sidekick')) {
+  // Table of Contents Scroll Spy for explore.html, bertie-sidekick.html, and ai-notifications.html
+  if (window.location.pathname.includes('explore') || window.location.pathname.includes('bertie-sidekick') || window.location.pathname.includes('ai-notifications')) {
     const tocLinks = document.querySelectorAll('.toc-link');
     const sections = document.querySelectorAll('[id]'); // All elements with IDs
     
@@ -1592,6 +1601,228 @@ document.addEventListener('DOMContentLoaded', function() {
               copySuccessIcon.style.transform = 'scale(0.8)';
             }, 5000);
           });
+        });
+      }
+      
+      // Focus on password input when page loads (with delay for mobile)
+      setTimeout(() => {
+        passwordInput.focus();
+      }, 300);
+    } else {
+      console.log('Password form elements not found');
+    }
+  }
+
+  // Password gate functionality for ai-notifications.html
+  if (window.location.pathname.endsWith('ai-notifications.html') || 
+      window.location.pathname.endsWith('/ai-notifications.html') || 
+      window.location.pathname === '/ai-notifications' || 
+      window.location.pathname.endsWith('/ai-notifications')) {
+    
+    console.log('🔐 Password gate logic started for ai-notifications.html');
+    console.log('Current pathname:', window.location.pathname);
+    
+    const passwordForm = document.getElementById('password-form');
+    const passwordInput = document.getElementById('password-input');
+    const passwordError = document.getElementById('password-error');
+    const passwordGate = document.getElementById('password-gate');
+    const articleContent = document.getElementById('article-content');
+    
+    console.log('Elements found:', {
+      passwordForm: !!passwordForm,
+      passwordInput: !!passwordInput,
+      passwordError: !!passwordError,
+      passwordGate: !!passwordGate,
+      articleContent: !!articleContent
+    });
+    
+    // Check if we're on localhost (development)
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    
+    if (isLocalhost) {
+      console.log('Development mode detected - bypassing password gate');
+      if (passwordGate) passwordGate.style.display = 'none';
+      if (articleContent) articleContent.style.display = 'flex';
+      return; // Skip the rest of the password logic
+    }
+    
+    // Check for existing valid session (90 minutes = 5400000 milliseconds)
+    const SESSION_DURATION = 90 * 60 * 1000; // 90 minutes in milliseconds
+    const sessionData = localStorage.getItem('portfolioAuthSession');
+    
+    console.log('Checking for existing session (ai-notifications.html)...', sessionData);
+    
+    if (sessionData) {
+      try {
+        const { timestamp, authenticated } = JSON.parse(sessionData);
+        const now = Date.now();
+        const minutesElapsed = Math.floor((now - timestamp) / 60000);
+        
+        console.log(`Session found. Minutes elapsed: ${minutesElapsed}/90. Authenticated: ${authenticated}`);
+        
+        if (authenticated && (now - timestamp) < SESSION_DURATION) {
+          console.log('Valid session found - bypassing password gate');
+          if (passwordGate) passwordGate.style.display = 'none';
+          if (articleContent) articleContent.style.display = 'flex';
+          return; // Skip password gate
+        } else {
+          console.log('Session expired, removing...');
+          // Session expired, remove it
+          localStorage.removeItem('portfolioAuthSession');
+        }
+      } catch (e) {
+        console.log('Error parsing session data, removing...');
+        localStorage.removeItem('portfolioAuthSession');
+      }
+    } else {
+      console.log('No existing session found');
+    }
+    
+    // Add body class to prevent scrolling while password gate is visible
+    document.body.classList.add('password-gate-active');
+    
+    // Set the correct password here
+    const _0x3e4f=atob('YWRlMTk5OA==');
+    
+          console.log('Auth gate init');
+    
+    // Always show password gate on fresh visits (no persistence)
+    // Password gate is visible by default, content is hidden
+    
+    if (passwordForm && passwordInput) {
+      console.log('Password form elements found');
+      
+      // Handle mobile keyboard hiding on form submission
+      passwordInput.addEventListener('blur', function() {
+        // Reset viewport when keyboard hides
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 100);
+      });
+      
+      // Handle form submission
+      passwordForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        console.log('Form submitted');
+        
+        // Hide mobile keyboard immediately
+        passwordInput.blur();
+        
+        const enteredPassword = passwordInput.value.trim();
+        console.log('Entered password length:', enteredPassword.length);
+        
+        if (enteredPassword === _0x3e4f) {
+          console.log('Auth OK');
+          
+          // Store session authentication with timestamp
+          localStorage.setItem('portfolioAuthSession', JSON.stringify({
+            timestamp: Date.now(),
+            authenticated: true
+          }));
+          console.log('Session saved');
+          
+          // Reset viewport scroll on mobile before showing content
+          if (window.innerWidth <= 768) {
+            window.scrollTo(0, 0);
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+            
+            // Also reset after a small delay
+            passwordGate.addEventListener('transitionend', () => {
+              window.scrollTo(0, 0);
+            }, { once: true });
+          }
+          
+          // Correct password - grant access for this session only
+          passwordGate.style.display = 'none';
+          articleContent.style.display = 'flex';
+          passwordError.style.display = 'none';
+          
+          // Remove body scroll prevention class
+          document.body.classList.remove('password-gate-active');
+          
+          // Additional scroll reset after content loads
+          setTimeout(() => {
+            window.scrollTo(0, 0);
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+          }, 100);
+        } else {
+          console.log('Auth fail');
+          // Wrong password - show error
+          passwordError.style.display = 'block';
+          passwordInput.value = '';
+          
+          // Add shake animation to the modal
+          const modal = document.querySelector('.password-modal');
+          if (modal) {
+          modal.style.animation = 'shake 0.5s ease-in-out';
+          setTimeout(() => {
+            modal.style.animation = '';
+          }, 500);
+          }
+          
+          // Re-focus after a short delay (mobile-friendly)
+          setTimeout(() => {
+            passwordInput.focus();
+          }, 100);
+        }
+      });
+      
+      // Handle mobile keyboard "Go" button and Enter key
+      passwordInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          passwordForm.dispatchEvent(new Event('submit'));
+        }
+      });
+      
+      // Password visibility toggle
+      const passwordToggle = document.getElementById('password-toggle');
+      if (passwordToggle) {
+        passwordToggle.addEventListener('click', function() {
+          const toggleText = this.querySelector('.password-toggle-text');
+          const toggleIcon = this.querySelector('.password-toggle-icon');
+          
+          if (passwordInput.type === 'password') {
+            // Show password - hide icon, show "Hide" text
+            passwordInput.type = 'text';
+            toggleIcon.style.display = 'none';
+            toggleText.style.display = 'inline';
+            toggleText.textContent = 'Hide';
+          } else {
+            // Hide password - show icon, hide text
+            passwordInput.type = 'password';
+            toggleIcon.style.display = 'inline';
+            toggleText.style.display = 'none';
+          }
+        });
+      }
+      
+      // Email copy functionality
+      const emailCopyBtn = document.getElementById('email-copy-btn');
+      if (emailCopyBtn) {
+        emailCopyBtn.addEventListener('click', async function() {
+          try {
+            await navigator.clipboard.writeText('adeobayomi@gmail.com');
+            
+            // Show success state
+            const copyIcon = this.querySelector('.copy-icon');
+            const successIcon = this.querySelector('.copy-success-icon');
+            
+            if (copyIcon && successIcon) {
+              copyIcon.style.display = 'none';
+              successIcon.style.display = 'inline';
+              
+              // Reset after 2 seconds
+              setTimeout(() => {
+                copyIcon.style.display = 'inline';
+                successIcon.style.display = 'none';
+              }, 2000);
+            }
+          } catch (err) {
+            console.error('Failed to copy email:', err);
+          }
         });
       }
       
