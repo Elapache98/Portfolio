@@ -1,6 +1,7 @@
 /* Performance optimizations */
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 /* Page load fade-in - CSS only, works everywhere */
@@ -2996,7 +2997,7 @@ html {
   .article-layout {
     flex-direction: column;
     margin-top: 60px;
-    padding: 0 16px;
+    padding: 16px 16px;
     margin-top: 132px;
     width:88vw;
   }
@@ -4739,7 +4740,7 @@ html {
     flex-direction: column;
     margin-top: 60px;
     padding: 0 16px;
-    margin-top: 132px;
+    margin-top: 125px;
     width:88vw;
   }
   
@@ -13222,6 +13223,121 @@ html {
   transition: opacity 0.2s ease;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+}
+
+/* Mobile Responsive for Article Pages */
+@media (max-width: 768px) {
+  .article-layout {
+    flex-direction: column;
+    width: calc(100% - 32px);
+    padding: 0 16px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 125px;
+  }
+
+  .table-of-contents {
+    display: none;
+  }
+
+  .article-container {
+    max-width: 100%;
+    margin-top: 0;
+    padding: 0;
+  }
+
+  .breadcrumb {
+    margin-bottom: 16px;
+  }
+
+  .article-header {
+    margin-bottom: 32px;
+  }
+
+  .article-header h1 {
+    font-size: 32px;
+    line-height: 1.2;
+  }
+
+  .feature-info {
+    padding: 16px;
+  }
+
+  .feature-item {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  .article-content {
+    font-size: 16px;
+  }
+
+  .article-content h2 {
+    font-size: 24px;
+    margin-top: 40px;
+  }
+
+  .article-content h3 {
+    font-size: 20px;
+  }
+
+  .lead-paragraph {
+    font-size: 16px;
+  }
+
+  .highlight-box {
+    padding: 16px;
+  }
+
+  .highlight-box h3 {
+    font-size: 18px;
+  }
+
+  .image-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .code-blocks-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .code-block {
+    padding: 16px;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .feature-gallery {
+    gap: 32px;
+  }
+
+  .feature-card {
+    flex-direction: column;
+  }
+
+  .feature-content {
+    padding-right: 0;
+  }
+
+  .feature-image {
+    max-width: 100%;
+  }
+
+  .results-section {
+    padding: 24px;
+  }
+
+  html {
+    scroll-padding-top: 100px;
+  }
+
+  .article-content h2[id] {
+    scroll-margin-top: 100px;
+  }
 }
 
 /* Thoughts Component Styles */
