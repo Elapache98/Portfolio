@@ -1,7 +1,6 @@
 /* Performance optimizations */
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
 }
 
 /* Page load fade-in - CSS only, works everywhere */
@@ -30,6 +29,14 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow-x: hidden;
+}
+
+/* Override body flex centering for article pages to enable sticky TOC */
+body:has(.article-layout),
+body.article-page {
+  justify-content: flex-start;
+  align-items: stretch;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -2516,6 +2523,7 @@ body:has(.password-gate:not([style*="display: none"])) {
   gap: 40px;
   align-items: flex-start;
   margin-top: 150px;
+  overflow: visible;
 }
 
 /* Scroll offset for anchor links to account for floating toolbar */
@@ -2534,6 +2542,9 @@ html {
   position: sticky;
   top: 120px;
   height: fit-content;
+  align-self: flex-start;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
 }
 
 .toc-header {
@@ -2717,6 +2728,10 @@ html {
   grid-template-columns: 1fr 1fr;
   gap: 24px;
   margin: 32px 0;
+}
+
+.image-grid-3col {
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .image-item img {
@@ -4260,6 +4275,7 @@ body:has(.password-gate:not([style*="display: none"])) {
   gap: 40px;
   align-items: flex-start;
   margin-top: 150px;
+  overflow: visible;
 }
 
 /* Scroll offset for anchor links to account for floating toolbar */
@@ -4278,6 +4294,9 @@ html {
   position: sticky;
   top: 120px;
   height: fit-content;
+  align-self: flex-start;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
 }
 
 .toc-header {
@@ -4461,6 +4480,10 @@ html {
   grid-template-columns: 1fr 1fr;
   gap: 24px;
   margin: 32px 0;
+}
+
+.image-grid-3col {
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .image-item img {
@@ -6002,6 +6025,7 @@ body:has(.password-gate:not([style*="display: none"])) {
   gap: 40px;
   align-items: flex-start;
   margin-top: 150px;
+  overflow: visible;
 }
 
 /* Scroll offset for anchor links to account for floating toolbar */
@@ -6020,6 +6044,9 @@ html {
   position: sticky;
   top: 120px;
   height: fit-content;
+  align-self: flex-start;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
 }
 
 .toc-header {
@@ -6203,6 +6230,10 @@ html {
   grid-template-columns: 1fr 1fr;
   gap: 24px;
   margin: 32px 0;
+}
+
+.image-grid-3col {
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .image-item img {
@@ -7744,6 +7775,7 @@ body:has(.password-gate:not([style*="display: none"])) {
   gap: 40px;
   align-items: flex-start;
   margin-top: 150px;
+  overflow: visible;
 }
 
 /* Scroll offset for anchor links to account for floating toolbar */
@@ -7762,6 +7794,9 @@ html {
   position: sticky;
   top: 120px;
   height: fit-content;
+  align-self: flex-start;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
 }
 
 .toc-header {
@@ -7945,6 +7980,10 @@ html {
   grid-template-columns: 1fr 1fr;
   gap: 24px;
   margin: 32px 0;
+}
+
+.image-grid-3col {
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .image-item img {
@@ -9486,6 +9525,7 @@ body:has(.password-gate:not([style*="display: none"])) {
   gap: 40px;
   align-items: flex-start;
   margin-top: 150px;
+  overflow: visible;
 }
 
 /* Scroll offset for anchor links to account for floating toolbar */
@@ -9504,6 +9544,9 @@ html {
   position: sticky;
   top: 120px;
   height: fit-content;
+  align-self: flex-start;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
 }
 
 .toc-header {
@@ -9687,6 +9730,10 @@ html {
   grid-template-columns: 1fr 1fr;
   gap: 24px;
   margin: 32px 0;
+}
+
+.image-grid-3col {
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .image-item img {
@@ -11228,6 +11275,7 @@ body:has(.password-gate:not([style*="display: none"])) {
   gap: 40px;
   align-items: flex-start;
   margin-top: 150px;
+  overflow: visible;
 }
 
 /* Scroll offset for anchor links to account for floating toolbar */
@@ -11246,6 +11294,9 @@ html {
   position: sticky;
   top: 120px;
   height: fit-content;
+  align-self: flex-start;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
 }
 
 .toc-header {
@@ -11429,6 +11480,10 @@ html {
   grid-template-columns: 1fr 1fr;
   gap: 24px;
   margin: 32px 0;
+}
+
+.image-grid-3col {
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .image-item img {
@@ -12970,6 +13025,7 @@ body:has(.password-gate:not([style*="display: none"])) {
   gap: 40px;
   align-items: flex-start;
   margin-top: 150px;
+  overflow: visible;
 }
 
 /* Scroll offset for anchor links to account for floating toolbar */
@@ -12988,6 +13044,9 @@ html {
   position: sticky;
   top: 120px;
   height: fit-content;
+  align-self: flex-start;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
 }
 
 .toc-header {
@@ -13171,6 +13230,10 @@ html {
   grid-template-columns: 1fr 1fr;
   gap: 24px;
   margin: 32px 0;
+}
+
+.image-grid-3col {
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .image-item img {
