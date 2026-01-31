@@ -1811,13 +1811,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const successIcon = this.querySelector('.copy-success-icon');
             
             if (copyIcon && successIcon) {
-              copyIcon.style.display = 'none';
-              successIcon.style.display = 'inline';
+              // Show success feedback - scale out copy icon, scale in checkmark
+              copyIcon.style.opacity = '0';
+              copyIcon.style.transform = 'scale(0.8)';
+              successIcon.style.opacity = '1';
+              successIcon.style.transform = 'scale(1)';
               
               // Reset after 2 seconds
               setTimeout(() => {
-                copyIcon.style.display = 'inline';
-                successIcon.style.display = 'none';
+                copyIcon.style.opacity = '1';
+                copyIcon.style.transform = 'scale(1)';
+                successIcon.style.opacity = '0';
+                successIcon.style.transform = 'scale(0.8)';
               }, 2000);
             }
           } catch (err) {
