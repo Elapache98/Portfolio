@@ -75,8 +75,27 @@
     </div>
     
     <div class="project-grid-wrapper">
+      <div class="project-tabs">
+        <button class="project-tab active" data-filter="all">All <span class="tab-count">(4)</span></button>
+        <button class="project-tab" data-filter="internal">Internal Tools</button>
+        <button class="project-tab" data-filter="consumer">Consumer</button>
+      </div>
       <div class="project-grid">
-    <div class="project-content">
+    <div class="project-content" data-category="internal">
+      <a href="advanced-search.html" class="image-link">
+        <div class="image-item">
+          <img src="Adv Search cover.png" alt="FUEL Advanced Search interface." loading="lazy">
+        </div>
+      </a>
+      <div id="tagdiv">
+        <span class="context-tag">Search</span>
+        <span class="context-tag">Custom Lists</span>
+      </div>
+      <h3>FUEL: Advanced Search & Custom List Creation</h3>
+      <p>From Engineering reliance to self-serve: Designing a Structured Query Builder for Editorial Teams to create custom Forbes Lists.</p>
+    </div>
+
+    <div class="project-content" data-category="consumer">
         <a href="explore.html" class="image-link">
           <div class="image-item desktop-only">
             <div class="gif-container interactive-gif">
@@ -113,7 +132,7 @@
       <p>Rethinking news & information consumption habits amidst the proliferation of AI.</p>
     </div>
 
-    <div class="project-content">
+    <div class="project-content" data-category="consumer">
       <a href="ai-notifications.html" class="image-link">
         <div class="image-item">
           <img src="AI notifs cover image.png" alt="AI Notifications feature interface." loading="lazy">
@@ -129,7 +148,7 @@
         editorial integrity.</p>
     </div>
 
-    <div class="project-content">
+    <div class="project-content" data-category="internal">
       <a href="bertie-sidekick.html" class="image-link">
         <div class="image-item">
           <img src="Bertie Publish.png" alt="User interface for Bertie Publish." loading="lazy">
