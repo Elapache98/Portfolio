@@ -192,7 +192,7 @@ transition: box-shadow .25s;
   align-items: center;
   max-width: 65vw;
   height: auto;
-  padding: 24px;
+  padding: 0;
   margin-bottom: 48px;
 }
 
@@ -212,11 +212,6 @@ transition: box-shadow .25s;
     text-align: left;
     margin-bottom: 24px;
     width: 100%;
-    max-width: 65vw;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 24px;
-    box-sizing: border-box;
   }
 
   .work-title-section h2 {
@@ -232,6 +227,7 @@ transition: box-shadow .25s;
     max-width: 1400px;
     padding: 0 48px;
     box-sizing: border-box;
+    margin: 0 auto;
   }
 
   .project-grid {
@@ -260,11 +256,7 @@ transition: box-shadow .25s;
   .work-title-section {
     text-align: left;
     margin-bottom: 24px;
-    max-width: 65vw;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 24px;
-    box-sizing: border-box;
+    width: 100%;
   }
 
   .work-title-section h2 {
@@ -287,11 +279,10 @@ transition: box-shadow .25s;
   align-items: center;
   gap: 24px;
   width: 100%;
-  max-width: 65vw;
   border-bottom: 1px solid rgba(74, 60, 47, 0.15);
-  padding: 0 24px;
+  padding: 0;
   box-sizing: border-box;
-  margin: 0 auto 0 auto;
+  margin: 0 auto 24px auto;
   overflow: visible;
   position: relative;
 }
@@ -346,14 +337,12 @@ transition: box-shadow .25s;
 /* Mobile tabs and title */
 @media (max-width: 768px) {
   .work-title-section {
-    max-width: 85vw;
-    padding: 0 16px;
+    width: 100%;
   }
   
   .project-tabs {
-    max-width: 85vw;
+    width: 100%;
     gap: 16px;
-    padding: 0 16px;
   }
   
   .project-tab {
@@ -1471,6 +1460,13 @@ img[src*=".gif"] {
   justify-content: center;
   z-index: 1000;
   transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Desktop logo alignment with content */
+@media (min-width: 769px) {
+  .floating-logo {
+    left: max(48px, calc(50% - 652px));
+  }
 }
 
 .floating-logo:hover {
