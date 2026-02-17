@@ -5,7 +5,7 @@ html {
 
 /* Page load fade-in - CSS only, works everywhere */
 body {
-  animation: page-fade-in 0.35s ease-out;
+  animation: page-fade-in 0.38s ease-out;
 }
 
 @keyframes page-fade-in {
