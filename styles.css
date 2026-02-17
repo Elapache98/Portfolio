@@ -336,6 +336,13 @@ transition: box-shadow .25s;
 
 /* Mobile tabs and title */
 @media (max-width: 768px) {
+  .project-grid-wrapper {
+    padding: 0;
+    width: 90vw;
+    margin-left: 5vw;
+    margin-right: 5vw;
+  }
+  
   .work-title-section {
     width: 100%;
   }
@@ -348,6 +355,10 @@ transition: box-shadow .25s;
   .project-tab {
     font-size: 13px;
     padding: 10px 2px;
+  }
+  
+  .project-grid {
+    max-width: 100%;
   }
 }
 
@@ -3378,7 +3389,7 @@ html {
 
   .floating-logo {
     top: 3.8vh;
-    left: 2.8vw;
+    left: 5vw;
     width: 40px;
     height: 40px;
   }
@@ -5133,7 +5144,7 @@ html {
 
   .floating-logo {
     top: 3.8vh;
-    left: 2.8vw;
+    left: 5vw;
     width: 40px;
     height: 40px;
   }
@@ -6888,7 +6899,7 @@ html {
 
   .floating-logo {
     top: 3.8vh;
-    left: 2.8vw;
+    left: 5vw;
     width: 40px;
     height: 40px;
   }
@@ -8643,7 +8654,7 @@ html {
 
   .floating-logo {
     top: 3.8vh;
-    left: 2.8vw;
+    left: 5vw;
     width: 40px;
     height: 40px;
   }
@@ -10398,7 +10409,7 @@ html {
 
   .floating-logo {
     top: 3.8vh;
-    left: 2.8vw;
+    left: 5vw;
     width: 40px;
     height: 40px;
   }
@@ -12153,7 +12164,7 @@ html {
 
   .floating-logo {
     top: 3.8vh;
-    left: 2.8vw;
+    left: 5vw;
     width: 40px;
     height: 40px;
   }
