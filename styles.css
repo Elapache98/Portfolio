@@ -2976,6 +2976,11 @@ html {
   margin: 24px 0;
 }
 
+/* Make single code block full width */
+.code-blocks-grid .code-block:only-child {
+  grid-column: 1 / -1;
+}
+
 /* Make the last code block full width when there are 3 items */
 .code-blocks-grid .code-block:nth-child(3):last-child {
   grid-column: 1 / -1;
@@ -4724,6 +4729,11 @@ html {
   grid-template-columns: 1fr 1fr;
   gap: 24px;
   margin: 24px 0;
+}
+
+/* Make single code block full width */
+.code-blocks-grid .code-block:only-child {
+  grid-column: 1 / -1;
 }
 
 /* Make the last code block full width when there are 3 items */
@@ -6476,6 +6486,11 @@ html {
   margin: 24px 0;
 }
 
+/* Make single code block full width */
+.code-blocks-grid .code-block:only-child {
+  grid-column: 1 / -1;
+}
+
 /* Make the last code block full width when there are 3 items */
 .code-blocks-grid .code-block:nth-child(3):last-child {
   grid-column: 1 / -1;
@@ -8226,6 +8241,11 @@ html {
   margin: 24px 0;
 }
 
+/* Make single code block full width */
+.code-blocks-grid .code-block:only-child {
+  grid-column: 1 / -1;
+}
+
 /* Make the last code block full width when there are 3 items */
 .code-blocks-grid .code-block:nth-child(3):last-child {
   grid-column: 1 / -1;
@@ -9974,6 +9994,11 @@ html {
   grid-template-columns: 1fr 1fr;
   gap: 24px;
   margin: 24px 0;
+}
+
+/* Make single code block full width */
+.code-blocks-grid .code-block:only-child {
+  grid-column: 1 / -1;
 }
 
 /* Make the last code block full width when there are 3 items */
@@ -11724,6 +11749,11 @@ html {
   grid-template-columns: 1fr 1fr;
   gap: 24px;
   margin: 24px 0;
+}
+
+/* Make single code block full width */
+.code-blocks-grid .code-block:only-child {
+  grid-column: 1 / -1;
 }
 
 /* Make the last code block full width when there are 3 items */
