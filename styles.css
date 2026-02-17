@@ -3592,9 +3592,9 @@ html {
     gap: 24px;
     justify-content: start;
     align-items: start;
-    max-width: 85vw;
+    max-width: 100%;
     height: auto;
-    padding: 16px;
+    padding: 0;
     margin-bottom: 32px;
   }
 
@@ -5347,9 +5347,9 @@ html {
     gap: 24px;
     justify-content: start;
     align-items: start;
-    max-width: 85vw;
+    max-width: 100%;
     height: auto;
-    padding: 16px;
+    padding: 0;
     margin-bottom: 32px;
   }
 
@@ -7102,9 +7102,9 @@ html {
     gap: 24px;
     justify-content: start;
     align-items: start;
-    max-width: 85vw;
+    max-width: 100%;
     height: auto;
-    padding: 16px;
+    padding: 0;
     margin-bottom: 32px;
   }
 
@@ -8857,9 +8857,9 @@ html {
     gap: 24px;
     justify-content: start;
     align-items: start;
-    max-width: 85vw;
+    max-width: 100%;
     height: auto;
-    padding: 16px;
+    padding: 0;
     margin-bottom: 32px;
   }
 
@@ -10612,9 +10612,9 @@ html {
     gap: 24px;
     justify-content: start;
     align-items: start;
-    max-width: 85vw;
+    max-width: 100%;
     height: auto;
-    padding: 16px;
+    padding: 0;
     margin-bottom: 32px;
   }
 
@@ -12367,9 +12367,9 @@ html {
     gap: 24px;
     justify-content: start;
     align-items: start;
-    max-width: 85vw;
+    max-width: 100%;
     height: auto;
-    padding: 16px;
+    padding: 0;
     margin-bottom: 32px;
   }
 
