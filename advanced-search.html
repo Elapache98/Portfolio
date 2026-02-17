@@ -151,7 +151,6 @@
         <a href="#why" class="toc-link">Why This Matters</a>
         <a href="#hmw" class="toc-link">How Might We Statement</a>
         <a href="#solution" class="toc-link">Solution</a>
-        <a href="#easter-eggs" class="toc-link">Easter Eggs</a>
         <a href="#lessons" class="toc-link">Lessons Learned</a>
       </nav>
     </aside>
@@ -242,7 +241,7 @@
 <br>
       <h2 id="why">Why This Matters</h2>
      
-      <br>
+     
       <p class="lead-paragraph">
         This was an engineering led effort to empower editors to create custom lists from our database. As a product pod, we had just introduced Forbes Unified Engine For Lists (FUEL) which serves as a foundation for all list creation and profile management. 
         </p>
@@ -254,7 +253,7 @@
     <div class="highlight-box">
         <h4 style="font-size: 12px; text-transform: uppercase; color: #5b4b34; margin-bottom: 8px;">Product Opportunity</h4>
 
-        <p style="font-size:21.8px;">As list editors had no technical background in querying a database, we saw a product opportunity to create a 
+        <p style="font-size:21.8px;">As list editors had no technical background in querying a database, we saw a product opportunity to create 
             user-friendly ways for list editors to interface with the database that would allow them to create custom list data.</p>
 
 
@@ -274,11 +273,19 @@
 
       <br>
 
-      <p style="font-size:21.8px; font-weight: bold">Finding Our Value Proposition</p>
+      <p style="font-size:21.8px; font-weight: bold">Rule Based UI</p>
 
-      <p class="lead-paragraph">With help from editorial, we were able to formulate two themes as our value proposition to anonymous users.</p>
+      <p class="lead-paragraph">This was the fun part becuase I had always wanted to design a rule based UI (🤓 nerd alert). I remember my manager and I sharing screenshots of UIs that <b>excelled at turning database logic into natural-language workflows.</b> One of the one's that struck
+        me was Hubspot's IF/THEN rule builder.
+      </p>
+
+      <div class="image-item">  
+        <img src="HS ifthen.jpg" alt="Hubspot IF/THEN rule builder" loading="lazy">
+        <p class="image-caption">Hubspot's IF/THEN rule builder.</p>
+      </div>
+      <br>
       <!-- Code/Technical Example -->
-      <div class="code-blocks-grid">
+      <div class="code-blocks-grid">                
        
       <div class="code-block">
           <h4 class="code-block-title">
@@ -291,25 +298,12 @@
                 <path d="M12.9586 12.9399C12.9095 12.9833 12.8701 13.017 12.8422 13.0407L12.7934 13.0801C12.5186 13.303 12.125 13.3032 11.8496 13.081L11.8019 13.0419C11.7738 13.0183 11.7343 12.9846 11.6849 12.9412C11.5863 12.8546 11.4483 12.7292 11.2838 12.5689C10.9558 12.2493 10.5186 11.7866 10.0801 11.2121C9.21625 10.0802 8.28125 8.4276 8.28125 6.53146C8.28125 4.30494 10.0862 2.5 12.3127 2.5C14.5392 2.5 16.3442 4.30494 16.3442 6.53146C16.3442 8.42636 15.4146 10.0784 14.5551 11.2105C14.119 11.7851 13.684 12.2478 13.3577 12.5676C13.1941 12.7278 13.0567 12.8533 12.9586 12.9399ZM11.0625 6.53125C11.0625 7.22161 11.6221 7.78125 12.3125 7.78125H12.3225C13.0129 7.78125 13.5725 7.22161 13.5725 6.53125C13.5725 5.84089 13.0129 5.28125 12.3225 5.28125H12.3125C11.6221 5.28125 11.0625 5.84089 11.0625 6.53125Z" fill="#947b57 "/>
                 </svg>
               </span>
-             Ongoing Utility
+             Reduced Cognitive Load
           </h4>
           <p>
-            We shaped notifications to be alerts that provide ongoing utility in the sense that, it's a proactive way to 
-            find news you care about, without having to browse for it. The justification for this utility was only signing up for a free account to unlock it.</p>
+           Mature B2B tools like Hubspot's UI achieved reducing cognitive load by exposing structured logic through an almost <b>"fill in the blank"</b> like experienece.</p>
         </div>
 
-        <div class="code-block">
-          <h4 class="code-block-title">
-            <svg width="28" height="28" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
-                <path d="M13.1528 3.75V10.25H18.2437C18.6723 10.25 19.086 10.0927 19.4063 9.80797L21.0938 8.30797C21.877 7.61183 21.877 6.38817 21.0938 5.69203L19.4063 4.19203C19.086 3.90729 18.6723 3.75 18.2437 3.75H13.1528ZM11.6528 15.25L11.6528 8.75L6.56249 8.75C6.13389 8.75 5.7202 8.90729 5.39986 9.19203L3.71236 10.692C2.92921 11.3882 2.92921 12.6118 3.71237 13.308L5.39987 14.808C5.72021 15.0927 6.13391 15.25 6.56251 15.25L11.6528 15.25Z" fill="#947b57 "/>
-                <path opacity="0.4" d="M13.1528 2.75C13.1528 2.33579 12.817 2 12.4028 2C11.9886 2 11.6528 2.33579 11.6528 2.75V8.75L11.6528 15.25V21.25C11.6528 21.6642 11.9886 22 12.4028 22C12.817 22 13.1528 21.6642 13.1528 21.25L13.1528 10.25V3.75V2.75Z" fill="#947b57"/>
-                </svg>
-                
-           Personal Relevance / Identity
-          </h4>
-          <p>We also shaped personalization to be a key selling point; letting readers know, we respect their attention and only wanted to notify them about topics they cared about.</p>
-
-      </div>
       </div>
 
     
@@ -324,7 +318,9 @@
 
 <h2 id="solution">The Solution</h2>
 
-<p></p>
+<p class="lead-paragraph">The key insight I took from our pattern research was constrained drop-down based builders 
+    made complex logic feel manageable when conditions are presented in blocks, and conditions are selected rather than typed. This allowed for quick customization of queries
+    without the need for technical knowledge.</p>
 
 
 
@@ -333,18 +329,35 @@
   <div class="feature-card">
     <div class="feature-content">
       <p></p>
-      <h3 class="feature-headline">A Personalized Ongoing Utility Behind A Freemium Account</h3>
+      <h3 class="feature-headline">Removing The Complexity Of Querying A Database</h3>
       <p class="feature-description">
-        To be honest, the creative direction for this part was led by our PM 😅. They had a hunch that blurring
-        parts of the notifiication's UI and locking its benefits behind a free account gate would incentivize users to create a free account.</p> 
-        <br>
-        <p class="feature-description"> I felt obliged to 
-        see their vision through; good to know their hunch was right.
+        The advanced search feature was designed to remove the complexity of querying a database by allowing list editors to create custom lists by simply selecting their criterias/conditions.
+      </p> 
+      <br>
+      <p class="feature-description">
+        This was achieved by using a constrained drop-down based builder that allowed for quick customization of queries without the need for technical knowledge.
       </p>
     </div>
-         <div class="feature-image image-item">
-       <img src="Account-wall.png" alt="Notifcations behind an account paywall" loading="lazy">
-     </div>
+    <div class="feature-image image-item">
+      <div class="image-slider-container">
+        <div class="image-slider">
+          <img src="adv search 1.png" alt="Before - Advanced Search" class="slider-image slider-after">
+          <img src="adv search 2.png" alt="After - Advanced Search" class="slider-image slider-before">
+          <div class="slider-handle">
+            <div class="slider-button">
+              <svg width="38" height="38" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M16.9628 7.30804C17.2432 7.19198 17.5658 7.25625 17.7803 7.47085L21.7451 11.4385C21.9008 11.5759 21.999 11.777 21.999 12.001C21.999 12.2239 21.9018 12.4241 21.7474 12.5615L17.7802 16.5312C17.5658 16.7458 17.2431 16.81 16.9628 16.694C16.6825 16.5779 16.4997 16.3044 16.4997 16.001L16.4997 12.751V11.251L16.4997 8.001C16.4997 7.6976 16.6825 7.42409 16.9628 7.30804ZM7.49928 11.251L7.49928 8.001C7.49928 7.69761 7.3165 7.4241 7.03618 7.30804C6.75586 7.19199 6.43324 7.25625 6.21878 7.47085L2.22145 11.4708C1.92879 11.7637 1.92879 12.2383 2.22144 12.5311L6.21877 16.5312C6.43323 16.7458 6.75586 16.81 7.03618 16.694C7.31649 16.5779 7.49928 16.3044 7.49928 16.001L7.49928 12.751V11.251Z" fill="#947b57"/>
+                <path opacity="0.4" d="M16.4995 11.251L7.49902 11.251V12.751L16.4995 12.751V11.251Z" fill="#947b57"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="slider-labels">
+          <span class="slider-label-left">Before</span>
+          <span class="slider-label-right">After</span>
+        </div>
+      </div>
+    </div>
   </div>
 
  
@@ -352,39 +365,105 @@
 
   <div class="feature-card">
     <div class="feature-content">
-      <p>
-      <h3 class="feature-headline">So An Anonymous User Has Created a Free Account, Now What?</h3>
+      <p></p>
+      <h3 class="feature-headline">Adding Criteria & Conditions</h3>
+
+     
       <p class="feature-description">
-       As a serial free trial user 🙃, I was all too aware of the "<a style="color: #5b4b34; text-decoration: underline;" href="https://allenherlambang.medium.com/nudge-theory-in-ux-design-subtle-cues-that-drive-user-behavior-19feb6f3d00f" target="_blank">nudge effect</a>" similar upgrade modules have on freemium users, especially when they can see 
-        their utilization of their freemium account; this was the impetus for the ugrade module.</p> 
-        <br>
-        <p class="feature-description"> I pitched this module to the team and it got immediate buy-in. 
-        Unfortunately, with the way we track user activity, this module was not able to be implemented as intended.
-        </p>
-    </div>
+A custom list can have multiple criterias and conditions that make a listee elligble for it.
+This meant we had to provide a robust list of criterias/conditions to choose from. <b>The win here were making the querying experience completing a sentence</b>.    </div>
     <div class="feature-image image-item">
-      <img src="upsell.png" alt="Upsell Module" loading="lazy">
+      <div class="image-slider-container">
+        <div class="image-slider">
+          <img src="adv search 2.png" alt="advanced search adding criteria" class="slider-image slider-after">
+          <img src="adv search 3.png" alt="advanced search adding criteria" class="slider-image slider-before">
+          <div class="slider-handle">
+            <div class="slider-button">
+              <svg width="38" height="38" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M16.9628 7.30804C17.2432 7.19198 17.5658 7.25625 17.7803 7.47085L21.7451 11.4385C21.9008 11.5759 21.999 11.777 21.999 12.001C21.999 12.2239 21.9018 12.4241 21.7474 12.5615L17.7802 16.5312C17.5658 16.7458 17.2431 16.81 16.9628 16.694C16.6825 16.5779 16.4997 16.3044 16.4997 16.001L16.4997 12.751V11.251L16.4997 8.001C16.4997 7.6976 16.6825 7.42409 16.9628 7.30804ZM7.49928 11.251L7.49928 8.001C7.49928 7.69761 7.3165 7.4241 7.03618 7.30804C6.75586 7.19199 6.43324 7.25625 6.21878 7.47085L2.22145 11.4708C1.92879 11.7637 1.92879 12.2383 2.22144 12.5311L6.21877 16.5312C6.43323 16.7458 6.75586 16.81 7.03618 16.694C7.31649 16.5779 7.49928 16.3044 7.49928 16.001L7.49928 12.751V11.251Z" fill="#947b57"/>
+                <path opacity="0.4" d="M16.4995 11.251L7.49902 11.251V12.751L16.4995 12.751V11.251Z" fill="#947b57"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="slider-labels">
+          <span class="slider-label-left">Before</span>
+          <span class="slider-label-right">After</span>
+        </div>
+      </div>
     </div>
   </div>
 
 
 
-
-
-  <h2 id="easter-eggs">Easter Eggs</h2>
   <div class="feature-card">
     <div class="feature-content">
-      <p>
-      <h3 class="feature-headline">A Little Personalization For The Win</h3>
-      <p class="feature-description">
-       To keep things light and fun, we added a little personalization to the notifications' component. The indicator, takes the first letter of the user's name and once clicked, and 
-       on the account tab, they get a nice "Hello, userName" greeting to hopefully brighten up their day. Go <a href="https://www.forbes.com/" target="_blank" style="color: #5b4b34; text-decoration: underline;">check it out</a>!
-       </p> 
-    </div>
+      <p></p>
+      <h3 class="feature-headline">Creating Logic By Layering Conditions/Criterias</h3>
+
+     
+      <p class="feature-description">Users could 
+        layer multiple conditions to construct precise, multi-constraint queries enabling "AND-based" query logic within their search endeavors.
+</p></div>
     <div class="feature-image image-item">
-      <img src="easter egg.gif" alt="Easter Egg" loading="lazy">
+      <div class="image-slider-container">
+        <div class="image-slider">
+          <img src="adv search 4.png" alt="advanced search adding criteria" class="slider-image slider-after">
+          <img src="adv search 5.png" alt="advanced search creating logic with criterias" class="slider-image slider-before">
+          <div class="slider-handle">
+            <div class="slider-button">
+              <svg width="38" height="38" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M16.9628 7.30804C17.2432 7.19198 17.5658 7.25625 17.7803 7.47085L21.7451 11.4385C21.9008 11.5759 21.999 11.777 21.999 12.001C21.999 12.2239 21.9018 12.4241 21.7474 12.5615L17.7802 16.5312C17.5658 16.7458 17.2431 16.81 16.9628 16.694C16.6825 16.5779 16.4997 16.3044 16.4997 16.001L16.4997 12.751V11.251L16.4997 8.001C16.4997 7.6976 16.6825 7.42409 16.9628 7.30804ZM7.49928 11.251L7.49928 8.001C7.49928 7.69761 7.3165 7.4241 7.03618 7.30804C6.75586 7.19199 6.43324 7.25625 6.21878 7.47085L2.22145 11.4708C1.92879 11.7637 1.92879 12.2383 2.22144 12.5311L6.21877 16.5312C6.43323 16.7458 6.75586 16.81 7.03618 16.694C7.31649 16.5779 7.49928 16.3044 7.49928 16.001L7.49928 12.751V11.251Z" fill="#947b57"/>
+                <path opacity="0.4" d="M16.4995 11.251L7.49902 11.251V12.751L16.4995 12.751V11.251Z" fill="#947b57"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="slider-labels">
+          <span class="slider-label-left">Before</span>
+          <span class="slider-label-right">After</span>
+        </div>
+      </div>
     </div>
   </div>
+
+
+  <div class="feature-card">
+    <div class="feature-content">
+      <p></p>
+      <h3 class="feature-headline">So, Should List Editors Learn SQL?</h3>
+
+     
+      <p class="feature-description">
+        No, list editors do not need to learn SQL to query the database anymore. Niether do they need to rely on engineers. Now, or at least in the near future, when there's a need to find listees that fit within their custom list criteria;
+        they'll just have to use Advanced Search's fill in the blank querying experience.
+      </p>
+    </div>
+    <div class="feature-image image-item">
+      <div class="image-slider-container">
+        <div class="image-slider">
+          <img src="adv search 6.png" alt="Query in advanced search UI" class="slider-image slider-after">
+          <img src="replacing code.png" alt="SQL screenshot of same query" class="slider-image slider-before">
+          <div class="slider-handle">
+            <div class="slider-button">
+              <svg width="38" height="38" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M16.9628 7.30804C17.2432 7.19198 17.5658 7.25625 17.7803 7.47085L21.7451 11.4385C21.9008 11.5759 21.999 11.777 21.999 12.001C21.999 12.2239 21.9018 12.4241 21.7474 12.5615L17.7802 16.5312C17.5658 16.7458 17.2431 16.81 16.9628 16.694C16.6825 16.5779 16.4997 16.3044 16.4997 16.001L16.4997 12.751V11.251L16.4997 8.001C16.4997 7.6976 16.6825 7.42409 16.9628 7.30804ZM7.49928 11.251L7.49928 8.001C7.49928 7.69761 7.3165 7.4241 7.03618 7.30804C6.75586 7.19199 6.43324 7.25625 6.21878 7.47085L2.22145 11.4708C1.92879 11.7637 1.92879 12.2383 2.22144 12.5311L6.21877 16.5312C6.43323 16.7458 6.75586 16.81 7.03618 16.694C7.31649 16.5779 7.49928 16.3044 7.49928 16.001L7.49928 12.751V11.251Z" fill="#947b57"/>
+                <path opacity="0.4" d="M16.4995 11.251L7.49902 11.251V12.751L16.4995 12.751V11.251Z" fill="#947b57"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="slider-labels">
+          <span class="slider-label-left">Before</span>
+          <span class="slider-label-right">After</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
 
 
 
@@ -393,18 +472,22 @@
       
        <!-- Hero Image -->
        <div class="content-image">
-        <img src="conversion.gif" alt="Forbes Explore interface showing personalized content recommendations" class="preloaded">
+        <img src="hero image.png" alt="Advanced Search hero image" class="preloaded">
       </div>
 
-      <p class="lead-paragraph">
-    
-       This was an enthralling experience; acting as a liaison between editorial and product counterparts to find the right balance between user acquisition and editorial integrity is an experience I will never forget.
-       The project reinforced the idea of knowing what kind of product you own, and how best to represent that through your product's design; a valuable lesson I will carry with me in future projects.
-     <br>
-     <br>
-     Ultimately, this was an interesting project to see through. It's always fascinating to see how introducing
-     something so simple like an account wall behind a utility feature can have a significant impact on users' willingness to create an account.
-    </p>
+      <p class="lead-paragraph"> This project reinforced how deeply workflow design shapes organization
+        velocity. Editorial iteration speed was constrained by engineering bandwith. By introducing 
+        this structured query builder, Advanced Search, List editors can see a future without dependcncy on engineers. Other than that, this project as part of the large FUEL initiative, has thought me how to work on projects that are engineering led and how to
+         lead with inquiry before jumping to solutions.
+     <br><br>
+        The product has not yet fully launched, so measurable outcomes are still forthcoming. However, the north star was clear:
+        <ul style="margin-top: -48px; margin-bottom: 28px;  padding-left: 24px;">
+          <li>Reduce engineering dependency</li>
+          <li>Increase editorial autonomy</li>
+          <li>Shorten iteration cycles for list creation</li>
+        </ul>
+        This project represented the first incremental step toward that system-level shift.
+      </p>
 
     </article>
   </main>
@@ -413,12 +496,12 @@
   <!-- Content Divider -->
   <div class="content-divider" style="width: 80vw; margin-left: auto; margin-right: auto;">Next Up</div>
 
-  <!-- Bertie Sidekick Recirculation -->
+  <!-- Forbes Explore Recirculation -->
   <div class="recirc-card" style="margin: 48px auto 64px auto; max-width: 800px; background: #fff; border: 1px solid #e9ecef; border-radius: 16px; padding: 32px; display: flex; align-items: center; gap: 32px;">
     <div style="flex: 1;">
-      <h3 style="margin: 0 0 16px 0; font-size: 24px; font-weight: 600; color: #333;">Bertie: SEO Sidekick & Assistant</h3>
-      <p style="margin: 0 0 24px 0; color: #666; line-height: 1.6;">Every superhero needs a sidekick; making SEO auditing more engaging and informative for Forbes' journalists.</p>
-      <a href="bertie-sidekick.html" class="password-submit" style="text-decoration: none; width: fit-content;">
+      <h3 style="margin: 0 0 16px 0; font-size: 24px; font-weight: 600; color: #333;">Forbes: Explore</h3>
+      <p style="margin: 0 0 24px 0; color: #666; line-height: 1.6;">Rethinking news & information consumption habits amidst the proliferation of AI.</p>
+      <a href="explore.html" class="password-submit" style="text-decoration: none; width: fit-content;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
@@ -426,7 +509,7 @@
       </a>
     </div>
     <div style="flex: 0 0 300px;">
-      <img src="Bertie Publish.png" alt="Bertie SEO Assistant interface" loading="lazy" style="width: 100%; height: auto; border-radius: 12px;">
+      <img src="Preview.png" alt="Forbes Explore interface" loading="lazy" style="width: 100%; height: auto; border-radius: 12px;">
     </div>
   </div>
 
