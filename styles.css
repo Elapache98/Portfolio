@@ -381,6 +381,7 @@ transition: box-shadow .25s;
 .project-content > p {
   font-weight: 300;
   color: #6B7785;
+  font-size: 16px;
 }
 
 .image-link {
