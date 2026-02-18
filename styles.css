@@ -204,7 +204,7 @@ transition: box-shadow .25s;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 140px;
+    margin-top: 128px;
   }
 
   .work-title-section {
@@ -250,12 +250,12 @@ transition: box-shadow .25s;
 @media (max-width: 768px) {
   .work-layout {
     display: block;
-    margin-top: 140px;
+    margin-top: 132px;
   }
 
   .work-title-section {
     text-align: left;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
     width: 100%;
   }
 
