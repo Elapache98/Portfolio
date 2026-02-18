@@ -309,7 +309,7 @@ transition: box-shadow .25s;
   right: 0;
   height: 3px;
   background: transparent;
-  border-radius: 3px 3px 0 0;
+  border-radius: 0px;
   transition: background 0.2s ease;
 }
 
