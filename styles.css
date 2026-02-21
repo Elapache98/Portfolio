@@ -675,7 +675,7 @@ img.preloaded {
   }
   
   .feature-gallery {
-    margin: 24px 0;
+    margin: 16px 0;
   }
   
   .recirc-card {
@@ -701,7 +701,7 @@ img.preloaded {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  margin: 32px 0;
+  margin: 16px 0;
 }
 
 .feature-card {
@@ -13537,7 +13537,7 @@ html {
   }
 
   .feature-gallery {
-    gap: 32px;
+    gap: 16px;
   }
 
   .feature-card {
