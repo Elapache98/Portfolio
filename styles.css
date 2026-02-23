@@ -888,6 +888,22 @@ img.preloaded {
 
     }
 
+/* Smooth toolbar transitions for explore/bertie pages - desktop only */
+@media (min-width: 769px) {
+  .floating-toolbar {
+    /* Transitions now handled by JavaScript for better control */
+  }
+
+  .floating-toolbar.toolbar-hidden {
+    transform: translateX(-50%) translateY(-100px);
+    opacity: 0;
+  }
+}
+
+.floating-toolbar.animate-toolbar {
+  animation: floatIn 3.2s cubic-bezier(0.87, 0, 0.13, 1);
+  animation-fill-mode: both;
+}
 
 @keyframes floatIn {
   0% {
@@ -1732,12 +1748,12 @@ img[src*=".gif"] {
   padding: 8px 16px;
   background: #fafafa;
   border: 1.5px solid rgb(148, 123, 87,.35);
-  border-radius: 50px;
+  border-radius: 80px 80px 0px 80px;
   font-size: 14px;
   font-weight: 500;
   color: #333;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.87, 0, 0.13, 1);
   user-select: none;
 }
 
