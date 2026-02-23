@@ -901,7 +901,7 @@ img.preloaded {
 }
 
 .floating-toolbar.animate-toolbar {
-  animation: floatIn 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+  animation: floatIn 3.2s cubic-bezier(0.87, 0, 0.13, 1);
   animation-fill-mode: both;
 }
 
@@ -1748,12 +1748,12 @@ img[src*=".gif"] {
   padding: 8px 16px;
   background: #fafafa;
   border: 1.5px solid rgb(148, 123, 87,.35);
-  border-radius: 50px;
+  border-radius: 100px 100px 0px 100px;
   font-size: 14px;
   font-weight: 500;
   color: #333;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.87, 0, 0.13, 1);
   user-select: none;
 }
 
