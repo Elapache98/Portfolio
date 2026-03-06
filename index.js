@@ -2100,6 +2100,173 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
+// Haptic and Audio Feedback for AI Typewriter
+const typingFeedback = {
+  audioContext: null,
+  isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+  
+  init() {
+    // Initialize audio context for both mobile and desktop
+    if (!this.audioContext) {
+      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+  },
+  
+  // Mobile vibration (fallback when phone is on silent)
+  vibrate(duration = 8) {
+    if (this.isMobile && 'vibrate' in navigator) {
+      navigator.vibrate(duration);
+    }
+  },
+  
+  // Realistic mechanical keyboard sound using noise
+  playKeyClick() {
+    if (!this.audioContext) return;
+    
+    // On mobile: try to play sound, and also vibrate as fallback for silent mode
+    if (this.isMobile) {
+      this.vibrate(6); // Subtle vibration fallback
+    }
+    
+    try {
+      const now = this.audioContext.currentTime;
+      
+      // Create noise buffer for realistic click
+      const bufferSize = this.audioContext.sampleRate * 0.015; // 15ms of noise
+      const buffer = this.audioContext.createBuffer(1, bufferSize, this.audioContext.sampleRate);
+      const data = buffer.getChannelData(0);
+      
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.15));
+      }
+      
+      const noise = this.audioContext.createBufferSource();
+      noise.buffer = buffer;
+      
+      // Bandpass filter for keyboard-like tone
+      const filter = this.audioContext.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.value = 3000 + Math.random() * 1000;
+      filter.Q.value = 1.5;
+      
+      // Gain envelope - slightly quieter on mobile
+      const gainNode = this.audioContext.createGain();
+      const baseGain = this.isMobile ? 0.04 : 0.06;
+      gainNode.gain.setValueAtTime(baseGain + Math.random() * 0.02, now);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.012);
+      
+      noise.connect(filter);
+      filter.connect(gainNode);
+      gainNode.connect(this.audioContext.destination);
+      
+      noise.start(now);
+      noise.stop(now + 0.015);
+    } catch (e) {
+      // Silently fail - vibration fallback already triggered
+    }
+  },
+  
+  // Button/pill click sound - soft pop/bubble
+  playButtonClick() {
+    // On mobile: vibrate as fallback for silent mode
+    if (this.isMobile) {
+      this.vibrate(15);
+    }
+    
+    if (!this.audioContext) return;
+    
+    try {
+      const now = this.audioContext.currentTime;
+      
+      // Soft pop sound - rising then falling pitch
+      const osc = this.audioContext.createOscillator();
+      const gain = this.audioContext.createGain();
+      
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(400, now);
+      osc.frequency.exponentialRampToValueAtTime(600, now + 0.03);
+      osc.frequency.exponentialRampToValueAtTime(300, now + 0.08);
+      
+      const baseGain = this.isMobile ? 0.08 : 0.12;
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(baseGain, now + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+      
+      osc.connect(gain);
+      gain.connect(this.audioContext.destination);
+      
+      osc.start(now);
+      osc.stop(now + 0.1);
+    } catch (e) {
+      // Silently fail - vibration fallback already triggered on mobile
+    }
+  },
+  
+  // Swoosh entrance sound for redo button
+  playSwoosh() {
+    // On mobile: vibrate as fallback for silent mode
+    if (this.isMobile) {
+      this.vibrate(12);
+    }
+    
+    if (!this.audioContext) return;
+    
+    try {
+      const now = this.audioContext.currentTime;
+      const duration = 0.2;
+      
+      // Create filtered noise swoosh
+      const bufferSize = this.audioContext.sampleRate * duration;
+      const buffer = this.audioContext.createBuffer(1, bufferSize, this.audioContext.sampleRate);
+      const data = buffer.getChannelData(0);
+      
+      // Generate noise with envelope
+      for (let i = 0; i < bufferSize; i++) {
+        const t = i / bufferSize;
+        // Envelope: quick attack, gradual decay
+        const envelope = Math.sin(t * Math.PI) * (1 - t * 0.5);
+        data[i] = (Math.random() * 2 - 1) * envelope;
+      }
+      
+      const noise = this.audioContext.createBufferSource();
+      noise.buffer = buffer;
+      
+      // Bandpass filter that sweeps up for swoosh effect
+      const filter = this.audioContext.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.Q.value = 2;
+      filter.frequency.setValueAtTime(500, now);
+      filter.frequency.exponentialRampToValueAtTime(3000, now + duration * 0.7);
+      filter.frequency.exponentialRampToValueAtTime(1500, now + duration);
+      
+      const baseGain = this.isMobile ? 0.05 : 0.08;
+      const gain = this.audioContext.createGain();
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(baseGain, now + 0.02);
+      gain.gain.linearRampToValueAtTime(baseGain * 0.75, now + duration * 0.5);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+      
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.audioContext.destination);
+      
+      noise.start(now);
+      noise.stop(now + duration);
+    } catch (e) {
+      // Silently fail - vibration fallback already triggered on mobile
+    }
+  },
+  
+  // Called on each character typed
+  onCharTyped(char) {
+    // Play key click on every character except spaces (works on both mobile and desktop)
+    // On mobile: tries audio first, vibration is fallback if phone is on silent
+    if (char !== ' ' && char.trim() !== '') {
+      this.playKeyClick();
+    }
+  }
+};
+
 // AI Answer Machine functionality
 const aiAnswers = {
 
@@ -2293,6 +2460,9 @@ function typeWriter(text, element, baseSpeed = 35, callback = null) {
   let i = 0;
   element.innerHTML = '';
   
+  // Initialize typing feedback (audio context needs user interaction)
+  typingFeedback.init();
+  
   // Parse HTML into tokens (text and tags)
   const tokens = [];
   let currentIndex = 0;
@@ -2376,6 +2546,11 @@ function typeWriter(text, element, baseSpeed = 35, callback = null) {
       
       // Set the innerHTML to parse HTML properly
       element.innerHTML = currentHTML;
+      
+      // Trigger haptic/audio feedback for characters (not HTML tags)
+      if (token.type === 'char') {
+        typingFeedback.onCharTyped(token.content);
+      }
       
       i++;
       
@@ -2680,6 +2855,9 @@ function showRedoButton() {
   
   // Fade in with slight delay to ensure DOM is ready
   setTimeout(() => {
+    // Play swoosh entrance sound
+    typingFeedback.playSwoosh();
+    
     redoBtn.style.height = '32px';
     redoBtn.style.marginTop = '12px';
     redoBtn.style.marginBottom = '';
@@ -2706,6 +2884,10 @@ function hideRedoButton() {
 // Handle radio pill selection
 radioPills.forEach(pill => {
   pill.addEventListener('click', function() {
+    // Play button click sound
+    typingFeedback.init();
+    typingFeedback.playButtonClick();
+    
     // Store the selected value
     const clickedValue = this.getAttribute('data-value');
     
