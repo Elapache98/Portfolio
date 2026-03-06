@@ -230,6 +230,12 @@
       // Reset scroll position to top
       modalContent.scrollTop = 0;
       
+      // Play swoosh sound
+      if (typeof typingFeedback !== 'undefined') {
+        typingFeedback.init();
+        typingFeedback.playSwoosh();
+      }
+      
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
     }

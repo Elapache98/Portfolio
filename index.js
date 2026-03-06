@@ -1373,6 +1373,10 @@ document.addEventListener('DOMContentLoaded', function() {
             copySuccessIcon.style.opacity = '1';
             copySuccessIcon.style.transform = 'scale(1)';
             
+            // Play swoosh sound
+            typingFeedback.init();
+            typingFeedback.playSwoosh();
+            
             // Reset after 5 seconds
             setTimeout(() => {
               copyIcon.style.opacity = '1';
@@ -1397,6 +1401,10 @@ document.addEventListener('DOMContentLoaded', function() {
             copyIcon.style.transform = 'scale(0.8)';
             copySuccessIcon.style.opacity = '1';
             copySuccessIcon.style.transform = 'scale(1)';
+            
+            // Play swoosh sound
+            typingFeedback.init();
+            typingFeedback.playSwoosh();
             
             setTimeout(() => {
               copyIcon.style.opacity = '1';
@@ -1625,6 +1633,10 @@ document.addEventListener('DOMContentLoaded', function() {
             copySuccessIcon.style.opacity = '1';
             copySuccessIcon.style.transform = 'scale(1)';
             
+            // Play swoosh sound
+            typingFeedback.init();
+            typingFeedback.playSwoosh();
+            
             // Reset after 5 seconds
             setTimeout(() => {
               copyIcon.style.opacity = '1';
@@ -1848,6 +1860,10 @@ document.addEventListener('DOMContentLoaded', function() {
               copyIcon.style.transform = 'scale(0.8)';
               successIcon.style.opacity = '1';
               successIcon.style.transform = 'scale(1)';
+              
+              // Play swoosh sound
+              typingFeedback.init();
+              typingFeedback.playSwoosh();
               
               // Reset after 2 seconds
               setTimeout(() => {
@@ -2076,6 +2092,10 @@ document.addEventListener('DOMContentLoaded', function() {
               successIcon.style.opacity = '1';
               successIcon.style.transform = 'scale(1)';
               
+              // Play swoosh sound
+              typingFeedback.init();
+              typingFeedback.playSwoosh();
+              
               // Reset after 2 seconds
               setTimeout(() => {
                 copyIcon.style.opacity = '1';
@@ -2264,6 +2284,174 @@ const typingFeedback = {
     if (char !== ' ' && char.trim() !== '') {
       this.playKeyClick();
     }
+  },
+  
+  // Dial-up/modem sound for thinking state
+  dialUpNodes: null,
+  dialUpInterval: null,
+  
+  startDialUp() {
+    if (!this.audioContext) return;
+    
+    // On mobile: subtle pulsing vibration pattern
+    if (this.isMobile && 'vibrate' in navigator) {
+      this.dialUpVibration = setInterval(() => {
+        navigator.vibrate([30, 100, 20, 150]);
+      }, 400);
+    }
+    
+    try {
+      const ctx = this.audioContext;
+      const now = ctx.currentTime;
+      const volume = this.isMobile ? 0.04 : 0.07;
+      
+      // Master gain for everything
+      const masterGain = ctx.createGain();
+      masterGain.gain.setValueAtTime(0, now);
+      masterGain.gain.linearRampToValueAtTime(volume, now + 0.1);
+      masterGain.connect(ctx.destination);
+      
+      // Phone-line filter (bandpass to simulate telephone quality)
+      const phoneFilter = ctx.createBiquadFilter();
+      phoneFilter.type = 'bandpass';
+      phoneFilter.frequency.setValueAtTime(1800, now);
+      phoneFilter.Q.value = 0.8;
+      phoneFilter.connect(masterGain);
+      
+      // Store all nodes to stop later
+      const allOscillators = [];
+      
+      // Phase 1: Initial carrier tone (0-0.8s) - the screech
+      const carrier = ctx.createOscillator();
+      carrier.type = 'sine';
+      carrier.frequency.setValueAtTime(2100, now); // Answer tone
+      carrier.frequency.setValueAtTime(1850, now + 0.3);
+      carrier.frequency.setValueAtTime(2100, now + 0.5);
+      
+      const carrierGain = ctx.createGain();
+      carrierGain.gain.setValueAtTime(0.6, now);
+      carrierGain.gain.linearRampToValueAtTime(0.3, now + 0.8);
+      carrierGain.gain.linearRampToValueAtTime(0, now + 1.0);
+      
+      carrier.connect(carrierGain);
+      carrierGain.connect(phoneFilter);
+      carrier.start(now);
+      carrier.stop(now + 1.0);
+      allOscillators.push(carrier);
+      
+      // Phase 2: Handshake negotiation (0.8s-2.5s) - alternating tones
+      const scheduleHandshakeTone = (startTime, freq1, freq2, duration) => {
+        const osc = ctx.createOscillator();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq1, startTime);
+        osc.frequency.setValueAtTime(freq2, startTime + duration/2);
+        
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0.5, startTime);
+        gain.gain.setValueAtTime(0.5, startTime + duration - 0.02);
+        gain.gain.linearRampToValueAtTime(0, startTime + duration);
+        
+        osc.connect(gain);
+        gain.connect(phoneFilter);
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+        allOscillators.push(osc);
+      };
+      
+      // Handshake tones - the "boing boing" exchange
+      scheduleHandshakeTone(now + 0.9, 1650, 1850, 0.15);
+      scheduleHandshakeTone(now + 1.1, 1850, 1650, 0.15);
+      scheduleHandshakeTone(now + 1.3, 1650, 1850, 0.12);
+      scheduleHandshakeTone(now + 1.5, 1850, 1650, 0.12);
+      scheduleHandshakeTone(now + 1.7, 1200, 2400, 0.2);
+      scheduleHandshakeTone(now + 2.0, 2400, 1200, 0.2);
+      
+      // Phase 3: Static/noise burst (1.5s-2s)
+      const noiseBuffer = ctx.createBuffer(1, ctx.sampleRate * 0.4, ctx.sampleRate);
+      const noiseData = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < noiseData.length; i++) {
+        noiseData[i] = (Math.random() * 2 - 1) * 0.3;
+      }
+      
+      const noise = ctx.createBufferSource();
+      noise.buffer = noiseBuffer;
+      const noiseGain = ctx.createGain();
+      noiseGain.gain.setValueAtTime(0, now + 1.4);
+      noiseGain.gain.linearRampToValueAtTime(0.4, now + 1.5);
+      noiseGain.gain.setValueAtTime(0.4, now + 1.7);
+      noiseGain.gain.linearRampToValueAtTime(0, now + 1.9);
+      noise.connect(noiseGain);
+      noiseGain.connect(phoneFilter);
+      noise.start(now + 1.4);
+      
+      // Phase 4: Data transmission sound (2.2s onwards) - continuous warble
+      const dataOsc = ctx.createOscillator();
+      dataOsc.type = 'sine';
+      dataOsc.frequency.setValueAtTime(1200, now + 2.2);
+      
+      // Rapid frequency modulation for "data" sound
+      const dataLfo = ctx.createOscillator();
+      dataLfo.type = 'square';
+      dataLfo.frequency.setValueAtTime(75, now + 2.2); // Fast modulation
+      
+      const dataLfoGain = ctx.createGain();
+      dataLfoGain.gain.setValueAtTime(400, now + 2.2);
+      
+      dataLfo.connect(dataLfoGain);
+      dataLfoGain.connect(dataOsc.frequency);
+      
+      const dataGain = ctx.createGain();
+      dataGain.gain.setValueAtTime(0, now + 2.2);
+      dataGain.gain.linearRampToValueAtTime(0.35, now + 2.4);
+      
+      dataOsc.connect(dataGain);
+      dataGain.connect(phoneFilter);
+      dataOsc.start(now + 2.2);
+      dataLfo.start(now + 2.2);
+      allOscillators.push(dataOsc, dataLfo);
+      
+      // Store references to stop later
+      this.dialUpNodes = {
+        oscillators: allOscillators,
+        masterGain: masterGain
+      };
+      
+    } catch (e) {
+      // Silently fail
+    }
+  },
+  
+  stopDialUp() {
+    // Stop vibration pattern on mobile
+    if (this.dialUpVibration) {
+      clearInterval(this.dialUpVibration);
+      this.dialUpVibration = null;
+      if ('vibrate' in navigator) {
+        navigator.vibrate(0); // Cancel any ongoing vibration
+      }
+    }
+    
+    // Stop audio
+    if (this.dialUpNodes && this.audioContext) {
+      try {
+        const now = this.audioContext.currentTime;
+        
+        // Fade out quickly
+        this.dialUpNodes.masterGain.gain.linearRampToValueAtTime(0, now + 0.15);
+        
+        // Stop oscillators after fade
+        setTimeout(() => {
+          if (this.dialUpNodes) {
+            this.dialUpNodes.oscillators.forEach(osc => {
+              try { osc.stop(); } catch(e) {}
+            });
+            this.dialUpNodes = null;
+          }
+        }, 200);
+      } catch (e) {
+        this.dialUpNodes = null;
+      }
+    }
   }
 };
 
@@ -2429,6 +2617,10 @@ function showThinkingState(callback) {
     // Add golden pulsing border to avatar
     aiAvatar.classList.add('thinking');
     
+    // Start dial-up sound effect
+    typingFeedback.init();
+    typingFeedback.startDialUp();
+    
     // Small delay then fade in thinking text
     setTimeout(() => {
       typedTextElement.innerHTML = 'Thinking...';
@@ -2439,6 +2631,9 @@ function showThinkingState(callback) {
     
     // Wait 4 seconds, then execute callback
     thinkingTimeout = setTimeout(() => {
+      // Stop dial-up sound
+      typingFeedback.stopDialUp();
+      
       // Remove thinking state
       aiAvatar.classList.remove('thinking');
       // Reset styles for typewriter
@@ -2630,6 +2825,9 @@ function clearThinkingState() {
     thinkingTimeout = null;
   }
   
+  // Stop dial-up sound if playing
+  typingFeedback.stopDialUp();
+  
   // Remove thinking state from avatar
   const aiAvatar = document.querySelector('.ai-avatar');
   if (aiAvatar) {
@@ -2698,6 +2896,10 @@ function showTokensAlert(skipAnimation = false) {
             copySuccessIcon.style.opacity = '1';
             copySuccessIcon.style.transform = 'scale(1)';
             
+            // Play swoosh sound
+            typingFeedback.init();
+            typingFeedback.playSwoosh();
+            
             setTimeout(() => {
               copyIcon.style.opacity = '1';
               copyIcon.style.transform = 'scale(1)';
@@ -2726,6 +2928,11 @@ function showTokensAlert(skipAnimation = false) {
             copyIcon.style.transform = 'scale(0.8)';
             copySuccessIcon.style.opacity = '1';
             copySuccessIcon.style.transform = 'scale(1)';
+            
+            // Play swoosh sound
+            typingFeedback.init();
+            typingFeedback.playSwoosh();
+            
             setTimeout(() => {
               copyIcon.style.opacity = '1';
               copyIcon.style.transform = 'scale(1)';
