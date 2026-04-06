@@ -489,8 +489,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Photo row entrance animations for mobile
+  // Photo row entrance animations for mobile (only on article pages)
   function initPhotoRowAnimations() {
+    // Skip animations on home/about pages - images appear instantly
+    const isArticlePage = document.body.classList.contains('article-page');
+    if (!isArticlePage) return;
+    
     const photoRows = document.querySelectorAll('.photo-row');
     
     if (photoRows.length === 0) return;
@@ -551,15 +555,20 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('resize', handlePhotoRowAnimations);
   }
 
-    // Universal image animations for all pages
+    // Universal image animations (only on article/work pages)
   function initImageAnimations() {
+    // Skip animations on home/about/thoughts pages - images appear instantly
+    const isArticlePage = document.body.classList.contains('article-page');
+    const isWorkPage = document.body.classList.contains('work-page');
+    
+    if (!isArticlePage && !isWorkPage) return;
+    
     const imageElements = document.querySelectorAll('.image-item, .content-image, .photo-row');
     
     if (imageElements.length === 0) return;
 
     // Mobile-optimized intersection observer
     const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    const isWorkPage = document.body.classList.contains('work-page');
 
     // Work page: continuous scale animation that toggles on scroll
     if (isWorkPage) {
