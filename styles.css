@@ -1,6 +1,9 @@
 /* Performance optimizations */
 html {
   scroll-behavior: smooth;
+  /* Page tint lives on <html> so the particle canvas (z-index:-1) layers ABOVE it
+     and stays visible on the page + through the liquid-glass toolbar */
+  background: rgb(250, 249, 245, 0.8);
 }
 
 /* Page load fade-in - only for case study pages */
@@ -24,7 +27,7 @@ body {
   padding: 0;
   min-height: 100vh;
   font-family: 'inter', Arial, sans-serif;
-  background: rgb(250, 249, 245, 0.8);
+  background: transparent;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -141,8 +144,6 @@ margin-top: calc(100vh * .25);
     max-width: 900px;
     padding:  16px;
   }
-
-
 
 .landing-content {
   min-width: 0;
@@ -860,19 +861,30 @@ img.preloaded {
   transform: translateX(-50%);
   display: flex;
   gap: 1.5rem;
-  background: rgb(255, 255, 255,.65); /* More pronounced glass */
+  /* Liquid glass: low-opacity tint so the gaussian-blurred backdrop reads through */
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.30) 0%,
+    rgba(255, 255, 255, 0.12) 45%,
+    rgba(255, 255, 255, 0.22) 100%
+  );
   border-radius: 28px;
-  border: .5px solid rgb(51, 51, 51, .15);
-  backdrop-filter: blur(16px) saturate(50%); /* Stronger blur */
-  -webkit-backdrop-filter: blur(16px) saturate(50%);
+  /* Soft light rim around the edge */
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  /* Heavy gaussian blur + saturation/brightness lift refracts whatever scrolls behind */
+  backdrop-filter: blur(28px) saturate(180%) brightness(1.08);
+  -webkit-backdrop-filter: blur(28px) saturate(180%) brightness(1.08);
   padding: 8px;
   z-index: 1000;
   width: auto;
   overflow: visible;
   box-shadow:
-    0 2px 8px 0 rgba(31, 38, 135, 0.06),  /* even lighter main shadow */
-    0 1px 2px 0 rgba(80, 80, 120, 0.03),   /* very subtle secondary shadow */
-    0 0.5px 1px 0 rgba(255,255,255,0.05); /* faint highlight */
+    /* subtle ambient drop shadow */
+    0 4px 14px 0 rgba(31, 38, 135, 0.06),
+    /* inset specular highlight along the top edge (the "shine") */
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.65),
+    /* inset soft shadow along the bottom for thickness */
+    inset 0 -1px 1px 0 rgba(255, 255, 255, 0.18);
 
     }
 
@@ -1461,11 +1473,23 @@ img[src*=".gif"] {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 2px 8px 0 rgba(31, 38, 135, 0.06), 0 1px 2px 0 rgba(80, 80, 120, 0.03);
+  /* Liquid glass: low-opacity tint so the gaussian-blurred backdrop reads through */
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.30) 0%,
+    rgba(255, 255, 255, 0.12) 45%,
+    rgba(255, 255, 255, 0.22) 100%
+  );
+  /* Heavy gaussian blur + saturation/brightness lift refracts whatever scrolls behind */
+  backdrop-filter: blur(28px) saturate(180%) brightness(1.08);
+  -webkit-backdrop-filter: blur(28px) saturate(180%) brightness(1.08);
+  /* Soft light rim around the edge */
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow:
+    0 8px 32px 0 rgba(31, 38, 135, 0.12),
+    0 2px 8px 0 rgba(80, 80, 120, 0.05),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.65),
+    inset 0 -1px 1px 0 rgba(255, 255, 255, 0.18);
   display: flex;
   align-items: center;
   justify-content: center;
