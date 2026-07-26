@@ -373,25 +373,34 @@ document.addEventListener('DOMContentLoaded', function() {
     coverButtons.forEach((el, i) => {
       const offset = i - currentIndex;
       const abs = Math.abs(offset);
-      // Hide far covers for performance on long galleries
+
+      el.classList.toggle('is-active', offset === 0);
+      el.classList.toggle('is-near', abs === 1);
+      el.classList.toggle('is-distant', abs > 1);
+
       if (abs > 4) {
         el.style.visibility = 'hidden';
         el.style.pointerEvents = 'none';
+        el.style.opacity = '0';
+        el.style.filter = 'saturate(0.55) blur(6px)';
         return;
       }
+
       el.style.visibility = 'visible';
       el.style.pointerEvents = offset === 0 ? 'none' : 'auto';
       const x = offset * spacing;
       const ry = offset === 0 ? 0 : offset < 0 ? rotate : -rotate;
       const z = -abs * depth;
       const scale = offset === 0 ? 1 : Math.max(0.68, 1 - abs * 0.12);
+      // Keep an explicit blur() value even when sharp — `filter: none` drops
+      // sibling blurs in some browsers when wrapping back to the first slide.
       const opacity = offset === 0 ? 1 : Math.max(0.12, 1 - abs * 0.42);
       const blur = offset === 0 ? 0 : abs === 1 ? 3.5 : 6;
+      const saturate = offset === 0 ? 1 : 0.55;
 
-      el.classList.toggle('is-active', offset === 0);
       el.style.zIndex = String(30 - abs);
       el.style.opacity = String(opacity);
-      el.style.filter = blur ? `saturate(0.55) blur(${blur}px)` : 'none';
+      el.style.filter = `saturate(${saturate}) blur(${blur}px)`;
       el.style.transform =
         `translate(-50%, -50%) translateX(${x}px) translateZ(${z}px) rotateY(${ry}deg) scale(${scale})`;
     });
@@ -406,17 +415,40 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!coverButtons.length) buildCovers();
 
     lightboxDesc.textContent = getCaption(img) || '';
+    lightbox.classList.remove('closing');
     lightbox.style.display = 'flex';
     document.body.style.overflow = 'hidden';
     layoutCovers();
+
+    // Bottom-sheet slide-up on mobile (matches thoughts / toolbar)
+    requestAnimationFrame(() => {
+      void lightbox.offsetWidth;
+      lightbox.classList.add('active');
+    });
+
     lightbox.focus();
   }
 
   function closeLightbox() {
-    if (!lightbox) return;
+    if (!lightbox || lightbox.style.display === 'none') return;
+
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    document.body.style.overflow = '';
+
+    if (isMobile && lightbox.classList.contains('active')) {
+      lightbox.classList.add('closing');
+      lightbox.classList.remove('active');
+      setTimeout(() => {
+        lightbox.style.display = 'none';
+        lightbox.classList.remove('closing');
+        lightboxDesc.textContent = '';
+      }, 400);
+      return;
+    }
+
+    lightbox.classList.remove('active', 'closing');
     lightbox.style.display = 'none';
     lightboxDesc.textContent = '';
-    document.body.style.overflow = '';
   }
 
   function showPrev() {
