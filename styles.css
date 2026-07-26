@@ -13819,3 +13819,136 @@ html {
     font-size: 13px;
   }
 }
+
+
+
+/* ===== Coverflow gallery inside modal lightbox ===== */
+.lightbox-content {
+  width: min(880px, 92vw) !important;
+  height: auto !important;
+  max-height: 90vh !important;
+  padding: 48px 24px 28px !important;
+  overflow: hidden !important;
+  justify-content: flex-start !important;
+  gap: 8px;
+}
+
+.lightbox-coverflow {
+  position: relative;
+  width: 100%;
+  height: clamp(240px, 48vh, 420px);
+  perspective: 1400px;
+  cursor: grab;
+  user-select: none;
+  touch-action: pan-y;
+  flex: 0 0 auto;
+  overflow: hidden;
+}
+
+.lightbox-coverflow:active {
+  cursor: grabbing;
+}
+
+.lightbox-coverflow-track {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.lightbox-cover {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: auto;
+  height: auto;
+  max-width: min(640px, 70vw);
+  max-height: clamp(200px, 42vh, 380px);
+  margin: 0;
+  border: none;
+  padding: 0;
+  background: transparent;
+  border-radius: 12px;
+  transform-style: preserve-3d;
+  transition:
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.45s ease,
+    filter 0.45s ease;
+  cursor: pointer;
+  outline: none;
+  line-height: 0;
+}
+
+.lightbox-cover img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(640px, 70vw) !important;
+  max-height: clamp(200px, 42vh, 380px) !important;
+  object-fit: contain;
+  border-radius: 12px;
+  margin-bottom: 0 !important;
+  background: transparent;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+.lightbox-cover.is-active {
+  cursor: default;
+}
+
+.lightbox-cover:focus-visible img {
+  outline: 2px solid #947b57;
+  outline-offset: 4px;
+}
+
+#lightbox-desc {
+  color: #333 !important;
+  font-size: 15px !important;
+  margin: 12px 16px 0 !important;
+  text-align: center;
+  max-width: 36rem;
+  line-height: 1.45;
+  min-height: 4.35em;
+  flex-shrink: 0;
+}
+
+.lightbox-nav {
+  margin-top: 12px !important;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .lightbox-content {
+    width: 92vw !important;
+    height: auto !important;
+    max-height: 88dvh !important;
+    padding: 36px 12px 16px !important;
+    border-radius: 20px !important;
+    background: #fafafa !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18) !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .lightbox-coverflow {
+    height: 220px;
+    flex: 0 0 220px;
+  }
+
+  .lightbox-cover,
+  .lightbox-cover img {
+    max-width: min(260px, 68vw) !important;
+    max-height: 190px !important;
+    border-radius: 10px;
+  }
+
+  #lightbox-desc {
+    font-size: 14px !important;
+    margin: 8px 12px 0 !important;
+    min-height: 2.9em;
+  }
+
+  .lightbox-nav {
+    margin-top: 8px !important;
+  }
+}

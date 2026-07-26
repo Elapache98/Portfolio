@@ -306,100 +306,182 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Lightbox logic
+  // Lightbox logic — coverflow gallery
   const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxTrack = document.getElementById('lightbox-track');
+  const lightboxCoverflow = document.getElementById('lightbox-coverflow');
   const lightboxDesc = document.getElementById('lightbox-desc');
   const lightboxClose = document.getElementById('lightbox-close');
   const lightboxPrev = document.getElementById('lightbox-prev');
   const lightboxNext = document.getElementById('lightbox-next');
-  
-  // Select appropriate images based on current page
+
+  const isCaseStudyLightbox =
+    isExplorePage || isBertiePage || isAiNotificationsPage || isAdvancedSearchPage;
+
   let images;
-  
-  if (isExplorePage || isBertiePage) {
-    // On explore and bertie pages, select images from image grids and content images
-    // Exclude logo, slider images, and other non-lightbox images
-    images = Array.from(document.querySelectorAll('.image-item img, .content-image img')).filter(img => 
-      !img.classList.contains('logo-image') && 
+  if (isCaseStudyLightbox) {
+    images = Array.from(document.querySelectorAll('.image-item img, .content-image img')).filter(img =>
+      !img.classList.contains('logo-image') &&
       !img.classList.contains('slider-image')
     );
   } else {
-    // Default to photo-row images for other pages
     images = Array.from(document.querySelectorAll('.photo-row img'));
   }
-  
-  let currentIndex = 0;
 
-  function showLightbox(index) {
-    const img = images[index];
-    if (!img) return;
-    lightboxImg.src = img.src;
-    lightboxImg.alt = img.alt;
-    
-    // For explore and bertie pages, try to get caption from image-caption element
-    if (isExplorePage || isBertiePage) {
+  let currentIndex = 0;
+  let coverButtons = [];
+
+  function getCaption(img) {
+    if (isCaseStudyLightbox) {
       const imageItem = img.closest('.image-item');
       const caption = imageItem ? imageItem.querySelector('.image-caption') : null;
-      lightboxDesc.textContent = caption ? caption.textContent : img.alt;
-    } else {
-    lightboxDesc.textContent = img.alt;
+      return caption ? caption.textContent : img.alt;
     }
-    
-    lightbox.style.display = 'flex';
-    lightbox.focus();
-    currentIndex = index;
+    return img.alt;
   }
 
-  // Only set up lightbox if we have images and lightbox elements exist
-  if (lightbox && lightboxImg && images.length > 0) {
-  images.forEach((img, idx) => {
-    img.style.cursor = 'pointer';
-    img.addEventListener('click', function(e) {
-      // Check if this is an interactive GIF on mobile
-      const isMobile = window.innerWidth <= 768;
-      const isInteractiveGif = img.classList.contains('gif-interactive');
-      
-      // If it's mobile and an interactive GIF, don't open lightbox
-      if (isMobile && isInteractiveGif) {
+  function buildCovers() {
+    if (!lightboxTrack) return;
+    lightboxTrack.innerHTML = '';
+    coverButtons = images.map((img, i) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'lightbox-cover';
+      btn.setAttribute('aria-label', img.alt || `Image ${i + 1}`);
+      const clone = document.createElement('img');
+      clone.src = img.currentSrc || img.src;
+      clone.alt = '';
+      clone.draggable = false;
+      btn.appendChild(clone);
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (i === currentIndex) return;
+        showLightbox(i);
+      });
+      lightboxTrack.appendChild(btn);
+      return btn;
+    });
+  }
+
+  function layoutCovers() {
+    if (!coverButtons.length) return;
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const spacing = isMobile ? 150 : 240;
+    const rotate = isMobile ? 36 : 46;
+    const depth = isMobile ? 90 : 140;
+
+    coverButtons.forEach((el, i) => {
+      const offset = i - currentIndex;
+      const abs = Math.abs(offset);
+      // Hide far covers for performance on long galleries
+      if (abs > 4) {
+        el.style.visibility = 'hidden';
+        el.style.pointerEvents = 'none';
         return;
       }
-      
-      showLightbox(idx);
+      el.style.visibility = 'visible';
+      el.style.pointerEvents = offset === 0 ? 'none' : 'auto';
+      const x = offset * spacing;
+      const ry = offset === 0 ? 0 : offset < 0 ? rotate : -rotate;
+      const z = -abs * depth;
+      const scale = offset === 0 ? 1 : Math.max(0.68, 1 - abs * 0.12);
+      const opacity = offset === 0 ? 1 : Math.max(0.12, 1 - abs * 0.42);
+      const blur = offset === 0 ? 0 : abs === 1 ? 3.5 : 6;
+
+      el.classList.toggle('is-active', offset === 0);
+      el.style.zIndex = String(30 - abs);
+      el.style.opacity = String(opacity);
+      el.style.filter = blur ? `saturate(0.55) blur(${blur}px)` : 'none';
+      el.style.transform =
+        `translate(-50%, -50%) translateX(${x}px) translateZ(${z}px) rotateY(${ry}deg) scale(${scale})`;
     });
-  });
+  }
+
+  function showLightbox(index) {
+    if (!images.length || !lightbox) return;
+    currentIndex = ((index % images.length) + images.length) % images.length;
+    const img = images[currentIndex];
+    if (!img) return;
+
+    if (!coverButtons.length) buildCovers();
+
+    lightboxDesc.textContent = getCaption(img) || '';
+    lightbox.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    layoutCovers();
+    lightbox.focus();
   }
 
   function closeLightbox() {
+    if (!lightbox) return;
     lightbox.style.display = 'none';
-    lightboxImg.src = '';
     lightboxDesc.textContent = '';
+    document.body.style.overflow = '';
   }
 
   function showPrev() {
-    showLightbox((currentIndex - 1 + images.length) % images.length);
+    showLightbox(currentIndex - 1);
   }
 
   function showNext() {
-    showLightbox((currentIndex + 1) % images.length);
+    showLightbox(currentIndex + 1);
   }
 
-  lightboxClose.addEventListener('click', closeLightbox);
-  lightboxPrev.addEventListener('click', function(e) { e.stopPropagation(); showPrev(); });
-  lightboxNext.addEventListener('click', function(e) { e.stopPropagation(); showNext(); });
+  if (lightbox && lightboxTrack && images.length > 0) {
+    buildCovers();
 
-  // Close on scrim click or ESC
-  lightbox.addEventListener('click', function(e) {
-    if (e.target === lightbox) closeLightbox();
-  });
-  document.addEventListener('keydown', function(e) {
-    if (lightbox.style.display === 'flex') {
+    images.forEach((img, idx) => {
+      img.style.cursor = 'pointer';
+      img.addEventListener('click', function(e) {
+        const isMobile = window.innerWidth <= 768;
+        const isInteractiveGif = img.classList.contains('gif-interactive');
+        if (isMobile && isInteractiveGif) return;
+        e.preventDefault();
+        showLightbox(idx);
+      });
+    });
+
+    if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+    if (lightboxPrev) lightboxPrev.addEventListener('click', function(e) { e.stopPropagation(); showPrev(); });
+    if (lightboxNext) lightboxNext.addEventListener('click', function(e) { e.stopPropagation(); showNext(); });
+
+    lightbox.addEventListener('click', function(e) {
+      // Close only when clicking the scrim outside the modal
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (lightbox.style.display !== 'flex') return;
       if (e.key === 'Escape') closeLightbox();
       if (e.key === 'ArrowLeft') showPrev();
       if (e.key === 'ArrowRight') showNext();
-    }
-  });
+    });
 
+    // Drag / swipe on coverflow
+    let startX = 0;
+    let dragging = false;
+    if (lightboxCoverflow) {
+      lightboxCoverflow.addEventListener('pointerdown', (e) => {
+        if (e.target.closest('#lightbox-close, #lightbox-prev, #lightbox-next')) return;
+        dragging = true;
+        startX = e.clientX;
+        lightboxCoverflow.setPointerCapture(e.pointerId);
+      });
+      lightboxCoverflow.addEventListener('pointerup', (e) => {
+        if (!dragging) return;
+        dragging = false;
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > 40) {
+          if (dx < 0) showNext();
+          else showPrev();
+        }
+      });
+    }
+
+    window.addEventListener('resize', () => {
+      if (lightbox.style.display === 'flex') layoutCovers();
+    });
+  }
   document.getElementById('mailBtn').addEventListener('click', function() {
       window.open('mailto:adeobayomi@gmail.com', '_blank', 'noopener');
     });
