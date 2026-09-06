@@ -13567,6 +13567,27 @@ html {
   margin-top: 32px;
   margin-bottom: 16px;
   letter-spacing: 1px;
+  width: max-content;
+  max-width: 100%;
+  margin-left: auto;
+  display: block;
+}
+
+/* Write-on only inside the thoughts drawer — text stays put, ink reveals LTR */
+.thought-modal .thought-signature {
+  clip-path: inset(0 100% 0 -0.35em);
+  opacity: 1;
+}
+
+.thought-modal .thought-signature.is-written {
+  clip-path: inset(0 -0.15em 0 -0.35em);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thought-modal .thought-signature,
+  .thought-modal .thought-signature.is-written {
+    clip-path: none;
+  }
 }
 
 /* Interpolation Table Component */
@@ -14001,3 +14022,4 @@ html {
     right: 14px;
   }
 }
+
