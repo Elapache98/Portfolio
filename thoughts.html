@@ -212,6 +212,84 @@
   <script src="particles.js"></script>
   <script src="image-optimizer.js"></script>
   <script>
+    let signatureScrollHandler = null;
+    let signatureScrollRoot = null;
+    let signatureAnim = null;
+
+    function teardownSignatureWatch() {
+      if (signatureScrollRoot && signatureScrollHandler) {
+        signatureScrollRoot.removeEventListener('scroll', signatureScrollHandler);
+      }
+      signatureScrollRoot = null;
+      signatureScrollHandler = null;
+    }
+
+    function playSignatureWrite(root) {
+      teardownSignatureWatch();
+      if (signatureAnim) {
+        signatureAnim.cancel();
+        signatureAnim = null;
+      }
+
+      const sig = root.querySelector('.thought-signature');
+      const scrollRoot = document.querySelector('.thought-modal-content');
+      if (!sig || !scrollRoot) return;
+
+      sig.classList.remove('is-writing', 'is-written');
+      sig.style.clipPath = 'inset(0 100% 0 -0.35em)';
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        sig.classList.add('is-written');
+        sig.style.clipPath = '';
+        return;
+      }
+
+      let played = false;
+
+      function startWrite() {
+        if (played || !sig.isConnected) return;
+        played = true;
+        teardownSignatureWatch();
+
+        if (signatureAnim) signatureAnim.cancel();
+
+        signatureAnim = sig.animate(
+          [
+            { clipPath: 'inset(0 100% 0 -0.35em)' },
+            { clipPath: 'inset(0 -0.15em 0 -0.35em)' }
+          ],
+          {
+            duration: 4200,
+            easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+            fill: 'forwards'
+          }
+        );
+
+        signatureAnim.onfinish = () => {
+          sig.classList.add('is-written');
+          sig.style.clipPath = '';
+          signatureAnim = null;
+        };
+      }
+
+      function isSignatureInView() {
+        const rootRect = scrollRoot.getBoundingClientRect();
+        const sigRect = sig.getBoundingClientRect();
+        return sigRect.top < rootRect.bottom - 24 && sigRect.bottom > rootRect.top + 24;
+      }
+
+      signatureScrollRoot = scrollRoot;
+      signatureScrollHandler = function() {
+        if (isSignatureInView()) startWrite();
+      };
+
+      scrollRoot.addEventListener('scroll', signatureScrollHandler, { passive: true });
+
+      // Fresh check after drawer opens (and again shortly in case layout settles)
+      setTimeout(() => { if (isSignatureInView()) startWrite(); }, 500);
+      setTimeout(() => { if (isSignatureInView()) startWrite(); }, 900);
+    }
+
     function openThoughtModal(button) {
       const card = button.closest('.thought-card');
       const timestamp = card.querySelector('.thought-timestamp').textContent;
@@ -222,15 +300,14 @@
       document.getElementById('modalTimestamp').textContent = timestamp;
       document.getElementById('modalLocation').textContent = location;
       document.getElementById('modalTitle').textContent = title;
-      document.getElementById('modalBody').innerHTML = bodyContent;
+      const modalBody = document.getElementById('modalBody');
+      modalBody.innerHTML = bodyContent;
       
       const modal = document.getElementById('thoughtModal');
       const modalContent = modal.querySelector('.thought-modal-content');
       
-      // Reset scroll position to top
       modalContent.scrollTop = 0;
       
-      // Play swoosh sound
       if (typeof typingFeedback !== 'undefined') {
         typingFeedback.init();
         typingFeedback.playSwoosh();
@@ -238,35 +315,40 @@
       
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
+
+      // Always re-arm write-on for this open
+      playSignatureWrite(modalBody);
     }
     
     function closeThoughtModal() {
       const modal = document.getElementById('thoughtModal');
       const content = modal.querySelector('.thought-modal-content');
+
+      teardownSignatureWatch();
+      if (signatureAnim) {
+        signatureAnim.cancel();
+        signatureAnim = null;
+      }
       
-      // Add closing class to trigger exit animation without delay
       modal.classList.add('closing');
       content.style.transition = 'transform 0.4s cubic-bezier(.87, 0, .13, 1)';
-      
-      // Remove active class to start exit animation
       modal.classList.remove('active');
       document.body.style.overflow = '';
       
-      // Clean up after animation completes
       setTimeout(() => {
         modal.classList.remove('closing');
         content.style.transition = '';
+        const modalBody = document.getElementById('modalBody');
+        if (modalBody) modalBody.innerHTML = '';
       }, 500);
     }
     
-    // Close modal when clicking outside the content
     document.getElementById('thoughtModal').addEventListener('click', function(e) {
       if (e.target === this) {
         closeThoughtModal();
       }
     });
     
-    // Close modal with Escape key
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
         closeThoughtModal();
