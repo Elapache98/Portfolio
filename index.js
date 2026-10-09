@@ -1363,15 +1363,14 @@ document.addEventListener('DOMContentLoaded', function() {
     function getPingSound() {
       if (pingSound) return pingSound;
       const sampleRate = 22050;
-      const duration = 0.32;
+      const duration = 0.6;
       const length = Math.floor(sampleRate * duration);
       const data = new Int16Array(length);
       for (let i = 0; i < length; i++) {
         const t = i / sampleRate;
-        const env = Math.exp(-t * 9);
-        const glide = Math.min(t / 0.07, 1);
-        const freq = 740 * Math.pow(1180 / 740, glide);
-        data[i] = Math.sin(2 * Math.PI * freq * t) * env * 0.28 * 32767;
+        const attack = Math.min(t / 0.08, 1);
+        const env = attack * Math.exp(-t * 3.4);
+        data[i] = Math.sin(2 * Math.PI * 392 * t) * env * 0.2 * 32767;
       }
       const buffer = new ArrayBuffer(44 + data.length * 2);
       const view = new DataView(buffer);
@@ -1391,7 +1390,7 @@ document.addEventListener('DOMContentLoaded', function() {
       view.setUint32(40, data.length * 2, true);
       new Int16Array(buffer, 44).set(data);
       pingSound = new Audio(URL.createObjectURL(new Blob([buffer], { type: 'audio/wav' })));
-      pingSound.volume = 0.32;
+      pingSound.volume = 0.22;
       return pingSound;
     }
 
