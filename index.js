@@ -1339,6 +1339,7 @@ document.addEventListener('DOMContentLoaded', function() {
     modal.setAttribute('aria-label', 'Case study summary');
     modal.innerHTML = `
       <div class="thought-modal-content">
+        <div class="summary-resize" role="separator" aria-orientation="vertical" aria-label="Drag to resize summary" title="Drag to resize"></div>
         <button type="button" class="close-thought-btn" aria-label="Close summary">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path opacity="0.4" d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM3.5 12C3.5 7.30558 7.30558 3.5 12 3.5C16.6944 3.5 20.5 7.30558 20.5 12C20.5 16.6944 16.6944 20.5 12 20.5C7.30558 20.5 3.5 16.6944 3.5 12Z" fill="#947b57"/>
@@ -1537,6 +1538,39 @@ document.addEventListener('DOMContentLoaded', function() {
     onScroll();
     setTimeout(onScroll, 0);
     setTimeout(onScroll, 400);
+
+    const summaryPanel = modal.querySelector('.thought-modal-content');
+    const summaryResize = modal.querySelector('.summary-resize');
+    let summaryBaseWidth = 0;
+
+    summaryResize.addEventListener('pointerdown', (e) => {
+      if (window.innerWidth < 769) return;
+      e.preventDefault();
+      if (!summaryBaseWidth) summaryBaseWidth = summaryPanel.getBoundingClientRect().width;
+      const startX = e.clientX;
+      const startWidth = summaryPanel.getBoundingClientRect().width;
+      const minWidth = summaryBaseWidth * 0.75;
+      modal.classList.add('is-resizing');
+      summaryResize.setPointerCapture(e.pointerId);
+
+      function onMove(ev) {
+        const next = startWidth + (ev.clientX - startX);
+        const width = Math.min(summaryBaseWidth, Math.max(minWidth, next));
+        summaryPanel.style.width = width + 'px';
+        summaryPanel.style.maxWidth = width + 'px';
+      }
+
+      function onUp() {
+        modal.classList.remove('is-resizing');
+        summaryResize.removeEventListener('pointermove', onMove);
+        summaryResize.removeEventListener('pointerup', onUp);
+        summaryResize.removeEventListener('pointercancel', onUp);
+      }
+
+      summaryResize.addEventListener('pointermove', onMove);
+      summaryResize.addEventListener('pointerup', onUp);
+      summaryResize.addEventListener('pointercancel', onUp);
+    });
 
     modal.querySelector('.close-thought-btn').addEventListener('click', closeSummary);
     modal.addEventListener('click', (e) => {
