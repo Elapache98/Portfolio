@@ -1358,47 +1358,27 @@ document.addEventListener('DOMContentLoaded', function() {
     let dismissBtn = null;
     let summaryWidth = 0;
     let pingCtx = null;
-    let pingQueued = false;
     let pingPlayed = false;
-
-    function unlockPing(event) {
-      if (event && event.target && event.target.closest && event.target.closest('a')) return;
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (!AudioCtx) return;
-      if (!pingCtx) pingCtx = new AudioCtx();
-      const resume = pingCtx.resume();
-      const buffer = pingCtx.createBuffer(1, 1, 22050);
-      const silent = pingCtx.createBufferSource();
-      silent.buffer = buffer;
-      silent.connect(pingCtx.destination);
-      try { silent.start(0); } catch (err) {}
-      const finish = () => {
-        if (pingCtx.state === 'running' && pingQueued && !pingPlayed) playPing();
-      };
-      if (resume && resume.then) resume.then(finish).catch(() => {});
-      else finish();
-    }
 
     function playPing() {
       if (pingPlayed) return;
-      if (!pingCtx || pingCtx.state !== 'running') {
-        pingQueued = true;
-        return;
-      }
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      if (!pingCtx) pingCtx = new AudioCtx();
+      pingCtx.resume();
       pingPlayed = true;
-      pingQueued = false;
       const now = pingCtx.currentTime;
       const osc = pingCtx.createOscillator();
       const gain = pingCtx.createGain();
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(392, now);
+      osc.frequency.setValueAtTime(523, now);
       gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.linearRampToValueAtTime(0.045, now + 0.08);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
+      gain.gain.linearRampToValueAtTime(0.08, now + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
       osc.connect(gain);
       gain.connect(pingCtx.destination);
       osc.start(now);
-      osc.stop(now + 0.62);
+      osc.stop(now + 0.52);
     }
 
     function playMitosis(btn, travel, finalWidth, finalRadius) {
@@ -1581,11 +1561,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', placeSettled);
-    window.addEventListener('touchstart', unlockPing, { capture: true, passive: true });
-    window.addEventListener('pointerdown', (event) => {
-      if (event.pointerType === 'touch') return;
-      unlockPing(event);
-    }, { capture: true });
     onScroll();
     setTimeout(onScroll, 0);
     setTimeout(onScroll, 400);
