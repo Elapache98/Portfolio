@@ -298,7 +298,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const floatingLogo = document.querySelector('.floating-logo');
   if (floatingLogo) {
     floatingLogo.style.cursor = 'pointer';
-    floatingLogo.addEventListener('click', function() {
+    floatingLogo.addEventListener('click', function(e) {
+      if (e.target.closest('.amadeus-prompt')) return;
       // Detect environment and use appropriate URL
       const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
       const homeUrl = isLocalhost ? 'index.html' : '/';
@@ -1288,7 +1289,273 @@ document.addEventListener('DOMContentLoaded', function() {
       }, 5000);
   }
 
+  // Amadeus case-study summary prompt (halfway down the page)
+  (function initAmadeusSummary() {
+    const page = (window.location.pathname.split('/').pop() || '').replace('.html', '');
+    const summaries = {
+      explore: {
+        hook: "Halfway in, and the story’s just getting good. Want the version you’d tell someone in the elevator?",
+        html: `
+          <p><span class="summary-lead">Summary:</span> Younger readers were drifting from long-form, and AI was changing how people take in news. Forbes needed an experience that met that shift instead of waiting for the usual roadmap.<a class="summary-cite" href="#introduction">introduction</a> The Chief Product Officer pulled a small team together with a direct brief: rethink information consumption amid AI, and make a homepage that represents it.<a class="summary-cite" href="#challenge">challenge</a></p>
+          <p><span class="summary-lead">Call out:</span> Explore launched in a silent beta on April 1, 2025, passed 10k users in four months, and held people for 90+ seconds. The team also presented it at the Global Strategy Meeting.<a class="summary-cite" href="#results">results</a> At its peak, engagement was about 4× the legacy homepage, with 2+ minutes on page. The work borrowed snackable delivery, digests that respect a reader’s time, and social proof through Reader Reactions.<a class="summary-cite" href="#solution">solution</a></p>
+          <p><span class="summary-lead">Why this matters:</span> The lesson wasn’t a new coat of paint. It was a new contract with the reader: respect their time. Explore no longer stands alone, but pieces of it were carried into core Forbes products.<a class="summary-cite" href="#lessons">lessons</a></p>
+        `
+      },
+      'bertie-sidekick': {
+        hook: "SEO, writers, and a sidekick named Sidekick. Want the short version before the last chapter?",
+        html: `
+          <p><span class="summary-lead">Summary:</span> Search was getting harder as AI overviews crowded the results. Forbes needed a higher SEO baseline across stories, not just the ones a small team could audit by hand.<a class="summary-cite" href="#introduction">introduction</a> Bertie already had an SEO assistant, but only about 29% of writers opened it, and most features didn’t match how they actually worked.<a class="summary-cite" href="#challenge">problem</a> The bet: a more effective tool would raise rankings, pageviews, and revenue without asking the SEO team to review every story.<a class="summary-cite" href="#challenge">hypothesis</a></p>
+          <p><span class="summary-lead">Call out:</span> A month after the October 2024 launch, adoption jumped from 29% to 54%, and it mostly held as the writer base grew. Forbes later posted its best comScore ranking and visitation in over a year.<a class="summary-cite" href="#results">results</a> Early ideas (an inline toggle, a popup) made guidance visible but threatened a writer’s focus. Sidekick kept the signal quiet: an SEO Boost beside the editor, checked on the writer’s own time, with generated headline variations instead of “what’s wrong” and no fix.<a class="summary-cite" href="#ideation">ideation</a> <a class="summary-cite" href="#solution">solution</a></p>
+          <p><span class="summary-lead">Why this matters:</span> The engagement lift showed that workflow UX can change real behavior when guidance is felt, not forced. It was also a high-visibility first project, the one that earned the “Salvador Dalí of product design” line.<a class="summary-cite" href="#lessons">lessons</a></p>
+        `
+      },
+      'advanced-search': {
+        hook: "Custom lists, Mongo queries, and a lot of waiting on engineering. Want me to skip you to the point?",
+        html: `
+          <p><span class="summary-lead">Summary:</span> Forbes lists, from 30 Under 30 to narrower rankings, depend on reporters and a database. Getting a custom list out of that database meant an engineer writing the query.<a class="summary-cite" href="#introduction">introduction</a> <a class="summary-cite" href="#problem">problem</a> The goal was to let list editors build those lists themselves inside FUEL, the unified engine for list creation, so iteration wasn’t stuck behind engineering bandwidth.<a class="summary-cite" href="#why">why</a></p>
+          <p><span class="summary-lead">Call out:</span> The interface treats a query like finishing a sentence: criteria and conditions layered in plain language, inspired by tools like HubSpot’s IF/THEN builder.<a class="summary-cite" href="#solution">solution</a> <a class="summary-cite" href="#hmw">how we framed it</a></p>
+          <p><span class="summary-lead">Why this matters:</span> The product isn’t fully launched, so the numbers are still ahead. The point was editorial speed: less engineering dependency, more autonomy, shorter loops. It was also a lesson in joining an engineering-led effort by asking before designing.<a class="summary-cite" href="#lessons">lessons</a></p>
+        `
+      },
+      'ai-notifications': {
+        hook: "Most Forbes readers arrive, read one story, and leave. Want the short version of how we tried to change that?",
+        html: `
+          <p><span class="summary-lead">Summary:</span> The largest share of the audience is anonymous. They land from search or social, read the story that brought them, and go.<a class="summary-cite" href="#introduction">introduction</a> Without a registered relationship, Forbes was leaving retention and revenue on the table, and readers had little reason to come back beyond that one article.<a class="summary-cite" href="#why">why</a></p>
+          <p><span class="summary-lead">Call out:</span> Three months after launch, 10.14% of anonymous visitors became registered members, about 7.5k new members, and notifications beat other acquisition channels by 2.07%.<a class="summary-cite" href="#results">results</a> The hard part was growth without cheapening the edit. Parts of the notification experience sat behind a free account, including an upgrade moment tied to how people used the freemium tier.<a class="summary-cite" href="#solution">solution</a></p>
+          <p><span class="summary-lead">Why this matters:</span> Sitting between editorial and product made the tradeoff concrete: know what kind of product you have, and design the ask to match it. A simple account wall on a useful feature was enough to move signups.<a class="summary-cite" href="#lessons">lessons</a></p>
+        `
+      }
+    };
 
+    const summary = summaries[page];
+    const logo = document.querySelector('.floating-logo');
+    if (!summary || !logo || !document.querySelector('.article-layout')) return;
+
+    const modal = document.createElement('div');
+    modal.id = 'summaryModal';
+    modal.className = 'thought-modal summary-modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Case study summary');
+    modal.innerHTML = `
+      <div class="thought-modal-content">
+        <button type="button" class="close-thought-btn" aria-label="Close summary">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path opacity="0.4" d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM3.5 12C3.5 7.30558 7.30558 3.5 12 3.5C16.6944 3.5 20.5 7.30558 20.5 12C20.5 16.6944 16.6944 20.5 12 20.5C7.30558 20.5 3.5 16.6944 3.5 12Z" fill="#947b57"/>
+            <path d="M8.55811 11.25C8.14389 11.25 7.80811 11.5858 7.80811 12C7.80811 12.4142 8.14389 12.75 8.55811 12.75H15.4418C15.856 12.75 16.1918 12.4142 16.1918 12C16.1918 11.5858 15.856 11.25 15.4418 11.25H8.55811Z" fill="#947b57"/>
+          </svg>
+        </button>
+        <img class="summary-kicker" src="Notionme.png" alt="Adé Obayomi">
+        <div class="summary-body"></div>
+      </div>
+    `;
+    modal.querySelector('.summary-body').innerHTML = summary.html;
+    document.body.appendChild(modal);
+
+    let splitPlayed = false;
+    let splitBtn = null;
+    let dismissBtn = null;
+    let summaryWidth = 0;
+
+    function playMitosis(btn, travel, finalWidth, finalRadius) {
+      const rect = logo.getBoundingClientRect();
+      const size = rect.width;
+      const chip = 32;
+      const chipTop = rect.top + (size - chip) / 2;
+      btn.style.top = rect.top + 'px';
+      btn.style.left = rect.left + 'px';
+      btn.style.width = size + 'px';
+      btn.style.height = size + 'px';
+      btn.style.padding = '0';
+      btn.style.borderRadius = '50%';
+      btn.style.backgroundColor = 'rgba(255, 255, 255, 0.55)';
+      btn.style.color = 'transparent';
+
+      const anim = btn.animate([
+        {
+          transform: 'translateX(0) scale(1)',
+          width: size + 'px',
+          height: size + 'px',
+          top: rect.top + 'px',
+          borderRadius: '50%',
+          backgroundColor: 'rgba(255, 255, 255, 0.55)'
+        },
+        {
+          transform: 'translateX(' + (travel * 0.45) + 'px) scale(0.84)',
+          width: size + 'px',
+          height: size + 'px',
+          top: rect.top + 'px',
+          borderRadius: '50%',
+          backgroundColor: 'rgba(255, 255, 255, 0.82)',
+          offset: 0.42
+        },
+        {
+          transform: 'translateX(' + travel + 'px) scale(1)',
+          width: finalWidth + 'px',
+          height: chip + 'px',
+          top: chipTop + 'px',
+          borderRadius: finalRadius,
+          backgroundColor: 'rgba(255, 255, 255, 0.22)'
+        }
+      ], {
+        duration: 860,
+        easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+        fill: 'forwards'
+      });
+
+      anim.onfinish = () => {
+        const settled = logo.getBoundingClientRect();
+        btn.getAnimations().forEach((item) => item.cancel());
+        btn.style.top = (settled.top + (settled.height - chip) / 2) + 'px';
+        btn.style.left = settled.left + 'px';
+        btn.style.width = finalWidth + 'px';
+        btn.style.height = chip + 'px';
+        btn.style.transform = 'translateX(' + travel + 'px)';
+        btn.style.borderRadius = finalRadius;
+        btn.style.padding = finalRadius === '50%' ? '0' : '0 12px';
+        btn.style.backgroundColor = '';
+        btn.style.color = 'transparent';
+        btn.classList.add('is-settled');
+        placeSettled();
+        const label = btn.animate(
+          [{ color: 'transparent' }, { color: '#333333' }],
+          { duration: 320, easing: 'ease', fill: 'forwards' }
+        );
+        label.onfinish = () => {
+          btn.style.color = '';
+          label.cancel();
+        };
+      };
+    }
+
+    function placeSettled() {
+      const rect = logo.getBoundingClientRect();
+      const chip = 32;
+      const top = rect.top + (rect.height - chip) / 2;
+      if (splitBtn && splitBtn.classList.contains('is-settled')) {
+        splitBtn.style.top = top + 'px';
+        splitBtn.style.left = rect.left + 'px';
+        splitBtn.style.transform = 'translateX(' + (rect.width + 16) + 'px)';
+      }
+      if (dismissBtn && dismissBtn.classList.contains('is-settled') && splitBtn) {
+        const width = splitBtn.classList.contains('is-settled')
+          ? splitBtn.getBoundingClientRect().width
+          : summaryWidth;
+        const travel = rect.width + 16 + width + 8;
+        dismissBtn.style.top = top + 'px';
+        dismissBtn.style.left = rect.left + 'px';
+        dismissBtn.style.transform = 'translateX(' + travel + 'px)';
+      }
+    }
+
+    function dismissPrompt() {
+      if (splitBtn) splitBtn.remove();
+      if (dismissBtn) dismissBtn.remove();
+      splitBtn = null;
+      dismissBtn = null;
+    }
+
+    function playDismiss(summaryWidthArg) {
+      if (!splitBtn || dismissBtn) return;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'amadeus-split amadeus-dismiss';
+      btn.setAttribute('aria-label', 'Dismiss summary');
+      btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2l8 8M10 2L2 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
+      btn.classList.add('is-settled');
+      btn.style.width = '32px';
+      btn.style.height = '32px';
+      btn.style.padding = '0';
+      btn.style.borderRadius = '50%';
+      btn.style.opacity = '0';
+      document.body.appendChild(btn);
+      dismissBtn = btn;
+      if (typeof summaryWidthArg === 'number') summaryWidth = summaryWidthArg;
+      placeSettled();
+      const fade = btn.animate(
+        [{ opacity: 0 }, { opacity: 1 }],
+        { duration: 280, easing: 'ease', fill: 'forwards' }
+      );
+      fade.onfinish = () => {
+        btn.style.opacity = '1';
+        fade.cancel();
+      };
+      btn.addEventListener('click', dismissPrompt);
+    }
+
+    function playSplit() {
+      if (splitPlayed) return;
+      splitPlayed = true;
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'amadeus-split';
+      btn.textContent = 'Read Summary';
+      document.body.appendChild(btn);
+      splitBtn = btn;
+
+      summaryWidth = btn.getBoundingClientRect().width;
+      const finalWidth = summaryWidth;
+      const rect = logo.getBoundingClientRect();
+      playMitosis(btn, rect.width + 16, finalWidth, '50px');
+      btn.addEventListener('click', openSummary);
+      playDismiss(finalWidth);
+    }
+
+    function openSummary() {
+      const content = modal.querySelector('.thought-modal-content');
+      content.scrollTop = 0;
+      modal.classList.remove('closing');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSummary() {
+      const content = modal.querySelector('.thought-modal-content');
+      if (splitBtn) splitBtn.classList.add('is-quiet');
+      if (dismissBtn) dismissBtn.classList.add('is-quiet');
+      modal.classList.add('closing');
+      content.style.transition = 'transform 0.4s cubic-bezier(.87, 0, .13, 1)';
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        modal.classList.remove('closing');
+        content.style.transition = '';
+      }, 500);
+    }
+
+    function onScroll() {
+      const article = document.querySelector('.article-layout');
+      if (!article || getComputedStyle(article).display === 'none' || article.getBoundingClientRect().height < 400) return;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      if (max <= 0) return;
+      if (window.scrollY / max >= 0.25) playSplit();
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', placeSettled);
+    onScroll();
+    setTimeout(onScroll, 0);
+    setTimeout(onScroll, 400);
+
+    modal.querySelector('.close-thought-btn').addEventListener('click', closeSummary);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeSummary();
+    });
+
+    modal.querySelectorAll('.summary-cite').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        const id = link.getAttribute('href').slice(1);
+        const target = document.getElementById(id);
+        if (!target) return;
+        e.preventDefault();
+        document.body.style.overflow = '';
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        target.classList.add('summary-target');
+        setTimeout(() => target.classList.remove('summary-target'), 1600);
+      });
+    });
+  })();
 
   // Password gate functionality for explore.html
   if (window.location.pathname.endsWith('explore.html') || 
