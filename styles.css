@@ -14288,6 +14288,12 @@ html {
 
 @media (max-width: 768px) {
   .summary-cite {
+    color: inherit;
+    text-decoration: none;
+    pointer-events: none;
+  }
+
+  .summary-cite::before {
     display: none;
   }
 }
