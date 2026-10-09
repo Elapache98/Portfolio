@@ -14286,18 +14286,6 @@ html {
   opacity: 1;
 }
 
-@media (max-width: 768px) {
-  .summary-cite {
-    color: inherit;
-    text-decoration: none;
-    pointer-events: none;
-  }
-
-  .summary-cite::before {
-    display: none;
-  }
-}
-
 @media (min-width: 769px) {
   .summary-modal.active ~ .amadeus-split,
   .summary-modal.closing ~ .amadeus-split {
@@ -14374,6 +14362,20 @@ html {
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='5' r='3'/%3E%3Cline x1='12' x2='12' y1='22' y2='8'/%3E%3Cpath d='M5 12H2a10 10 0 0 0 20 0h-3'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
+@media (max-width: 768px) {
+  .summary-modal .summary-cite {
+    color: #444;
+    text-decoration: none;
+    text-underline-offset: 0;
+    pointer-events: none;
+  }
+
+  .summary-modal .summary-cite::before {
+    content: none;
+    display: none;
+  }
+}
+
 .summary-target {
   animation: summary-flash 1.6s ease;
 }
@@ -14445,5 +14447,11 @@ html {
     rgba(255, 255, 255, 0.22) 45%,
     rgba(255, 255, 255, 0.34) 100%
   );
+}
+
+@media (max-width: 768px) {
+  .thought-modal.active {
+    background-color: rgba(30, 34, 45, 0.45);
+  }
 }
 
