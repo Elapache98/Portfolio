@@ -1296,33 +1296,33 @@ document.addEventListener('DOMContentLoaded', function() {
       explore: {
         hook: "Halfway in, and the story’s just getting good. Want the version you’d tell someone in the elevator?",
         html: `
-          <p><span class="summary-lead">Summary:</span> Younger readers were drifting from long-form as AI changed how people take in news, so Forbes needed an experience that met that shift instead of waiting for the usual roadmap.<a class="summary-cite" href="#introduction">introduction</a> That became a direct brief from the Chief Product Officer: pull a small team together, rethink information consumption amid AI, and make a homepage that represents it.<a class="summary-cite" href="#challenge">challenge</a></p>
-          <p><span class="summary-lead">Call out:</span> Explore launched in a silent beta on April 1, 2025, passed 10k users in four months, held people for 90+ seconds, and was presented at the Global Strategy Meeting.<a class="summary-cite" href="#results">results</a> Engagement peaked at about 4× the legacy homepage, with 2+ minutes on page, by borrowing snackable delivery, digests that respect a reader’s time, and social proof through Reader Reactions.<a class="summary-cite" href="#solution">solution</a></p>
-          <p><span class="summary-lead">Why this matters:</span> What lasted was not a new coat of paint but a new contract with the reader: respect their time. Explore no longer stands alone, yet pieces of it were carried into core Forbes products.<a class="summary-cite" href="#lessons">lessons</a></p>
+          <p><span class="summary-lead">Summary:</span> In the <a class="summary-cite" href="#introduction">introduction</a>, younger readers were drifting from long-form as AI changed how people take in news, so Forbes needed an experience that met that shift instead of waiting for the usual roadmap. The <a class="summary-cite" href="#challenge">challenge</a> was a direct brief from the Chief Product Officer: pull a small team together, rethink information consumption amid AI, and make a homepage that represents it.</p>
+          <p><span class="summary-lead">Call out:</span> The <a class="summary-cite" href="#results">results</a> followed a silent beta on April 1, 2025: Explore passed 10k users in four months, held people for 90+ seconds, and was presented at the Global Strategy Meeting. The <a class="summary-cite" href="#solution">solution</a> is what pushed engagement to about 4× the legacy homepage, with 2+ minutes on page, by borrowing snackable delivery, digests that respect a reader’s time, and social proof through Reader Reactions.</p>
+          <p><span class="summary-lead">Why this matters:</span> The <a class="summary-cite" href="#lessons">lessons</a> were not about a new coat of paint but a new contract with the reader, respect their time, and even though Explore no longer stands alone, pieces of it were carried into core Forbes products.</p>
         `
       },
       'bertie-sidekick': {
         hook: "SEO, writers, and a sidekick named Sidekick. Want the short version before the last chapter?",
         html: `
-          <p><span class="summary-lead">Summary:</span> Search was getting harder as AI overviews crowded the results, so Forbes needed a higher SEO baseline across stories, not just the ones a small team could audit by hand.<a class="summary-cite" href="#introduction">introduction</a> Bertie already had an SEO assistant, but only about 29% of writers opened it, because most features didn’t match how they actually worked.<a class="summary-cite" href="#challenge">problem</a> The bet was that a more effective tool would raise rankings, pageviews, and revenue without asking the SEO team to review every story.<a class="summary-cite" href="#challenge">hypothesis</a></p>
-          <p><span class="summary-lead">Call out:</span> A month after the October 2024 launch, adoption jumped from 29% to 54% and mostly held as the writer base grew, and Forbes later posted its best comScore ranking and visitation in over a year.<a class="summary-cite" href="#results">results</a> An inline toggle and a popup made guidance visible, but both threatened a writer’s focus.<a class="summary-cite" href="#ideation">ideation</a> Sidekick kept the signal quiet instead: an SEO Boost beside the editor, checked on the writer’s own time, with generated headline variations rather than “what’s wrong” and no fix.<a class="summary-cite" href="#solution">solution</a></p>
-          <p><span class="summary-lead">Why this matters:</span> The engagement lift showed that workflow UX can change real behavior when guidance is felt, not forced, and that same first project is the one that earned the “Salvador Dalí of product design” line.<a class="summary-cite" href="#lessons">lessons</a></p>
+          <p><span class="summary-lead">Summary:</span> In the <a class="summary-cite" href="#introduction">introduction</a>, search was getting harder as AI overviews crowded the results, so Forbes needed a higher SEO baseline across stories, not just the ones a small team could audit by hand. The <a class="summary-cite" href="#challenge">problem</a> was that Bertie already had an SEO assistant, but only about 29% of writers opened it, because most features didn’t match how they actually worked. The <a class="summary-cite" href="#challenge">hypothesis</a> was that a more effective tool would raise rankings, pageviews, and revenue without asking the SEO team to review every story.</p>
+          <p><span class="summary-lead">Call out:</span> The <a class="summary-cite" href="#results">results</a>, a month after the October 2024 launch, were an adoption jump from 29% to 54% that mostly held as the writer base grew, and Forbes later posted its best comScore ranking and visitation in over a year. The <a class="summary-cite" href="#ideation">ideation</a> tried an inline toggle and a popup, which made guidance visible but threatened a writer’s focus. The <a class="summary-cite" href="#solution">solution</a> kept the signal quiet instead: an SEO Boost beside the editor, checked on the writer’s own time, with generated headline variations rather than “what’s wrong” and no fix.</p>
+          <p><span class="summary-lead">Why this matters:</span> The <a class="summary-cite" href="#lessons">lessons</a> were that workflow UX can change real behavior when guidance is felt, not forced, and that this first project is the one that earned the “Salvador Dalí of product design” line.</p>
         `
       },
       'advanced-search': {
         hook: "Custom lists, Mongo queries, and a lot of waiting on engineering. Want me to skip you to the point?",
         html: `
-          <p><span class="summary-lead">Summary:</span> Forbes lists, from 30 Under 30 down to narrower rankings, depend on reporters and a database.<a class="summary-cite" href="#introduction">introduction</a> A custom list still meant waiting on an engineer to write the query,<a class="summary-cite" href="#problem">problem</a> so the goal was to let list editors build those lists themselves inside FUEL, the unified engine for list creation, and stop leaving iteration stuck behind engineering bandwidth.<a class="summary-cite" href="#why">why</a></p>
-          <p><span class="summary-lead">Call out:</span> The interface treats a query like finishing a sentence, with criteria and conditions layered in plain language, the way tools like HubSpot’s IF/THEN builder do.<a class="summary-cite" href="#solution">solution</a> That shape came from asking how an editor could compose a list without having to learn the database.<a class="summary-cite" href="#hmw">how we framed it</a></p>
-          <p><span class="summary-lead">Why this matters:</span> The product isn’t fully launched, so the numbers are still ahead. The point was editorial speed: less engineering dependency, more autonomy, and shorter loops, along with a lesson in joining an engineering-led effort by asking before designing.<a class="summary-cite" href="#lessons">lessons</a></p>
+          <p><span class="summary-lead">Summary:</span> In the <a class="summary-cite" href="#introduction">introduction</a>, Forbes lists, from 30 Under 30 down to narrower rankings, depend on reporters and a database. The <a class="summary-cite" href="#problem">problem</a> was that a custom list still meant waiting on an engineer to write the query, which is <a class="summary-cite" href="#why">why</a> the goal was to let list editors build those lists themselves inside FUEL, the unified engine for list creation, and stop leaving iteration stuck behind engineering bandwidth.</p>
+          <p><span class="summary-lead">Call out:</span> The <a class="summary-cite" href="#solution">solution</a> treats a query like finishing a sentence, with criteria and conditions layered in plain language, the way tools like HubSpot’s IF/THEN builder do. That is <a class="summary-cite" href="#hmw">how we framed it</a>: an editor composing a list without having to learn the database.</p>
+          <p><span class="summary-lead">Why this matters:</span> The <a class="summary-cite" href="#lessons">lessons</a> are still ahead of the numbers, because the product isn’t fully launched. The point was editorial speed: less engineering dependency, more autonomy, and shorter loops, plus joining an engineering-led effort by asking before designing.</p>
         `
       },
       'ai-notifications': {
         hook: "Most Forbes readers arrive, read one story, and leave. Want the short version of how we tried to change that?",
         html: `
-          <p><span class="summary-lead">Summary:</span> The largest share of the audience is anonymous: they land from search or social, read the story that brought them, and go.<a class="summary-cite" href="#introduction">introduction</a> Without a registered relationship, Forbes was leaving retention and revenue on the table, and readers had little reason to come back beyond that one article.<a class="summary-cite" href="#why">why</a></p>
-          <p><span class="summary-lead">Call out:</span> Three months after launch, 10.14% of anonymous visitors became registered members, about 7.5k new members, and notifications beat other acquisition channels by 2.07%.<a class="summary-cite" href="#results">results</a> Getting there meant growing without cheapening the edit, so parts of the notification experience sat behind a free account, including an upgrade moment tied to how people used the freemium tier.<a class="summary-cite" href="#solution">solution</a></p>
-          <p><span class="summary-lead">Why this matters:</span> Sitting between editorial and product made the tradeoff concrete: know what kind of product you have, and design the ask to match it. In this case, a simple account wall on a useful feature was enough to move signups.<a class="summary-cite" href="#lessons">lessons</a></p>
+          <p><span class="summary-lead">Summary:</span> In the <a class="summary-cite" href="#introduction">introduction</a>, the largest share of the audience is anonymous: they land from search or social, read the story that brought them, and go. That is <a class="summary-cite" href="#why">why</a>, without a registered relationship, Forbes was leaving retention and revenue on the table, and readers had little reason to come back beyond that one article.</p>
+          <p><span class="summary-lead">Call out:</span> The <a class="summary-cite" href="#results">results</a>, three months after launch, were that 10.14% of anonymous visitors became registered members, about 7.5k new members, and notifications beat other acquisition channels by 2.07%. The <a class="summary-cite" href="#solution">solution</a> had to grow the audience without cheapening the edit, so parts of the notification experience sat behind a free account, including an upgrade moment tied to how people used the freemium tier.</p>
+          <p><span class="summary-lead">Why this matters:</span> The <a class="summary-cite" href="#lessons">lessons</a>, from sitting between editorial and product, were to know what kind of product you have and design the ask to match it. A simple account wall on a useful feature was enough to move signups.</p>
         `
       }
     };
@@ -1357,6 +1357,63 @@ document.addEventListener('DOMContentLoaded', function() {
     let splitBtn = null;
     let dismissBtn = null;
     let summaryWidth = 0;
+    let pingSound = null;
+    let pingPending = false;
+
+    function getPingSound() {
+      if (pingSound) return pingSound;
+      const sampleRate = 22050;
+      const duration = 0.32;
+      const length = Math.floor(sampleRate * duration);
+      const data = new Int16Array(length);
+      for (let i = 0; i < length; i++) {
+        const t = i / sampleRate;
+        const env = Math.exp(-t * 9);
+        const glide = Math.min(t / 0.07, 1);
+        const freq = 740 * Math.pow(1180 / 740, glide);
+        data[i] = Math.sin(2 * Math.PI * freq * t) * env * 0.28 * 32767;
+      }
+      const buffer = new ArrayBuffer(44 + data.length * 2);
+      const view = new DataView(buffer);
+      const write = (offset, text) => { for (let i = 0; i < text.length; i++) view.setUint8(offset + i, text.charCodeAt(i)); };
+      write(0, 'RIFF');
+      view.setUint32(4, 36 + data.length * 2, true);
+      write(8, 'WAVE');
+      write(12, 'fmt ');
+      view.setUint32(16, 16, true);
+      view.setUint16(20, 1, true);
+      view.setUint16(22, 1, true);
+      view.setUint32(24, sampleRate, true);
+      view.setUint32(28, sampleRate * 2, true);
+      view.setUint16(32, 2, true);
+      view.setUint16(34, 16, true);
+      write(36, 'data');
+      view.setUint32(40, data.length * 2, true);
+      new Int16Array(buffer, 44).set(data);
+      pingSound = new Audio(URL.createObjectURL(new Blob([buffer], { type: 'audio/wav' })));
+      pingSound.volume = 0.32;
+      return pingSound;
+    }
+
+    function playPing() {
+      const sound = getPingSound();
+      sound.currentTime = 0;
+      const attempt = sound.play();
+      if (!attempt) return;
+      attempt.then(() => {
+        pingPending = false;
+      }).catch(() => {
+        if (pingPending) return;
+        pingPending = true;
+        const retry = () => {
+          pingPending = false;
+          playPing();
+        };
+        window.addEventListener('pointerdown', retry, { once: true });
+        window.addEventListener('keydown', retry, { once: true });
+        window.addEventListener('scroll', retry, { once: true });
+      });
+    }
 
     function playMitosis(btn, travel, finalWidth, finalRadius) {
       const rect = logo.getBoundingClientRect();
@@ -1418,6 +1475,9 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.style.color = 'transparent';
         btn.classList.add('is-settled');
         placeSettled();
+        btn.classList.add('is-ping');
+        btn.addEventListener('animationend', () => btn.classList.remove('is-ping'), { once: true });
+        playPing();
         const label = btn.animate(
           [{ color: 'transparent' }, { color: '#333333' }],
           { duration: 320, easing: 'ease', fill: 'forwards' }
@@ -1530,11 +1590,15 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!article || getComputedStyle(article).display === 'none' || article.getBoundingClientRect().height < 400) return;
       const max = document.documentElement.scrollHeight - window.innerHeight;
       if (max <= 0) return;
-      if (window.scrollY / max >= 0.25) playSplit();
+      if (window.scrollY / max >= 0.2) playSplit();
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', placeSettled);
+    window.addEventListener('pageshow', () => {
+      pingPending = false;
+      if (splitBtn && splitBtn.classList.contains('is-settled')) playPing();
+    });
     onScroll();
     setTimeout(onScroll, 0);
     setTimeout(onScroll, 400);
