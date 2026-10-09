@@ -1357,47 +1357,48 @@ document.addEventListener('DOMContentLoaded', function() {
     let splitBtn = null;
     let dismissBtn = null;
     let summaryWidth = 0;
-    let pingSound = null;
+    let pingCtx = null;
+    let pingQueued = false;
+    let pingPlayed = false;
 
-    function getPingSound() {
-      if (pingSound) return pingSound;
-      const sampleRate = 22050;
-      const duration = 0.6;
-      const length = Math.floor(sampleRate * duration);
-      const data = new Int16Array(length);
-      for (let i = 0; i < length; i++) {
-        const t = i / sampleRate;
-        const attack = Math.min(t / 0.08, 1);
-        const env = attack * Math.exp(-t * 3.4);
-        data[i] = Math.sin(2 * Math.PI * 392 * t) * env * 0.2 * 32767;
-      }
-      const buffer = new ArrayBuffer(44 + data.length * 2);
-      const view = new DataView(buffer);
-      const write = (offset, text) => { for (let i = 0; i < text.length; i++) view.setUint8(offset + i, text.charCodeAt(i)); };
-      write(0, 'RIFF');
-      view.setUint32(4, 36 + data.length * 2, true);
-      write(8, 'WAVE');
-      write(12, 'fmt ');
-      view.setUint32(16, 16, true);
-      view.setUint16(20, 1, true);
-      view.setUint16(22, 1, true);
-      view.setUint32(24, sampleRate, true);
-      view.setUint32(28, sampleRate * 2, true);
-      view.setUint16(32, 2, true);
-      view.setUint16(34, 16, true);
-      write(36, 'data');
-      view.setUint32(40, data.length * 2, true);
-      new Int16Array(buffer, 44).set(data);
-      pingSound = new Audio(URL.createObjectURL(new Blob([buffer], { type: 'audio/wav' })));
-      pingSound.volume = 0.22;
-      return pingSound;
+    function unlockPing(event) {
+      if (event && event.target && event.target.closest && event.target.closest('a')) return;
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      if (!pingCtx) pingCtx = new AudioCtx();
+      const resume = pingCtx.resume();
+      const buffer = pingCtx.createBuffer(1, 1, 22050);
+      const silent = pingCtx.createBufferSource();
+      silent.buffer = buffer;
+      silent.connect(pingCtx.destination);
+      try { silent.start(0); } catch (err) {}
+      const finish = () => {
+        if (pingCtx.state === 'running' && pingQueued && !pingPlayed) playPing();
+      };
+      if (resume && resume.then) resume.then(finish).catch(() => {});
+      else finish();
     }
 
     function playPing() {
-      const sound = getPingSound();
-      sound.currentTime = 0;
-      const attempt = sound.play();
-      if (attempt) attempt.catch(() => {});
+      if (pingPlayed) return;
+      if (!pingCtx || pingCtx.state !== 'running') {
+        pingQueued = true;
+        return;
+      }
+      pingPlayed = true;
+      pingQueued = false;
+      const now = pingCtx.currentTime;
+      const osc = pingCtx.createOscillator();
+      const gain = pingCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(392, now);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.linearRampToValueAtTime(0.045, now + 0.08);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
+      osc.connect(gain);
+      gain.connect(pingCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.62);
     }
 
     function playMitosis(btn, travel, finalWidth, finalRadius) {
@@ -1580,6 +1581,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', placeSettled);
+    window.addEventListener('touchstart', unlockPing, { capture: true, passive: true });
+    window.addEventListener('pointerdown', (event) => {
+      if (event.pointerType === 'touch') return;
+      unlockPing(event);
+    }, { capture: true });
     onScroll();
     setTimeout(onScroll, 0);
     setTimeout(onScroll, 400);
