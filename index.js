@@ -1358,7 +1358,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let dismissBtn = null;
     let summaryWidth = 0;
     let pingSound = null;
-    let pingPending = false;
 
     function getPingSound() {
       if (pingSound) return pingSound;
@@ -1398,20 +1397,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const sound = getPingSound();
       sound.currentTime = 0;
       const attempt = sound.play();
-      if (!attempt) return;
-      attempt.then(() => {
-        pingPending = false;
-      }).catch(() => {
-        if (pingPending) return;
-        pingPending = true;
-        const retry = () => {
-          pingPending = false;
-          playPing();
-        };
-        window.addEventListener('pointerdown', retry, { once: true });
-        window.addEventListener('keydown', retry, { once: true });
-        window.addEventListener('scroll', retry, { once: true });
-      });
+      if (attempt) attempt.catch(() => {});
     }
 
     function playMitosis(btn, travel, finalWidth, finalRadius) {
@@ -1594,10 +1580,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', placeSettled);
-    window.addEventListener('pageshow', () => {
-      pingPending = false;
-      if (splitBtn && splitBtn.classList.contains('is-settled')) playPing();
-    });
     onScroll();
     setTimeout(onScroll, 0);
     setTimeout(onScroll, 400);
