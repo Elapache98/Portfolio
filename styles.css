@@ -13354,7 +13354,7 @@ html {
 }
 
 .thoughts-title-section {
-  margin-bottom: 48px;
+  margin-bottom: 20px;
 }
 
 .thoughts-title-section h2 {
@@ -13826,13 +13826,17 @@ html {
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .thoughts-layout {
-    margin-top: 80px;
+    margin-top: 132px;
     padding: 0 4vw;
+  }
+
+  .thoughts-title-section {
+    margin-bottom: 16px;
   }
 
   .thoughts-title-section h2 {
     font-size: 28px;
-    text-align: center;
+    text-align: left;
   }
 
   .thought-card {
