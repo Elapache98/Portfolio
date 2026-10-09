@@ -14203,6 +14203,25 @@ html {
   overflow: hidden;
 }
 
+.amadeus-split.is-ping {
+  overflow: visible;
+}
+
+.amadeus-split.is-ping::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 1px solid rgba(148, 123, 87, 0.4);
+  pointer-events: none;
+  animation: amadeus-ping 720ms ease-out forwards;
+}
+
+@keyframes amadeus-ping {
+  0% { transform: scale(1); opacity: 0.55; }
+  100% { transform: scale(1.12); opacity: 0; }
+}
+
 .amadeus-split::before {
   content: '';
   position: absolute;
@@ -14328,7 +14347,7 @@ html {
 }
 
 .summary-cite {
-  margin-left: 6px;
+  margin-left: 0;
   font-size: 15px;
   line-height: inherit;
   color: #947b57;
