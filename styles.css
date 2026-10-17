@@ -3,7 +3,7 @@ html {
   scroll-behavior: smooth;
   /* Page tint lives on <html> so the particle canvas (z-index:-1) layers ABOVE it
      and stays visible on the page + through the liquid-glass toolbar */
-  background: rgb(250, 249, 245, 0.8);
+  background: #f7f7f4;
 }
 
 /* Page load fade-in - only for case study pages */
