@@ -599,25 +599,27 @@ img.preloaded {
 /* Work page: Scale animation instead of fade for project cards */
 .work-page .project-grid {
   gap: 32px;
+  align-items: stretch;
 }
 
 .work-page .project-content {
   display: flex;
   flex-direction: column;
   height: 100%;
+  justify-content: flex-start;
+  gap: 0;
   transform: scale(1) translateZ(0);
   transition: transform 0.3s cubic-bezier(.87, 0, .13, 1);
   transform-origin: center center;
 }
 
-.work-page .project-content h3 {
-  min-height: 2.4em;
-  margin: 0 0 8px;
-  line-height: 1.2;
+.work-page .project-content #tagdiv {
+  margin: 14px 0;
 }
 
-.work-page .project-content > p {
-  margin: 0;
+.work-page .project-content h3 {
+  margin-top: 0;
+  margin-bottom: 4px;
 }
 
 .work-page .project-content:hover {
