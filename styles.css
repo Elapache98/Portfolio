@@ -332,7 +332,7 @@ transition: box-shadow .25s;
 }
 
 .project-content.hidden {
-  display: none;
+  display: none !important;
 }
 
 /* Mobile tabs and title */
@@ -602,9 +602,22 @@ img.preloaded {
 }
 
 .work-page .project-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   transform: scale(1) translateZ(0);
   transition: transform 0.3s cubic-bezier(.87, 0, .13, 1);
   transform-origin: center center;
+}
+
+.work-page .project-content h3 {
+  min-height: 2.4em;
+  margin: 0 0 8px;
+  line-height: 1.2;
+}
+
+.work-page .project-content > p {
+  margin: 0;
 }
 
 .work-page .project-content:hover {
