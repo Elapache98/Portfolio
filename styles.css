@@ -645,6 +645,10 @@ img.preloaded {
   object-fit: cover;
 }
 
+.work-page .daily-brief-cover {
+  object-position: center 21%;
+}
+
 .work-page .project-content .image-item {
   opacity: 1;
   transform: none;
