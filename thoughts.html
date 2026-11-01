@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Dynalight&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- WebGL Canvas for particles -->
@@ -145,7 +145,7 @@
                  <p>At its core, design intuition is the art of pattern recognition; seeing the logic behind what works, 
                     then reshaping that logic within a new context that just makes sense.</p>
 
-                 <div class="thought-signature">- Adé Obayomi</div>
+                 <div class="thought-signature">- <span class="sig-initial">A</span>dé Obayomi</div>
           </div>
         </div>
 
@@ -213,7 +213,8 @@
   <script>
     let signatureScrollHandler = null;
     let signatureScrollRoot = null;
-    let signatureAnim = null;
+    let signatureRaf = null;
+    let signatureTimeouts = [];
 
     function teardownSignatureWatch() {
       if (signatureScrollRoot && signatureScrollHandler) {
@@ -221,25 +222,207 @@
       }
       signatureScrollRoot = null;
       signatureScrollHandler = null;
+      if (signatureRaf) {
+        cancelAnimationFrame(signatureRaf);
+        signatureRaf = null;
+      }
+      signatureTimeouts.forEach(clearTimeout);
+      signatureTimeouts = [];
+    }
+
+    function easeInOutCubic(t) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function locateChar(root, index) {
+      let remaining = index;
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+      let node = walker.nextNode();
+      let last = node;
+      while (node) {
+        last = node;
+        if (remaining <= node.length) return { node: node, offset: remaining };
+        remaining -= node.length;
+        node = walker.nextNode();
+      }
+      return { node: last, offset: last ? last.length : 0 };
+    }
+
+    function wrapFirstA(root) {
+      if (root.querySelector('.sig-initial')) return;
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+      let node;
+      while ((node = walker.nextNode())) {
+        const i = node.textContent.indexOf('A');
+        if (i === -1) continue;
+        const after = node.splitText(i);
+        after.splitText(1);
+        const span = document.createElement('span');
+        span.className = 'sig-initial';
+        after.parentNode.replaceChild(span, after);
+        span.appendChild(after);
+        return;
+      }
+    }
+
+    function prepareSignature(sig) {
+      let textEl = sig.querySelector('.sig-text');
+      if (!textEl) {
+        textEl = document.createElement('span');
+        textEl.className = 'sig-text';
+        while (sig.firstChild) textEl.appendChild(sig.firstChild);
+        sig.appendChild(textEl);
+      }
+
+      wrapFirstA(textEl);
+
+      const initial = textEl.querySelector('.sig-initial');
+      if (initial && !initial.querySelector('.sig-initial-mark')) {
+        initial.innerHTML =
+          '<span class="sig-initial-char">A</span>' +
+          '<svg class="sig-initial-mark" viewBox="0 0 56 70" fill="none" aria-hidden="true">' +
+            '<path d="M26 4L8 66"/>' +
+            '<path d="M26 4L42 66"/>' +
+            '<path d="M11.5 54C22 42 34 32 53 33"/>' +
+          '</svg>';
+      }
+
+      textEl.style.setProperty('--write', '0');
+      return { textEl };
+    }
+
+    function buildHandwritingTimeline(textEl) {
+      const text = textEl.textContent || '';
+      const totalW = textEl.getBoundingClientRect().width;
+      const height = textEl.getBoundingClientRect().height;
+
+      function xAt(i) {
+        if (i <= 0) return 0;
+        if (i >= text.length) return totalW;
+        const start = locateChar(textEl, 0);
+        const end = locateChar(textEl, i);
+        if (!start.node || !end.node) return 0;
+        const range = document.createRange();
+        range.setStart(start.node, start.offset);
+        range.setEnd(end.node, end.offset);
+        return range.getBoundingClientRect().width;
+      }
+
+      const items = [{ type: 'down', weight: 0.22, i: 0 }];
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        const span = Math.max(xAt(i + 1) - xAt(i), 6);
+        const weight = ch === ' '
+          ? 0.08
+          : ch === '-'
+            ? 0.4
+            : (span / 14) * (/[mwMW]/.test(ch) ? 1.25 : /[ilj]/.test(ch) ? 0.75 : 1);
+        items.push({ type: 'write', weight: Math.max(weight, 0.28), i: i });
+        if (ch === ' ') items.push({ type: 'pause', weight: 0.28, i: i });
+      }
+      items.push({ type: 'up', weight: 0.18, i: Math.max(text.length - 1, 0) });
+
+      const totalWeight = items.reduce((sum, item) => sum + item.weight, 0);
+      const segments = [];
+      let t = 0;
+
+      items.forEach((item) => {
+        const dur = item.weight / totalWeight;
+        const x0 = xAt(item.i);
+        const x1 = xAt(item.i + 1);
+        if (item.type === 'down') {
+          segments.push({ type: 'down', t0: t, t1: t + dur, x0: 0, x1: 0 });
+        } else if (item.type === 'up') {
+          segments.push({ type: 'up', t0: t, t1: t + dur, x0: totalW, x1: totalW });
+        } else if (item.type === 'pause') {
+          segments.push({ type: 'pause', t0: t, t1: t + dur, x0: x1, x1: x1 });
+        } else {
+          segments.push({ type: 'write', t0: t, t1: t + dur, x0: x0, x1: x1 });
+        }
+        t += dur;
+      });
+
+      return { totalW, height, segments };
+    }
+
+    function animateHandwriting(sig, textEl) {
+      let tries = 0;
+
+      function tryStart() {
+        const { totalW, segments } = buildHandwritingTimeline(textEl);
+        if (!totalW && tries < 10) {
+          tries += 1;
+          signatureRaf = requestAnimationFrame(tryStart);
+          return;
+        }
+        if (!totalW) {
+          sig.classList.add('is-written');
+          signatureRaf = null;
+          return;
+        }
+        runWrite(totalW, segments);
+      }
+
+      function runWrite(totalW, segments) {
+      const duration = 2400;
+      const start = performance.now();
+      sig.classList.add('is-writing');
+
+      function frame(now) {
+        if (!sig.isConnected) {
+          signatureRaf = null;
+          return;
+        }
+
+        const u = Math.min((now - start) / duration, 1);
+        let seg = segments[segments.length - 1];
+        for (let i = 0; i < segments.length; i++) {
+          if (u >= segments[i].t0 && u <= segments[i].t1) {
+            seg = segments[i];
+            break;
+          }
+        }
+
+        const span = Math.max(seg.t1 - seg.t0, 0.0001);
+        const local = easeInOutCubic(Math.min(Math.max((u - seg.t0) / span, 0), 1));
+        const x = seg.x0 + (seg.x1 - seg.x0) * local;
+        const write = seg.type === 'down' ? 0 : Math.min(x / totalW, 1);
+        textEl.style.setProperty('--write', String(write));
+
+        if (u < 1) {
+          signatureRaf = requestAnimationFrame(frame);
+          return;
+        }
+
+        textEl.style.setProperty('--write', '1');
+        sig.classList.remove('is-writing');
+        signatureRaf = null;
+        finishSignature(sig);
+      }
+
+      signatureRaf = requestAnimationFrame(frame);
+      }
+
+      signatureRaf = requestAnimationFrame(tryStart);
+    }
+
+    function finishSignature(sig) {
+      sig.classList.add('is-written');
     }
 
     function playSignatureWrite(root) {
       teardownSignatureWatch();
-      if (signatureAnim) {
-        signatureAnim.cancel();
-        signatureAnim = null;
-      }
 
       const sig = root.querySelector('.thought-signature');
       const scrollRoot = document.querySelector('.thought-modal-content');
       if (!sig || !scrollRoot) return;
 
+      const { textEl } = prepareSignature(sig);
       sig.classList.remove('is-writing', 'is-written');
-      sig.style.clipPath = 'inset(0 100% 0 -0.35em)';
+      textEl.style.setProperty('--write', '0');
 
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         sig.classList.add('is-written');
-        sig.style.clipPath = '';
         return;
       }
 
@@ -250,25 +433,15 @@
         played = true;
         teardownSignatureWatch();
 
-        if (signatureAnim) signatureAnim.cancel();
-
-        signatureAnim = sig.animate(
-          [
-            { clipPath: 'inset(0 100% 0 -0.35em)' },
-            { clipPath: 'inset(0 -0.15em 0 -0.35em)' }
-          ],
-          {
-            duration: 2400,
-            easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
-            fill: 'forwards'
-          }
-        );
-
-        signatureAnim.onfinish = () => {
-          sig.classList.add('is-written');
-          sig.style.clipPath = '';
-          signatureAnim = null;
+        const run = function() {
+          animateHandwriting(sig, textEl);
         };
+
+        if (document.fonts && document.fonts.status !== 'loaded') {
+          document.fonts.ready.then(run);
+        } else {
+          run();
+        }
       }
 
       function isSignatureInView() {
@@ -284,9 +457,8 @@
 
       scrollRoot.addEventListener('scroll', signatureScrollHandler, { passive: true });
 
-      // Fresh check after drawer opens (and again shortly in case layout settles)
-      setTimeout(() => { if (isSignatureInView()) startWrite(); }, 500);
-      setTimeout(() => { if (isSignatureInView()) startWrite(); }, 900);
+      signatureTimeouts.push(setTimeout(() => { if (isSignatureInView()) startWrite(); }, 500));
+      signatureTimeouts.push(setTimeout(() => { if (isSignatureInView()) startWrite(); }, 900));
     }
 
     function openThoughtModal(button) {
@@ -319,10 +491,6 @@
       const content = modal.querySelector('.thought-modal-content');
 
       teardownSignatureWatch();
-      if (signatureAnim) {
-        signatureAnim.cancel();
-        signatureAnim = null;
-      }
       
       modal.classList.add('closing');
       content.style.transition = 'transform 0.4s cubic-bezier(.87, 0, .13, 1)';
