@@ -13671,48 +13671,25 @@ html {
 .thought-signature.is-written .sig-text::after {
   content: '';
   position: absolute;
-  inset: -8px -12px;
+  inset: -12px -24px;
   pointer-events: none;
   background: linear-gradient(
-    105deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.9) 45%,
-    rgba(148, 123, 87, 0.72) 50%,
-    rgba(255, 255, 255, 0.55) 55%,
-    transparent 70%
+    115deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.6) 48%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0.6) 52%,
+    transparent 60%
   );
-  background-size: 220% 100%;
-  background-position: 100% 0;
-  animation: sig-sheen 0.85s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-  mix-blend-mode: overlay;
+  background-size: 280% 100%;
+  background-position: 120% 0;
+  animation: sig-sheen 1.04s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  mix-blend-mode: screen;
 }
 
 @keyframes sig-sheen {
-  from {
-    background-position: 100% 0;
-    opacity: 1;
-  }
-  78% {
-    opacity: 1;
-  }
-  to {
-    background-position: -20% 0;
-    opacity: 0;
-  }
-}
-
-@media (hover: none) {
-  .thought-signature.is-written .sig-text::after {
-    mix-blend-mode: soft-light;
-    background: linear-gradient(
-      105deg,
-      transparent 30%,
-      rgba(255, 255, 255, 0.82) 45%,
-      rgba(148, 123, 87, 0.58) 50%,
-      rgba(255, 255, 255, 0.48) 55%,
-      transparent 70%
-    );
-  }
+  from { background-position: 120% 0; }
+  to { background-position: -40% 0; }
 }
 
 .sig-initial {
