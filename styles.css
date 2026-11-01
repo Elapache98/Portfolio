@@ -13512,7 +13512,7 @@ html {
 
 .thought-preview {
   margin: 0;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.55;
   color: #555;
 }
@@ -13528,7 +13528,7 @@ html {
   margin: 0;
   background: none;
   vertical-align: baseline;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
 }
 
@@ -13646,34 +13646,111 @@ html {
 
 /* Thought Signature */
 .thought-signature {
-  font-family: 'Dynalight', cursive;
+  font-family: 'Satisfy', cursive;
   font-size: 32px;
   font-weight: 400;
-  color: #947b57;
+  color: #111;
   text-align: right;
   margin-top: 32px;
   margin-bottom: 16px;
-  letter-spacing: 1px;
+  letter-spacing: 0;
   width: max-content;
   max-width: 100%;
   margin-left: auto;
   display: block;
+  position: relative;
+  overflow: visible;
 }
 
-/* Write-on only inside the thoughts drawer — text stays put, ink reveals LTR */
-.thought-modal .thought-signature {
-  clip-path: inset(0 100% 0 -0.35em);
-  opacity: 1;
+.thought-signature .sig-text {
+  display: inline-block;
+  position: relative;
 }
 
-.thought-modal .thought-signature.is-written {
-  clip-path: inset(0 -0.15em 0 -0.35em);
+.thought-signature.is-written .sig-text::after {
+  content: '';
+  position: absolute;
+  inset: -8px -12px;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.7) 47%,
+    rgba(148, 123, 87, 0.45) 50%,
+    transparent 63%
+  );
+  background-size: 220% 100%;
+  background-position: 100% 0;
+  animation: sig-sheen 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  mix-blend-mode: overlay;
+}
+
+@keyframes sig-sheen {
+  from { background-position: 100% 0; }
+  to { background-position: -20% 0; }
+}
+
+.sig-initial {
+  position: relative;
+  display: inline-block;
+  width: 0.78em;
+  height: 1em;
+  vertical-align: -0.12em;
+  overflow: visible;
+}
+
+.sig-initial-char {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.sig-initial-mark {
+  position: absolute;
+  left: 0;
+  bottom: -0.06em;
+  width: 0.84em;
+  height: 1.2em;
+  overflow: visible;
+  stroke: #111;
+  stroke-width: 5.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Write-on only inside the thoughts drawer */
+.thought-modal .thought-signature .sig-text {
+  --write: 0;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    #000 0%,
+    #000 calc(var(--write) * 100%),
+    transparent calc(var(--write) * 100% + 12px)
+  );
+  mask-image: linear-gradient(
+    90deg,
+    #000 0%,
+    #000 calc(var(--write) * 100%),
+    transparent calc(var(--write) * 100% + 12px)
+  );
+}
+
+.thought-modal .thought-signature.is-written .sig-text {
+  -webkit-mask-image: none;
+  mask-image: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .thought-modal .thought-signature,
-  .thought-modal .thought-signature.is-written {
-    clip-path: none;
+  .thought-modal .thought-signature .sig-text {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .thought-signature.is-written .sig-text::after {
+    animation: none;
+    background: none;
   }
 }
 
@@ -13876,6 +13953,11 @@ html {
 
   .thought-title {
     font-size: 20px;
+  }
+
+  .thought-preview,
+  .thought-preview .see-more-btn {
+    font-size: 15px;
   }
 
   .thought-signature {
