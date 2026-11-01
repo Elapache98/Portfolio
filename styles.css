@@ -13665,6 +13665,7 @@ html {
 .thought-signature .sig-text {
   display: inline-block;
   position: relative;
+  isolation: isolate;
 }
 
 .thought-signature.is-written .sig-text::after {
@@ -13674,20 +13675,44 @@ html {
   pointer-events: none;
   background: linear-gradient(
     105deg,
-    transparent 35%,
-    rgba(255, 255, 255, 0.7) 47%,
-    rgba(148, 123, 87, 0.45) 50%,
-    transparent 63%
+    transparent 30%,
+    rgba(255, 255, 255, 0.9) 45%,
+    rgba(148, 123, 87, 0.72) 50%,
+    rgba(255, 255, 255, 0.55) 55%,
+    transparent 70%
   );
   background-size: 220% 100%;
   background-position: 100% 0;
-  animation: sig-sheen 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  animation: sig-sheen 0.85s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
   mix-blend-mode: overlay;
 }
 
 @keyframes sig-sheen {
-  from { background-position: 100% 0; }
-  to { background-position: -20% 0; }
+  from {
+    background-position: 100% 0;
+    opacity: 1;
+  }
+  78% {
+    opacity: 1;
+  }
+  to {
+    background-position: -20% 0;
+    opacity: 0;
+  }
+}
+
+@media (hover: none) {
+  .thought-signature.is-written .sig-text::after {
+    mix-blend-mode: soft-light;
+    background: linear-gradient(
+      105deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.82) 45%,
+      rgba(148, 123, 87, 0.58) 50%,
+      rgba(255, 255, 255, 0.48) 55%,
+      transparent 70%
+    );
+  }
 }
 
 .sig-initial {
