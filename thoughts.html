@@ -366,6 +366,7 @@
       function runWrite(totalW, segments) {
       const duration = 2160;
       const start = performance.now();
+      let sheenStarted = false;
       sig.classList.add('is-writing');
 
       function frame(now) {
@@ -388,6 +389,11 @@
         const x = seg.x0 + (seg.x1 - seg.x0) * local;
         const write = seg.type === 'down' ? 0 : Math.min(x / totalW, 1);
         textEl.style.setProperty('--write', String(write));
+
+        if (!sheenStarted && (seg.type === 'up' || write >= 0.94)) {
+          sheenStarted = true;
+          sig.classList.add('is-sheening');
+        }
 
         if (u < 1) {
           signatureRaf = requestAnimationFrame(frame);
@@ -418,7 +424,7 @@
       if (!sig || !scrollRoot) return;
 
       const { textEl } = prepareSignature(sig);
-      sig.classList.remove('is-writing', 'is-written');
+      sig.classList.remove('is-writing', 'is-written', 'is-sheening');
       textEl.style.setProperty('--write', '0');
 
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {

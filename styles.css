@@ -13668,7 +13668,7 @@ html {
   isolation: isolate;
 }
 
-.thought-signature.is-written .sig-text::after {
+.thought-signature.is-sheening .sig-text::after {
   content: '';
   position: absolute;
   inset: -12px -24px;
@@ -13683,7 +13683,7 @@ html {
   );
   background-size: 280% 100%;
   background-position: 120% 0;
-  animation: sig-sheen 1.04s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  animation: sig-sheen 0.88s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
   mix-blend-mode: screen;
 }
 
@@ -13750,6 +13750,7 @@ html {
     mask-image: none;
   }
 
+  .thought-signature.is-sheening .sig-text::after,
   .thought-signature.is-written .sig-text::after {
     animation: none;
     background: none;
