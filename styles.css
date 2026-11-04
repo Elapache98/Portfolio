@@ -13395,14 +13395,43 @@ html {
 }
 
 .thought-card {
-  background-color: transparent;
-  padding: 0 0 8px;
-  border: none;
-  border-bottom: 1px solid rgba(74, 60, 47, 0.12);
-  border-radius: 0;
-  box-shadow: none;
+  background: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.thought-card:hover,
+.thought-card:focus-visible {
+  border-color: #dde1e5;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  outline: none;
+}
+
+.thought-card-body {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
+}
+
+.thought-card-media {
+  flex: 0 0 225px;
+  max-width: 225px;
+}
+
+.thought-card-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+  aspect-ratio: 16 / 10;
 }
 
 .thought-card .thought-header {
@@ -13939,7 +13968,21 @@ html {
   }
 
   .thought-card {
-    padding: 0 0 4px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+    padding: 24px;
+  }
+
+  .thought-card-body {
+    order: 2;
+  }
+
+  .thought-card-media {
+    order: 1;
+    flex: 1 1 auto;
+    max-width: 100%;
+    width: 100%;
   }
 
   /* Disable any unwanted animations on thought cards for mobile */
@@ -13947,7 +13990,6 @@ html {
   .thought-card * {
     opacity: 1 !important;
     transform: none !important;
-    transition: none !important;
   }
   
   .thought-card:hover {
