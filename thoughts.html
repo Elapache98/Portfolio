@@ -74,13 +74,18 @@
 
         
         <!-- Thought Card 1 -->
-        <div class="thought-card">
-          <div class="thought-header">
-            <span class="thought-timestamp">October 25, 2025 • 11:34 PM</span>
-            <span class="thought-location">📍 Brookline, MA</span>
+        <div class="thought-card" role="button" tabindex="0" onclick="openThoughtModal(this.querySelector('.see-more-btn'))" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openThoughtModal(this.querySelector('.see-more-btn'));}">
+          <div class="thought-card-body">
+            <div class="thought-header">
+              <span class="thought-timestamp">October 25, 2025 • 11:34 PM</span>
+              <span class="thought-location">📍 Brookline, MA</span>
+            </div>
+            <h3 class="thought-title">The Interpolation of Design</h3>
+            <p class="thought-preview">This thought came from a conversation I had during a 1:1 with Forbes' VP of Product Design. At one point, he used the word “interpolation” to describe design patterns that carry across industries....<button type="button" class="see-more-btn" onclick="event.stopPropagation();openThoughtModal(this)">see more</button></p>
           </div>
-          <h3 class="thought-title">The Interpolation of Design</h3>
-          <p class="thought-preview">This thought came from a conversation I had during a 1:1 with Forbes' VP of Product Design. At one point, he used the word “interpolation” to describe design patterns that carry across industries....<button type="button" class="see-more-btn" onclick="openThoughtModal(this)">see more</button></p>
+          <div class="thought-card-media">
+            <img src="https://media.giphy.com/media/L3ERvA6jWCd0qO4NdX/giphy.gif" alt="Leonardo DiCaprio pointing at TV meme" loading="lazy">
+          </div>
           <div class="thought-body-truncated" hidden>
             <p></p>
             <p class="lead-paragraph">This thought came from a conversation I had during a 1:1 with Forbes' VP of Product Design.</p>  <p>At one point, he used the word “<i>interpolation</i>” to describe design patterns that carry across industries.</p> <br><p class="lead-paragraph">My first reaction was, 
